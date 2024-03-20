@@ -1,9 +1,11 @@
 import styled from 'styled-components'
 import rightArrow from '../assets/benefits/rightArrow.png'
 import leftArrow from '../assets/benefits/leftArrow.png'
+import JobCard from './JobCard';
+import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 
 const Container = styled.div`
-background-color: #f2f5ff;
+background-color: #ebeffa;
 overflow: hidden;
   /* Center the container horizontally */
 `;
@@ -14,11 +16,13 @@ width: 100%;
   height: 100vh;
 max-width: 70%; /* Set max-width to 70% */
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  
 `;
 
 const Title = styled.h1`
+text-align: center;
+margin-top: 40px;
     font-size: 50px;
     
 `
@@ -28,8 +32,10 @@ color: #1d59ff;
 `
 
 const Top = styled.div`
+margin-top: 10px;
 display: flex;
 justify-content: space-between;
+align-items: center;
 height: 20vh;
 
 `
@@ -40,37 +46,70 @@ display: flex;
 `
 const LeftBtn = styled.button`
 
-height: 10px;
-width: 50px;
-padding: 8px 10px;
-
+color: black;
+margin-right: 10px;
+font-size: 13px;
+height: 40px;
+width: 120px;
+padding: 10px 15px;
+background-color: white;
+border: 2px solid #1d59ff;
+border-radius: 20px;
+&:hover {
+    cursor: pointer;
+}
 
 `
-const RightButtons = styled.button`
+const RightButtons = styled.div`
 display: flex;
+background-color: transparent;
 
 
 `
 const Arrow = styled.img`
-width: 50px;
-height: 50px;
+
+margin-left: 12px;
+width: 60px;
+height:60px;
 border-radius: 50%;
 padding: 10px;
-
+background-color: transparent;
+&:hover {
+    cursor: pointer;
+}
 `
 
 
 const Center = styled.div`
-height: 70vh;
+margin-bottom: 50px;
+display: flex;
+justify-content: space-around;
+margin-right: 10px;
 `
 
 const Bottom = styled.div`
-height: 10vh;
+
+display: flex;
+justify-content: center;
+align-items: center;
 `
 
 const LowerButton = styled.button`
-
-`
+  color: white;
+  margin-right: 12px;
+  font-size: 13px;
+  
+  padding: 8px 15px;
+  background-color: #1d59ff;
+border: none;
+  border-radius: 40px;
+  display: flex; /* Use Flexbox */
+  justify-content: space-between; /* Space between button content and icon */
+  align-items: center; /* Center vertically */
+  &:hover {
+    cursor: pointer;
+  }
+`;
 
 const LatestJobs = () => {
 
@@ -85,8 +124,9 @@ const LatestJobs = () => {
 
                 <Top>
                     <LeftButtons>
-                        <LeftBtn />
-                        <LeftBtn />
+                        <LeftBtn>Hot Jobs</LeftBtn>
+                        <LeftBtn>Popular Jobs</LeftBtn>
+                        <LeftBtn>Recent Jobs</LeftBtn>
                     </LeftButtons>
 
                     <RightButtons>
@@ -99,13 +139,16 @@ const LatestJobs = () => {
 
                 <Center>
 
-
+                    <JobCard />
+                    <JobCard />
+                    <JobCard />
                 </Center>
 
                 <Bottom>
-
-                    <LowerButton />
                     
+                    <LowerButton>View all Jobs <DoubleArrowIcon style={{color: 'white'}} /></LowerButton>
+                   
+
                 </Bottom>
 
 

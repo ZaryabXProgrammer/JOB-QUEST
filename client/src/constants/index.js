@@ -1,4 +1,7 @@
 import {
+  person1,
+  person3,
+  person2,
   apple,
   microsoft,
   slack,
@@ -29,6 +32,7 @@ import {
   graphic,
   data,
   customer,
+  google,
 } from "../assets";
 import book from "../assets/features/book.png";
 import man from "../assets/features/man.png";
@@ -311,5 +315,71 @@ export const companiesData = [
     id: 5,
     title: "Spotify",
     image: spotfy,
+  },
+];
+export const jobsData = [
+  {
+    id: 1,
+    logo: google,
+    jobTitle: "Frontend Developer",
+    jobDesc: "...", // Job description
+    jobCompany: "Google",
+    jobApplicants: 50,
+    salary: "$80,000 - $100,000",
+    jobLocation: "New York, USA",
+    datePosted: "2024-03-15", // Use the format "YYYY-MM-DD"
+  },
+  {
+    id: 2,
+    logo: apple,
+    jobTitle: "Backend Developer",
+    jobDesc:
+      "Join our team as a Backend Developer and work on building scalable and efficient server-side applications. You will be responsible for designing and implementing APIs, integrating with databases, and optimizing performance. ",
+    jobCompany: "Apple",
+    jobApplicants: 30,
+    salary: "$90,000 - $120,000",
+    jobLocation: "San Francisco, USA",
+    datePosted: "2024-03-17", // Use the format "YYYY-MM-DD"
+  },
+  {
+    id: 3,
+    logo: microsoft,
+    jobTitle: "Data Scientist",
+    jobDesc: "...", // Job description
+    jobCompany: "Microsoft",
+    jobApplicants: 20,
+    salary: "$100,000 - $130,000",
+    jobLocation: "Seattle, USA",
+    datePosted: "2024-03-20", // Use the format "YYYY-MM-DD"
+  },
+  // Add more job objects as needed
+];
+
+
+
+export const jobSeekerReviews = [
+  {
+    id: 6,
+    personaName: "David Brown",
+    company: "Google",
+    image: person1,
+    review:
+      "My experience with Google as a job seeker was exceptional. The recruitment process was thorough yet efficient, and the company's commitment to innovation and employee well-being is evident. ",
+  },
+  {
+    id: 7,
+    personaName: "Sophie Parker",
+    company: "Apple",
+    image: person2,
+    review:
+      "Applying for a job at Apple was a great decision. The company's dedication to quality and creativity is inspiring, and the interview process was well-structured. ",
+  },
+  {
+    id: 8,
+    personaName: "Michael Wilson",
+    company: "Microsoft",
+    image: person3,
+    review:
+      "My experience with Microsoft has been fantastic. The company values its employees and provides ample opportunities for growth and development. .",
   },
 ];

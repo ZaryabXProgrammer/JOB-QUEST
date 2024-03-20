@@ -4,6 +4,7 @@ import Home from './Pages/Home'
 
 
 
+
 const App = () => {
   return (
     <div>
@@ -25,7 +26,7 @@ const App = () => {
       </Router>
 
 
-
+      
     </div>
   )
 }

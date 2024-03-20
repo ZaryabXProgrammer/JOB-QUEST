@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import apple from '../assets/benefits/apple.png';
+import google from '../assets/benefits/google.png';
 import apply from '../assets/benefits/apply.png';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import AlarmOutlinedIcon from '@mui/icons-material/AlarmOutlined';
@@ -7,13 +7,13 @@ import AlarmOutlinedIcon from '@mui/icons-material/AlarmOutlined';
 const CardContainer = styled.div`
   background-color: #f9f9f9;
   
- 
+ margin-right: 20px;
   width: 310px;
   height: 260px;
   justify-content: space-between;
   
   
-  border-radius: 20px;
+  border-radius: 19px;
   overflow: hidden;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, background-color 0.32s ease;
@@ -167,7 +167,7 @@ const JobCard = () => {
         <CardContainer>
             <Wrapper>
                 <Top>
-                    <Logo src={apple} alt="Company Logo" />
+                    <Logo src={google} alt="Company Logo" />
 
                     <JobTitleandDesc>
                         <JobTitle>Software Engineer</JobTitle>

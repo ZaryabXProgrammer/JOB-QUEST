@@ -3,7 +3,9 @@ import Benefits from "../Components/Benefits"
 import Features from "../Components/Features"
 
 import JobCategories from "../Components/JobCategories"
+import LatestJobs from "../Components/LatestJobs"
 import Navbar from "../Components/Navbar"
+import Reviews from "../Components/Reviews"
 import Slider from "../Components/Slider"
 
 
@@ -18,6 +20,8 @@ const Home = () => {
       <Features />
       <JobCategories />
       <Benefits />
+      <LatestJobs />
+      <Reviews/>
      
       
 

@@ -96,7 +96,7 @@ const CardDescription = styled.p`
 const JobCategories = () => {
 
     return (
-
+ 
         <div>
 
             <Container>

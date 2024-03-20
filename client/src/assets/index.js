@@ -56,8 +56,16 @@ import microsoft from "../assets/benefits/microsoft.png";
 import instagram from "../assets/benefits/insta.png";
 import slack from "../assets/benefits/slack.png";
 import spotfy from "../assets/benefits/spotify.png";
+import google from "../assets/benefits/google.png";
+import person1 from "../assets/reviews/person1.png";
+import person2 from "../assets/reviews/person2.png";
+import person3 from "../assets/reviews/person3.png"
 
 export {
+  person1,
+  person2,
+  person3,
+  google,
   apple,
   microsoft,
   instagram,
