@@ -11,7 +11,7 @@ const Container = styled.div`
 const Wrapper = styled.div`
   margin: 0 auto; 
   width: 100%;
-  height: 100vh;
+  height: 80vh;
   max-width: 70%; /* Set max-width to 70% */
   display: flex;
   flex-direction: column;
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
 
 const Title = styled.h1`
   text-align: center;
-  margin-top: 40px;
+  
   font-size: 50px;
 `;
 

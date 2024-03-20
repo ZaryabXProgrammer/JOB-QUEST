@@ -1,8 +1,9 @@
 import styled from 'styled-components'
-import 
+import subscribe from '../assets/benefits/subscribe.jpg'
 
 const Container = styled.div`
-background-color: #f2f5ff;
+
+background-color: #396eff;
 overflow: hidden;
   /* Center the container horizontally */
 `;
@@ -10,11 +11,12 @@ overflow: hidden;
 const Wrapper = styled.div`
 margin: 0 auto; 
 width: 100%;
-  height: 100vh;
-max-width: 70%; /* Set max-width to 70% */
+  height: 50vh;
+max-width: 60%; /* Set max-width to 70% */
   display: flex;
   justify-content: center;
   align-items: center;
+  object-fit: contain;
 `;
 
 
@@ -24,7 +26,7 @@ height: 80%;
 `
 
 const Image = styled.img`
-height: 80%;
+height: 100%;
 
  
 `
@@ -39,6 +41,7 @@ const InfoContainer = styled.div`
 
 const Title = styled.h1`
     font-size: 50px;
+    color: white;
     
 `
 const Desc = styled.p`
@@ -46,11 +49,41 @@ const Desc = styled.p`
     font-size: 15px;
     font-weight: 500;
     letter-spacing: 3px;
+    color: white;
 
 `
-const Span = styled.span`
-    color: #1d59ff;
-`
+const FormContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+`;
+
+const Input = styled.input`
+  flex: 1;
+  height: 50px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 25px 0 0 25px;
+  font-size: 16px;
+`;
+
+const Button = styled.button`
+  height: 50px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 0 25px 25px 0;
+  font-size: 16px;
+  background-color: #ff4081; 
+ 
+  color: white;
+  cursor: pointer;
+
+  &:hover{
+    background-color: #ff2f75;
+  }
+`;
+
 
 const NewsLetter = () => {
   return (
@@ -62,11 +95,16 @@ const NewsLetter = () => {
 
               <InfoContainer>
                   <Title>SUBSCRIBE NEWSLETTER</Title>
+                  <Desc>Subscribe to our NewsLetter Now! </Desc>
+                  <FormContainer>
+                      <Input type="email" placeholder="Enter your email" />
+                      <Button>Subscribe</Button>
+                  </FormContainer>
 
               </InfoContainer>
 
               <ImgContainer>
-              <Image/>
+              <Image src={subscribe}/>
               </ImgContainer>
 </Wrapper>
 

@@ -13,7 +13,7 @@ overflow: hidden;
 const Wrapper = styled.div`
 margin: 0 auto; 
 width: 100%;
-  height: 100vh;
+  height: 90vh;
 max-width: 70%; /* Set max-width to 70% */
   display: flex;
   justify-content: center;
@@ -45,7 +45,7 @@ const Title = styled.h1`
     
 `
 const Desc = styled.p`
-    margin: 30px 0px;
+    margin: 10px 0px;
     font-size: 15px;
     font-weight: 500;
     letter-spacing: 3px;
@@ -59,9 +59,10 @@ const CompanyWrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap; /* Allow wrapping of items */
-  margin-top: 10px; /* Add margin for spacing */
+ /* Add margin for spacing */
   max-width: 70%;
   margin: 0 auto;
+  margin-bottom: 40px;
 `;
 
 const CompanyContainer = styled.div`
@@ -83,41 +84,41 @@ const CompanyTitle = styled.p`
  
 `;
 const Benefits = () => {
-    return (
+  return (
 
 
-        <Container>
-            <Wrapper>
-                <InfoContainer>
+    <Container>
+      <Wrapper>
+        <InfoContainer>
 
-                    <Title>We Help You Connect With <br /><Span>The Organisation</Span> </Title>
-                
-                    <Desc>Explore a diverse range of popular job categories tailored to match your skills and interests. Discover exciting opportunities in Software Development, Data Science, Digital Marketing, Graphic Design, Customer Support, Web Development, Finance, and Human Resources. <br /><br />We connect you with leading organizations and open doors to rewarding career paths. Find your perfect job and take the next step towards success</Desc>
-                 
+          <Title>We Help You Connect With <br /><Span>The Organisation</Span> </Title>
 
-                </InfoContainer>
+          <Desc>Explore a diverse range of popular job categories tailored to match your skills and interests. Discover exciting opportunities in Software Development, Data Science, Digital Marketing, Graphic Design, Customer Support, Web Development, Finance, and Human Resources. <br /><br />We connect you with leading organizations and open doors to rewarding career paths. Find your perfect job and take the next step towards success</Desc>
 
-                <ImgContainer>
-                    <Image src={benefit} />
-                </ImgContainer>
 
-                
+        </InfoContainer>
 
-            </Wrapper>
-            <CompanyWrapper>
-                {companiesData.map((company) => (
-                    <CompanyContainer key={company.id}>
-                        <Logo src={company.image} alt={company.title} />
-                        <CompanyTitle>{company.title}</CompanyTitle>
-                    </CompanyContainer>
-                ))}
-        </CompanyWrapper>
-    
-        </Container>
+        <ImgContainer>
+          <Image src={benefit} />
+        </ImgContainer>
 
 
 
-    )
+      </Wrapper>
+      <CompanyWrapper>
+        {companiesData.map((company) => (
+          <CompanyContainer key={company.id}>
+            <Logo src={company.image} alt={company.title} />
+            <CompanyTitle>{company.title}</CompanyTitle>
+          </CompanyContainer>
+        ))}
+      </CompanyWrapper>
+
+    </Container>
+
+
+
+  )
 }
 
 export default Benefits
