@@ -1,4 +1,9 @@
 import {
+  apple,
+  microsoft,
+  slack,
+  spotfy,
+  instagram,
   clients_logo_facebook,
   clients_logo_google,
   clients_logo_linkedin,
@@ -16,7 +21,19 @@ import {
   socials_logo_facebook,
   socials_logo_instagram,
   socials_logo_twitter,
+  marketing,
+  software,
+  web,
+  finance,
+  hr,
+  graphic,
+  data,
+  customer,
 } from "../assets";
+import book from "../assets/features/book.png";
+import man from "../assets/features/man.png";
+import resume from "../assets/features/resume-2169945.svg";
+import running from "../assets/features/running.png";
 
 export const navLinks = [
   {
@@ -131,40 +148,168 @@ export const footerLists = [
 ];
 
 export const footerNav = [
-    {
-      id: "footer-home",
-      title: "Home",
-      link: "/",
-    },
-    {
-      id: "footer-about-us",
-      title: "About Us",
-      link: "/about",
-    },
-    {
-      id: "footer-jobs",
-      title: "Jobs",
-      link: "/jobs",
-    },
-]
+  {
+    id: "footer-home",
+    title: "Home",
+    link: "/",
+  },
+  {
+    id: "footer-about-us",
+    title: "About Us",
+    link: "/about",
+  },
+  {
+    id: "footer-jobs",
+    title: "Jobs",
+    link: "/jobs",
+  },
+];
 
 export const socialNav = [
   {
-    id: 'social-1',
-    title: 'Facebook',
+    id: "social-1",
+    title: "Facebook",
     icon: socials_logo_facebook,
-    link: 'http://facebook.com/'
+    link: "http://facebook.com/",
   },
   {
-    id: 'social-2',
-    title: 'Twitter',
+    id: "social-2",
+    title: "Twitter",
     icon: socials_logo_twitter,
-    link: 'http://twitter.com/'
+    link: "http://twitter.com/",
   },
   {
-    id: 'social-3',
-    title: 'Instagram',
+    id: "social-3",
+    title: "Instagram",
     icon: socials_logo_instagram,
-    link: 'http://instagram.com/'
+    link: "http://instagram.com/",
   },
-]
+];
+
+export const cardsData = [
+  {
+    id: 1,
+    image: man,
+    title: "Account Management",
+    description: "Manage your profile and account settings easily.",
+    link: "/account-management",
+  },
+  {
+    id: 2,
+    image: book,
+    title: "CV/Resume Builder",
+    description: "Create and customize your CV or resume for job applications.",
+    link: "/cv-resume-builder",
+  },
+  {
+    id: 3,
+    image: resume,
+    title: "Quick Job Apply",
+    description:
+      "Apply to jobs quickly and efficiently with just a few clicks.",
+    link: "/quick-job-apply",
+  },
+  {
+    id: 4,
+    image: running,
+    title: "Job Alerts",
+    description:
+      "Get notified about new job opportunities that match your preferences.",
+    link: "/job-alerts",
+  },
+];
+
+export const popularJobCategoriesData = [
+  {
+    id: 1,
+    title: "Software Development",
+    vacancies: 150,
+    jobTitle: "OMIY - Software Engineer",
+    image: software,
+    link: "/software-development",
+  },
+  {
+    id: 2,
+    title: "Data Science",
+    vacancies: 100,
+    jobTitle: "OMIY - Data Scientist",
+    image: data,
+    link: "/data-science",
+  },
+  {
+    id: 3,
+    title: "Digital Marketing",
+    vacancies: 80,
+    jobTitle: "OMIY - Digital Marketing Specialist",
+    image: marketing,
+    link: "/digital-marketing",
+  },
+  {
+    id: 4,
+    title: "Graphic Design",
+    vacancies: 60,
+    jobTitle: "OMIY - Graphic Designer",
+    image: graphic,
+    link: "/graphic-design",
+  },
+  {
+    id: 5,
+    title: "Customer Support",
+    vacancies: 120,
+    jobTitle: "OMIY - Customer Support Representative",
+    image: customer,
+    link: "/customer-support",
+  },
+  {
+    id: 6,
+    title: "Web Development",
+    vacancies: 110,
+    jobTitle: "OMIY - Web Developer",
+    image: web,
+    link: "/web-development",
+  },
+  {
+    id: 7,
+    title: "Finance",
+    vacancies: 90,
+    jobTitle: "OMIY - Financial Analyst",
+    image: finance,
+    link: "/finance",
+  },
+  {
+    id: 8,
+    title: "Human Resources",
+    vacancies: 70,
+    jobTitle: "OMIY - HR Specialist",
+    image: hr,
+    link: "/human-resources",
+  },
+];
+
+export const companiesData = [
+  {
+    id: 1,
+    title: "Apple",
+    image: apple,
+  },
+  {
+    id: 2,
+    title: "Microsoft",
+    image: microsoft,
+  },
+  {
+    id: 3,
+    title: "Slack",
+    image: slack,
+  },
+  {
+    id: 4,
+    title: "Instagram",
+    image: instagram,
+  },
+  {
+    id: 5,
+    title: "Spotify",
+    image: spotfy,
+  },
+];

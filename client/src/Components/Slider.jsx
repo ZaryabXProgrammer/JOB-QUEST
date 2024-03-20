@@ -12,7 +12,7 @@ const Slider = () => {
 
     position: relative;
     overflow: hidden;
-    ${mobile({ display: 'none' })}
+    /* ${mobile({ display: 'none' })} */
 `
     const ImgContainer = styled.div`
 height: 100%;
@@ -44,8 +44,8 @@ height: 80%;
     letter-spacing: 3px;
 
 `
-    
-const Span = styled.span`
+
+    const Span = styled.span`
     color: #1d59ff;
 `
     const SearchBoxContainer = styled.div`
@@ -83,7 +83,7 @@ transition: 0.3s ease;
   }
 `
 
-   
+
     return (
         <Container>
 
@@ -91,7 +91,7 @@ transition: 0.3s ease;
 
                 <Title>Find <Span>Remote</Span>  <br /> Job in <Span>Worldwide</Span> </Title>
                 <Desc>Find Perfect Job Now</Desc>
-               
+
                 <SearchBoxContainer>
                     <SearchInput type="text" placeholder="Search..." />
                     <Button >Find Now! </Button>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="210mm" height="297mm" version="1.1" viewBox="0 0 744.09448819 1052.3622047" xmlns="http://www.w3.org/2000/svg">
+ <g transform="matrix(5.8606 .0044526 -.0044526 5.8606 -6413.1 -191.99)">
+  <rect x="976.87" y="-82.698" width="316.38" height="402.82" fill="#19aeff" stroke="#2d2d2d" stroke-linecap="round" stroke-linejoin="round" stroke-width="25"/>
+  <g transform="matrix(.25101 0 0 .30901 650.48 -62.532)" stroke-width="0">
+   <rect x="1423.7" y="33.092" width="402.82" height="331.06" fill="#404040"/>
+   <path transform="translate(0 -227.64)" d="m1625.9 478.52a233.95 233.95 0 0 0 -199.62 112.52h399.34a233.95 233.95 0 0 0 -199.71 -112.52z" fill="#f60"/>
+   <circle cx="1621" cy="165.19" r="119.05" fill="#f60"/>
+  </g>
+  <rect x="1131.8" y="-51.712" width="132.1" height="22.832" rx="7.5701" ry="10" fill="#0e232e" stroke-width="0"/>
+  <rect x="1132.6" y="-12.572" width="132.1" height="22.832" rx="7.5701" ry="10" fill="#0e232e" stroke-width="0"/>
+  <rect x="1005.4" y="70.601" width="252.78" height="22.832" rx="14.486" ry="10" fill="#0e232e" stroke-width="0"/>
+  <rect x="1005.4" y="117.89" width="252.78" height="22.832" rx="14.486" ry="10" fill="#0e232e" stroke-width="0"/>
+  <rect x="1005.4" y="161.93" width="252.78" height="22.832" rx="14.486" ry="10" fill="#0e232e" stroke-width="0"/>
+  <rect x="1005.4" y="209.22" width="130.47" height="22.832" rx="7.4766" ry="10" fill="#0e232e" stroke-width="0"/>
+  <rect x="1173.4" y="266.3" width="81.542" height="22.832" rx="10" ry="10" fill="#0e232e" stroke-width="0"/>
+ </g>
+</svg>

@@ -1,4 +1,8 @@
 import Announcement from "../Components/Announcement"
+import Benefits from "../Components/Benefits"
+import Features from "../Components/Features"
+
+import JobCategories from "../Components/JobCategories"
 import Navbar from "../Components/Navbar"
 import Slider from "../Components/Slider"
 
@@ -10,7 +14,11 @@ const Home = () => {
 
       <Announcement/>
       <Navbar />
-      <Slider/>
+      <Slider />
+      <Features />
+      <JobCategories />
+      <Benefits />
+     
       
 
     </div>
