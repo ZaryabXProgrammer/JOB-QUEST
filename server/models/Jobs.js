@@ -23,14 +23,22 @@ const jobSchema = new mongoose.Schema(
       default: 0, // Default value for number of applicants
     },
     jobType: {
-      type: [String], // Array of job types (e.g., full-time, part-time, contract)
+      type: String, //full time, contract freelance
+      required: true,
+    },
+    workLocation: {
+      type: String, //on site remote opr hybrid
+      required: true,
+    },
+    experience: {
+      type: String,
       required: true,
     },
     salary: {
       type: Number, // Assuming salary is stored as a string (e.g., "$80,000 - $100,000")
       required: true,
     },
-    location: {
+    jobLocation: {
       type: String,
       required: true,
     },
