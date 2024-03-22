@@ -5,31 +5,35 @@ import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import Announcement from '../Components/Announcement';
 import Navbar from '../Components/Navbar';
 
-const Wrapper = styled.div`
-    
-    
-    background-color: #e8eeff;
-    height: 120vh;
-`
+import JobCard from '../Components/JobCard';
 
+const Wrapper = styled.div`
+  display: flex; /* Make the wrapper a flex container */
+  justify-content: space-between; /* Distribute space between child elements */
+  background-color: #F8F9FD;
+
+  
+`;
 
 const LeftContainer = styled.div`
-
-background-color: #fffafa;
-    flex: 1;
-    padding: 8px;
-    margin: 10px 50px;
-display: flex;
-flex-direction: column;
-height: 80%;
-width: 20vw;
-`
+  background-color: #FFFFFF;
+  width: 15vw;
+  flex: 1; /* Take up 1 part of the available space */
+  padding: 8px;
+  margin: 10px 10px 10px 30px; /* Adjust margin as needed */
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  
+  border-radius: 8px;
+`;
 
 const FilterHeading = styled.div`
  display: flex;
  justify-content: space-between;
  margin-bottom: 10px;
  align-items: center;
+ margin-top: 10px;
 `
 
 const FilterTitle = styled.h1`
@@ -37,12 +41,15 @@ font-size: 22px;
 color: darkgreen;
 font-weight: bold;
 
+
     
 `
 const Reset = styled.p`
 
 color: #00a000;
-font-size: 12px;
+font-size: 14px;
+margin-right: 2px;
+
 
 `
 
@@ -148,12 +155,6 @@ const ExperienceTitle = styled.h1`
   margin-bottom: 10px;
 `;
 
-
-const RightContainer = styled.div`
-    flex: 3;
-
-`
-
 const CheckMarkContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -210,6 +211,122 @@ const CheckMark = ({ label }) => {
 
 
 
+const RightContainer = styled.div`
+  flex: 4;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 80vw;
+margin: 10px 50px 10px 16px; 
+
+
+`;
+
+const FindContainer = styled.div`
+    height: 21%;
+     background-color: #FFFFFF;
+ padding: 8px;
+
+    border-radius: 10px;
+`
+
+const TitleBox = styled.h1`
+color: #015f01;
+font-weight: bold;
+font-size: 22px;
+margin: 10px 0 10px 12px; //top right bottom left
+`
+
+const Desc = styled.p`
+margin-left: 12px;
+`
+
+const SearchBox = styled.div`
+margin: 13px 0 4px 12px;
+display: flex;
+
+align-items: center;
+justify-content: center;
+
+`
+
+const InputBox = styled.div`
+   display: flex;
+  align-items: center; /* Center items vertically */
+ 
+  flex: 6;
+`;
+
+const Input = styled.input`
+  flex: 1; /* Take up remaining space */
+/* Add spacing between inputs */
+  padding: 15px 10px; /* Add padding to the input field */
+  border: 1px solid #DDDDDD;
+  outline: none;
+  border-radius: 3px;
+
+  /* Add placeholder styles */
+  &::placeholder {
+    color: #999999; /* Placeholder text color */
+    display: flex;
+    align-items: center; /* Center content vertically */
+  }
+
+  /* Adjust padding for placeholder with icon */
+  &::placeholder + svg {
+    margin-right: 8px; /* Add right margin to the icon */
+  }
+  
+`;
+
+const Button = styled.button`
+  flex: 1;
+  padding: 15px 1px; /* Add padding to the button */
+  margin: 0 10px 0 10px;
+  color: white;
+  background-color: #119856;
+  border: none;
+  border-radius: 8px;
+  &:hover{
+    cursor: pointer;
+  }
+`;
+
+
+
+const JobsContainer = styled.div`
+    margin-top: 20px;
+height: auto;
+
+ padding: 8px;
+
+    border-radius: 10px;
+        display: flex;
+    flex-wrap: wrap;
+
+
+`
+
+const Span = styled.span`
+    
+    color:  darkgreen;
+`
+
+
+const ShowingJobsTitle = styled.h3`
+
+color: #656669;
+font-weight: bold;
+font-size: 17px;
+margin: 18px 0 0px 4px; //top right bottom left
+`
+
+
+
+
+
+
+
 
 const Jobs = () => {
 
@@ -224,99 +341,125 @@ const Jobs = () => {
 
     return (
 
-
-
-        <Wrapper>
+        <div>
             <Announcement />
             <Navbar />
-
-
-            <LeftContainer>
-
-
-
-                <FilterHeading>
-
-                    <FilterTitle>Filter</FilterTitle>
-                    <Reset>Reset</Reset>
-                </FilterHeading>
-
-                <SortBox>
-                    <SortTitle>Sort By</SortTitle>
-                    <CheckMarkContainer>
-                        <CheckMark label="Recently" />
-                        <CheckMark label="Top Salary" />
-                        <CheckMark label="Rating" />
-                        <CheckMark label="A-Z" />
-
-                    </CheckMarkContainer>
-                </SortBox>
-
-                <SalaryBox>
-                    <SalaryTitle>Salary Range</SalaryTitle>
-                    <SalarySlider
-                        type="range"
-                        min={500} // Minimum salary value
-                        max={100000} // Maximum salary value
-                        step={2000} // Incremental step
-                        value={salary}
-                        onChange={handleSalaryChange}
-                    />
-                    <p>{`$${salary}`}</p> {/* Display the current salary value */}
-                </SalaryBox>
-                <JobTypeBox>
-                    <JobtypeTitle>Job Type</JobtypeTitle>
-                    <CheckMarkContainer>
-                        <CheckMark label="Full-Time" />
-                        <CheckMark label="Part-Time" />
-                        <CheckMark label="Freelance" />
-                        <CheckMark label="Contractual" />
-                        <CheckMark label="Internship" />
-
-                    </CheckMarkContainer>
-                </JobTypeBox>
-
-                <WorkLocationBox>
-                    <WorkLocationTitle>Work Location</WorkLocationTitle>
-                    <CheckMarkContainer>                  <CheckMark label="On-site" />
-                        <CheckMark label="Remote" />
-                        <CheckMark label="Hybrid" />  </CheckMarkContainer>
-
-
-                </WorkLocationBox>
-
-                <ExperienceBox >
-                    <ExperienceTitle>Experience </ExperienceTitle>
-                    <CheckMarkContainer>  <CheckMark label="Fresher" />
-                        <CheckMark label="Beginner" />
-                        <CheckMark label="Intermediate" />
-                        <CheckMark label="Expert" />
-                    </CheckMarkContainer>
-
-                </ExperienceBox>
-
-
-            </LeftContainer>
+            <Wrapper>
 
 
 
 
+                <LeftContainer>
 
 
 
+                    <FilterHeading>
+
+                        <FilterTitle>Filter</FilterTitle>
+                        <Reset>Reset </Reset>
 
 
+                    </FilterHeading>
+
+                    <hr />
+
+                    <SortBox>
+                        <SortTitle>Sort By</SortTitle>
+                        <CheckMarkContainer>
+                            <CheckMark label="Recently" />
+                            <CheckMark label="Top Salary" />
+                            <CheckMark label="Rating" />
+                            <CheckMark label="A-Z" />
+
+                        </CheckMarkContainer>
+                    </SortBox>
+
+                    <SalaryBox>
+                        <SalaryTitle>Salary Range</SalaryTitle>
+                        <SalarySlider
+                            type="range"
+                            min={500} // Minimum salary value
+                            max={100000} // Maximum salary value
+                            step={2000} // Incremental step
+                            value={salary}
+                            onChange={handleSalaryChange}
+                        />
+                        <p>{`$${salary}`}</p> {/* Display the current salary value */}
+                    </SalaryBox>
+                    <JobTypeBox>
+                        <JobtypeTitle>Job Type</JobtypeTitle>
+                        <CheckMarkContainer>
+                            <CheckMark label="Full-Time" />
+                            <CheckMark label="Part-Time" />
+                            <CheckMark label="Freelance" />
+                            <CheckMark label="Contractual" />
+                            <CheckMark label="Internship" />
+
+                        </CheckMarkContainer>
+                    </JobTypeBox>
+
+                    <WorkLocationBox>
+                        <WorkLocationTitle>Work Location</WorkLocationTitle>
+                        <CheckMarkContainer>                  <CheckMark label="On-site" />
+                            <CheckMark label="Remote" />
+                            <CheckMark label="Hybrid" />  </CheckMarkContainer>
 
 
-            <RightContainer>
+                    </WorkLocationBox>
+
+                    <ExperienceBox >
+                        <ExperienceTitle>Experience </ExperienceTitle>
+                        <CheckMarkContainer>  <CheckMark label="Fresher" />
+                            <CheckMark label="Beginner" />
+                            <CheckMark label="Intermediate" />
+                            <CheckMark label="Expert" />
+                        </CheckMarkContainer>
+
+                    </ExperienceBox>
 
 
+                </LeftContainer>
 
-            </RightContainer>
+                <RightContainer>
+
+                    <FindContainer>
+
+                        <TitleBox>Find your Dream Job here! </TitleBox>
+                        <Desc>Explore our newest job opportunities to discover and apply for the top positions available today!</Desc>
+
+                        <SearchBox>
 
 
-        </Wrapper>
+                            <InputBox>
+                                <Input placeholder="&#x1F50E;&#xFE0E; Search job title or company here" />
 
+                                <Input placeholder="🖈 Search country or city here" />
+                            </InputBox>
+
+
+                            <Button>Search</Button>
+
+                        </SearchBox>
+
+                    </FindContainer>
+                    <ShowingJobsTitle>Showing <Span>1312 </Span>  Available Jobs</ShowingJobsTitle>
+                    <JobsContainer>
+<JobCard  />
+<JobCard/>
+<JobCard/>
+<JobCard/>
+<JobCard/>
+<JobCard/>
+<JobCard/>
+<JobCard/>
+
+                    </JobsContainer>
+
+                </RightContainer>
+
+
+            </Wrapper>
+        </div>
 
     )
 }

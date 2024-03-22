@@ -5,9 +5,9 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import AlarmOutlinedIcon from '@mui/icons-material/AlarmOutlined';
 
 const CardContainer = styled.div`
-  background-color: #f9f9f9;
+  background-color: white;
   
- margin-right: 20px;
+ margin: 10px 15px 15px ;
   width: 310px;
   height: 260px;
   justify-content: space-between;
@@ -21,6 +21,7 @@ const CardContainer = styled.div`
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
   
   }
 `;
@@ -41,10 +42,10 @@ const Top = styled.div`
 `;
 
 const Logo = styled.img`
-  width: 51px;
-  height: 51px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  margin-right: 10px;
+  margin: 4px 4px 0 0 ;
 
 `;
 
@@ -163,48 +164,49 @@ const DatePosted = styled.p`
 
 
 const JobCard = () => {
-    return (
-        <CardContainer>
-            <Wrapper>
-                <Top>
-                    <Logo src={google} alt="Company Logo" />
+  return (
+    <CardContainer>
+      <Wrapper>
+        <Top>
+          <Logo src={google} alt="Company Logo" />
 
-                    <JobTitleandDesc>
-                        <JobTitle>Software Engineer</JobTitle>
-                        <JobDesc>
-                            <CompanyandApplicants>
-                                <JobCompany>Google</JobCompany> {/* Replace "Company Name" with actual data */}
-                                <JobApplicants>12 Applicants</JobApplicants> {/* Replace "100" with actual number of applicants */}
-                            </CompanyandApplicants>
-                        </JobDesc>
-                    </JobTitleandDesc>
-                    <ApplyLogo src={apply} alt="Apply Logo" />
-                </Top>
+          <JobTitleandDesc>
+            <JobTitle>Software Engineer</JobTitle>
+            <JobDesc>
+              <CompanyandApplicants>
+                <JobCompany>Google</JobCompany> {/* Replace "Company Name" with actual data */}
+                <JobApplicants>12 Applicants</JobApplicants> {/* Replace "100" with actual number of applicants */}
+              </CompanyandApplicants>
+            </JobDesc>
+          </JobTitleandDesc>
+          <ApplyLogo src={apply} alt="Apply Logo" />
+        </Top>
 
-                <Center>
-                    <JobTypeContainer>
-                        <JobType textColor="purple" bgColor='#ffc4ff'>Full-Time</JobType>
-                        <JobType textColor="blue" bgColor="#c4e3ff">Part-Time</JobType>
-                        <JobType textColor="orange" bgColor="#ffd9c4">Contract</JobType>
-                    </JobTypeContainer>
-                    <JobDesc>Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque quaerat soluta iure autem animi obcaecati asperiores inventore dolores blanditiis aperiam!</JobDesc>
-                    {/* Update Location */}
+        <Center>
+          <JobTypeContainer>
+            <JobType textColor="purple" bgColor='#ffc4ff'>Full-Time</JobType>
+            <JobType textColor="blue" bgColor="#c4e3ff">Part-Time</JobType>
+            <JobType textColor="orange" bgColor="#ffd9c4">Contract</JobType>
+          </JobTypeContainer>
+          <JobDesc>Join Google&apos;s Cloud Platform team and work on cutting-edge technologies to empower businesses worldwide</JobDesc>
+          {/* Update Location */}
 
 
-                </Center>
-                <Bottom>
-                    <Salary>$80K<Span> /month</Span></Salary>
-                    <JobLocationContainer>
-                        <LocationOnIcon />
-                        <JobLocation>Newyork</JobLocation>
-                    </JobLocationContainer>
-                    <  DateContainer>
-                        <AlarmOutlinedIcon />
-                        <DatePosted>2 days ago</DatePosted></DateContainer>
-                </Bottom>
-            </Wrapper>
-        </CardContainer>
-    );
+        </Center>
+        
+        <Bottom>
+          <Salary>$80K<Span> /month</Span></Salary>
+          <JobLocationContainer>
+            <LocationOnIcon />
+            <JobLocation>Newyork</JobLocation>
+          </JobLocationContainer>
+          <  DateContainer>
+            <AlarmOutlinedIcon />
+            <DatePosted>2 days ago</DatePosted></DateContainer>
+        </Bottom>
+      </Wrapper>
+    </CardContainer>
+  );
 };
 
 export default JobCard;
