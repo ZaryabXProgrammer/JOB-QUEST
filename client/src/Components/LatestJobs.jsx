@@ -3,6 +3,7 @@ import rightArrow from '../assets/benefits/rightArrow.png'
 import leftArrow from '../assets/benefits/leftArrow.png'
 import JobCard from './JobCard';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
+import { Link } from 'react-router-dom'
 
 const Container = styled.div`
 background-color: #ebeffa;
@@ -111,54 +112,60 @@ border: none;
   }
 `;
 
+const StyledLink = styled(Link)`
+text-decoration: none;
+  color: white;
+`
+
 const LatestJobs = () => {
 
-    return (
+  return (
 
 
-        <Container>
+    <Container>
 
-            <Wrapper>
+      <Wrapper>
 
-                <Title>Latest Jobs <Span>Here</Span> </Title>
+        <Title>Latest Jobs <Span>Here</Span> </Title>
 
-                <Top>
-                    <LeftButtons>
-                        <LeftBtn>Hot Jobs</LeftBtn>
-                        <LeftBtn>Popular Jobs</LeftBtn>
-                        <LeftBtn>Recent Jobs</LeftBtn>
-                    </LeftButtons>
+        <Top>
+          <LeftButtons>
+            <LeftBtn>Hot Jobs</LeftBtn>
+            <LeftBtn>Popular Jobs</LeftBtn>
+            <LeftBtn>Recent Jobs</LeftBtn>
+          </LeftButtons>
 
-                    <RightButtons>
-                        <Arrow src={leftArrow} />
-                        <Arrow src={rightArrow} />
+          <RightButtons>
+            <Arrow src={leftArrow} />
+            <Arrow src={rightArrow} />
 
 
-                    </RightButtons>
-                </Top>
+          </RightButtons>
+        </Top>
 
-                <Center>
+        <Center>
 
-                    <JobCard />
-                    <JobCard />
-                    <JobCard />
-                </Center>
+          <JobCard />
+          <JobCard />
+          <JobCard />
+        </Center>
 
-                <Bottom>
-                    
-                    <LowerButton>View all Jobs <DoubleArrowIcon style={{color: 'white'}} /></LowerButton>
-                   
+        <Bottom>
 
-                </Bottom>
+          <LowerButton><StyledLink to='/jobs'>View all Jobs </StyledLink> <DoubleArrowIcon style={{ color: 'white' }} /></LowerButton>
 
 
 
+        </Bottom>
 
 
-            </Wrapper>
 
-        </Container>
-    )
+
+
+      </Wrapper>
+
+    </Container>
+  )
 }
 
 export default LatestJobs

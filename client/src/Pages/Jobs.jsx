@@ -2,8 +2,7 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
-import Announcement from '../Components/Announcement';
-import Navbar from '../Components/Navbar';
+
 
 import JobCard from '../Components/JobCard';
 
@@ -342,8 +341,7 @@ const Jobs = () => {
     return (
 
         <div>
-            <Announcement />
-            <Navbar />
+           
             <Wrapper>
 
 
