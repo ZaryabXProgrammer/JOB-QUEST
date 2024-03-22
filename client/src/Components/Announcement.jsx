@@ -1,4 +1,5 @@
-import styled from "styled-components"
+import styled from "styled-components";
+import { mobile, tablet } from '../Responsive'; // Import your media query functions from the appropriate file
 
 const Container = styled.div`
     height: 30px;
@@ -9,19 +10,23 @@ const Container = styled.div`
     justify-content: center;
     font-size: 14px;
     font-weight: bold;
-`
 
-
+    /* Apply responsive font size adjustments */
+    ${mobile`
+        font-size: 6px;
+         
+    `}
+    ${tablet`
+        font-size: 16px;
+    `}
+`;
 
 const Announcement = () => {
   return (
     <Container>
-      
-         JOB QUEST - YOUR ULTIMATE JOB SEARCH PLATFORM
-
-
+      JOB QUEST - YOUR ULTIMATE JOB SEARCH PLATFORM
     </Container>
-  )
-}
+  );
+};
 
-export default Announcement
+export default Announcement;

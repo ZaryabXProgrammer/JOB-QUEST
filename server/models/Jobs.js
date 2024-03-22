@@ -30,12 +30,12 @@ const jobSchema = new mongoose.Schema(
       type: String, //on site remote opr hybrid
       required: true,
     },
-    experience: {
+    experience: { //beginner, exper etc
       type: String,
       required: true,
     },
     salary: {
-      type: Number, // Assuming salary is stored as a string (e.g., "$80,000 - $100,000")
+      type: Number, 
       required: true,
     },
     jobLocation: {

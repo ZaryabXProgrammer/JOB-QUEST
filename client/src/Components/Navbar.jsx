@@ -80,14 +80,13 @@ const Navbar = () => {
         </Left>
         <Center>
 
-          <MenuItem>Home</MenuItem>
-          <MenuItem>Jobs</MenuItem>
+          <StyledLink to='/' ><MenuItem>Home</MenuItem></StyledLink>
+          <StyledLink to='/jobs'><MenuItem>Jobs</MenuItem> </StyledLink>
+
           <MenuItem>Categories</MenuItem>
         </Center>
         <Right>
-          <StyledLink to='/register'>
-            <MenuItem>Register</MenuItem>
-          </StyledLink>
+          <StyledLink to='/register'><MenuItem>Register</MenuItem></StyledLink>
           <StyledLink to="/login">
             <MenuItem>Sign In</MenuItem>
           </StyledLink>
