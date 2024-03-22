@@ -30,17 +30,22 @@ const jobSchema = new mongoose.Schema(
       type: String, //on site remote opr hybrid
       required: true,
     },
-    experience: { //beginner, exper etc
+    experience: {
+      //beginner, exper etc
       type: String,
       required: true,
     },
     salary: {
-      type: Number, 
+      type: Number,
       required: true,
     },
     jobLocation: {
       type: String,
       required: true,
+    },
+    skills: {
+      type: [String],
+      default: [],
     },
     datePosted: {
       type: Date,
