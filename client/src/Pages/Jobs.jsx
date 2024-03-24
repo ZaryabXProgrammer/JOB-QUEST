@@ -1,8 +1,8 @@
 
-import { useState } from 'react'
+import { useState , useEffect } from 'react'
 import styled from 'styled-components'
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
-
+import {fetchJobListings} from '../Pages/api/api'; 
 
 import JobCard from '../Components/JobCard';
 
@@ -330,11 +330,23 @@ margin: 18px 0 0px 4px; //top right bottom left
 const Jobs = () => {
 
     const [salary, setSalary] = useState(100); // Initial salary value
-
+    const [jobs, setJobs] = useState([]);
     const handleSalaryChange = (event) => {
         setSalary(parseInt(event.target.value, 10)); // Parse the value to an integer
     };
 
+    useEffect(() => {
+      // Fetch job listings when the component mounts
+      const getJobs = async () => {
+          try {
+              const jobListings = await fetchJobListings();
+              setJobs(jobListings);
+          } catch (error) {
+              console.error('Error fetching job listings:', error);
+          }
+      };
+      getJobs();
+  }, []);
 
 
 
