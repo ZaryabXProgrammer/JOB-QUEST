@@ -5,9 +5,11 @@ const app = express();
 const cors = require('cors')
 dotenv.config();
 const authRouter = require('./routes/Auth')
+const jobsRouter = require('./routes/Jobs');
 
-
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({
+  extended: true
+}));
 app.use(express.json());
 app.use(cors())
 
@@ -22,10 +24,10 @@ mongoose
 
 app.use("/auth", authRouter)
 
+app.use("/jobs", jobsRouter);
 
 
-
-const PORT = 3000;
+const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
   console.log(`Server runs perfectly on http://localhost:${PORT}`);

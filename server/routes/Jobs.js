@@ -1,38 +1,36 @@
-import express from "express";
-import bodyParser from "body-parser";
+const express = require('express');
+const bodyParser = require('body-parser');
 const Jobs = require('../models/jobs');
-const app = express();
+const router = express.Router();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({
     extended: true
 }));
-
-app.get('/jobs', async (req, res) => {
+router.use(function logger(req, res) {
+    console.log(req.method, req.url)
+})
+router.get('/jobs', async (req, res) => {
     try {
         const jobs = await Jobs.find();
         res.json(jobs);
     } catch (err) {
-        res.status(500).json({
-            message: err.message
-        });
+        console.log(err)
     }
 });
 
-app.post('/jobs', async (req, res) => {
+router.post('/jobs', async (req, res) => {
     const job = new Jobs(req.body);
     try {
         const newJob = await job.save();
         res.status(201).json(newJob);
     } catch (err) {
-        res.status(400).json({
-            message: err.message
-        });
+
+        console.log(err);
     }
 });
 
-
-app.put('/jobs/:id', async (req, res) => {
+router.put('/jobs/:id', async (req, res) => {
     try {
         const updatedJob = await Jobs.findByIdAndUpdate(req.params.id, req.body, {
             new: true
@@ -45,8 +43,7 @@ app.put('/jobs/:id', async (req, res) => {
     }
 });
 
-
-app.delete('/jobs/:id', async (req, res) => {
+router.delete('/jobs/:id', async (req, res) => {
     try {
         await Jobs.findByIdAndDelete(req.params.id);
         res.json({
