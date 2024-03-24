@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
 
-const jobSchema = new mongoose.Schema(
-  {
+const jobSchema = new mongoose.Schema({
     jobLogo: {
-      type: String, // Assuming the logo is stored as a file path or URL
+      type: String,
       required: true,
     },
     title: {
@@ -51,8 +50,9 @@ const jobSchema = new mongoose.Schema(
       type: Date,
       default: Date.now, // Default value is the current date and time
     },
-  },
-  { timestamps: true } // Will generate createdAt and updatedAt timestamps
+  }, {
+    timestamps: true
+  } // Will generate createdAt and updatedAt timestamps
 );
 
 module.exports = mongoose.model("Jobs", jobSchema);
