@@ -1,39 +1,33 @@
-import express from "express";
-import bodyParser from "body-parser";
-const Jobs = require("../models/jobs");
-const app = express();
+const express = require("express");
+const Jobs = require("../models/Jobs");
+const router = express.Router();
 
-app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
+// Custom logger middleware
+router.use(function logger(req, res, next) {
+  console.log(req.method, req.url);
+  next(); // Call next to proceed to the next middleware or route handler
+});
 
-app.get("/", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const jobs = await Jobs.find();
     res.json(jobs);
   } catch (err) {
-    res.status(500).json({
-      message: err.message,
-    });
+    console.log(err);
   }
 });
 
-app.post("/", async (req, res) => {
-  const job = new Jobs(req.body);
+router.post("/", async (req, res) => {
   try {
+    const job = new Jobs(req.body);
     const newJob = await job.save();
     res.status(201).json(newJob);
   } catch (err) {
-    res.status(400).json({
-      message: err.message,
-    });
+    console.log(err);
   }
 });
 
-app.put("/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const updatedJob = await Jobs.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -46,7 +40,7 @@ app.put("/:id", async (req, res) => {
   }
 });
 
-app.delete("/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     await Jobs.findByIdAndDelete(req.params.id);
     res.json({

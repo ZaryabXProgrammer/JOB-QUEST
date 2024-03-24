@@ -2,9 +2,8 @@
 import styled from 'styled-components';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-
+import axios from 'axios';
 import { useState } from 'react';
-import { saveJobListing } from './api/api'
 
 const ParentContainer = styled.div`
   background-image: url('./newjobs.jpg'); /* Directly specify a placeholder image */
@@ -108,20 +107,19 @@ const CreateJob = () => {
     salary: Yup.number().min(0).required('Salary is required'),
     jobLocation: Yup.string().required('Job location is required'),
     skills: Yup.string().required('Skills are required'),
+    jobLogo: Yup.string(),
   });
 
-  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+  const Api_Url = "http://localhost:8080";
+
+  const handleSubmit = async (values) => {
+
     try {
-      console.log('Submitting form with values:', values); // Log form data
-      const response = await saveJobListing(values); // Call saveJobListing with the job data
-      console.log('Job created successfully:', response);
-      alert('Job created successfully');
-      resetForm();
+      await axios.post(`${Api_Url}/jobs`, values).then(() => alert("Job Created"))
+
     } catch (error) {
-      console.error('Error creating job:', error);
-      alert('Error creating job. Please try again.'); // Show user-friendly error message
-    } finally {
-      setSubmitting(false);
+      console.error('Error saving job listing:', error);
+      throw error;
     }
   };
 
@@ -135,7 +133,8 @@ const CreateJob = () => {
     experience: '',
     salary: 0, // Default value from mongoose schema
     jobLocation: '',
-    skills: ''// Default value from mongoose schema
+    skills: '',
+    jobLogo: ''// Default value from mongoose schema
   };
   return (
 
@@ -193,12 +192,12 @@ const CreateJob = () => {
 
 
 
-              <ErrorMessage name="jobLogo" component="div" />
+              {/* <ErrorMessage name="jobLogo" component="div" />
               {click ? (
                 <Field as={InputField} type="file" name="jobLogo" id="jobLogo" accept="image/*" />
               ) : (
                 <Button2 onClick={() => setclick(!click)}>Choose File!</Button2>
-              )}
+              )} */}
 
               <SubmitButton type="submit">Create Job</SubmitButton>
             </Form>
