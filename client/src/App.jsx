@@ -6,6 +6,7 @@ import Register from './Pages/Register'
 import Announcement from './Components/Announcement'
 import Navbar from './Components/Navbar'
 import SignIn from './Pages/SignIn'
+import CreateJob from './Pages/CreateJob'
 
 
 
@@ -24,6 +25,8 @@ const App = () => {
 
           <Route path="/" exact element={<Home />} />
           <Route path='/jobs' exact element={<Jobs />} />
+          <Route path='/createJob' exact element={<CreateJob/>} />
+
           <Route path='/register' exact element={<Register/>} />
           <Route path='/login' exact element={<SignIn/>} />
 

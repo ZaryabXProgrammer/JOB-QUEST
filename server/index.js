@@ -7,7 +7,7 @@ dotenv.config();
 const authRouter = require('./routes/Auth')
 
 
-
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors())
 
