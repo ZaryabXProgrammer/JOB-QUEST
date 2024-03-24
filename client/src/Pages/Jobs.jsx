@@ -323,10 +323,6 @@ margin: 18px 0 0px 4px; //top right bottom left
 
 
 
-
-
-
-
 const Jobs = () => {
 
     const [salary, setSalary] = useState(100); // Initial salary value

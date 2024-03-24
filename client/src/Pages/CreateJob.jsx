@@ -2,8 +2,9 @@
 import styled from 'styled-components';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
+
 import { useState } from 'react';
+import { saveJobListing } from './api/api'
 
 const ParentContainer = styled.div`
   background-image: url('./newjobs.jpg'); /* Directly specify a placeholder image */
@@ -94,121 +95,118 @@ transition: 0.3s ease;
 
 const CreateJob = () => {
 
-    const [click, setclick] = useState(false)
+  const [click, setclick] = useState(false)
 
-    const validationSchema = Yup.object({
-        title: Yup.string().min(5).max(30).required('Job Title is required'),
-        description: Yup.string().min(5).max(50).required('Job Description is required'),
-        company: Yup.string().required('Company name is required'),
-        applicants: Yup.number().min(0),
-        jobType: Yup.string().required('Job type is required'),
-        workLocation: Yup.string().required('Work location is required'),
-        experience: Yup.string().required('Experience level is required'),
-        salary: Yup.number().min(0).required('Salary is required'),
-        jobLocation: Yup.string().required('Job location is required'),
-        skills: Yup.string().required('Skills are required'),
-    });
+  const validationSchema = Yup.object({
+    title: Yup.string().min(5).max(30).required('Job Title is required'),
+    description: Yup.string().min(5).max(50).required('Job Description is required'),
+    company: Yup.string().required('Company name is required'),
+    applicants: Yup.number().min(0),
+    jobType: Yup.string().required('Job type is required'),
+    workLocation: Yup.string().required('Work location is required'),
+    experience: Yup.string().required('Experience level is required'),
+    salary: Yup.number().min(0).required('Salary is required'),
+    jobLocation: Yup.string().required('Job location is required'),
+    skills: Yup.string().required('Skills are required'),
+  });
 
-    const handleSubmit = (values, { setSubmitting, resetForm }) => {
-        axios.post('http://example.com/api/jobs', values)
-            .then(response => {
-                console.log('Job created successfully:', response.data);
-                resetForm();
-            })
-            .catch(error => {
-                console.error('Error creating job:', error);
-            })
-            .finally(() => {
-                setSubmitting(false);
-            });
-    };
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    try {
+      console.log('Submitting form with values:', values); // Log form data
+      const response = await saveJobListing(values); // Call saveJobListing with the job data
+      console.log('Job created successfully:', response);
+      alert('Job created successfully');
+      resetForm();
+    } catch (error) {
+      console.error('Error creating job:', error);
+      alert('Error creating job. Please try again.'); // Show user-friendly error message
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
-    const initialValues = {
-        title: '',
-        description: '',
-        company: '',
-        applicants: 0, // Default value from mongoose schema
-        jobType: '',
-        workLocation: '',
-        experience: '',
-        salary: 0, // Default value from mongoose schema
-        jobLocation: '',
-        skills: [], // Default value from mongoose schema
-    };
-    return (
+  const initialValues = {
+    title: '',
+    description: '',
+    company: '',
+    applicants: 0, // Default value from mongoose schema
+    jobType: '',
+    workLocation: '',
+    experience: '',
+    salary: 0, // Default value from mongoose schema
+    jobLocation: '',
+    skills: ''// Default value from mongoose schema
+  };
+  return (
 
 
-        <ParentContainer> 
-        <CreateJobContainer>
-            <Title>Create New <Span>Job</Span> </Title>
-            <InputFieldContainer> 
-            <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={handleSubmit}
-            >
-                    <Form>
-                        
-                    <Field as={InputField} type="text" name="title" placeholder="Job Title" />
-                    <ErrorMessage name="title" component="div" />
+    <ParentContainer>
+      <CreateJobContainer>
+        <Title>Create New <Span>Job</Span> </Title>
+        <InputFieldContainer>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            <Form>
 
-                    <Field as={InputField} type="text" name="description" placeholder="Job Description" />
-                    <ErrorMessage name="description" component="div" />
+              <Field as={InputField} type="text" name="title" placeholder="Job Title" />
+              <ErrorMessage name="title" component="div" />
 
-                    <Field as={InputField} type="text" name="company" placeholder="Company" />
-                    <ErrorMessage name="company" component="div" />
+              <Field as={InputField} type="text" name="description" placeholder="Job Description" />
+              <ErrorMessage name="description" component="div" />
 
-                    <Field as={InputField} type="number" name="applicants" placeholder="Number of Applicants" />
-                    <ErrorMessage name="applicants" component="div" />
+              <Field as={InputField} type="text" name="company" placeholder="Company" />
+              <ErrorMessage name="company" component="div" />
 
-                    <Field as={InputField} type="text" name="jobType" placeholder="Job Type (Full-Time, Internship ..)" />
-                    <ErrorMessage name="jobType" component="div" />
+              <Field as={InputField} type="number" name="applicants" placeholder="Number of Applicants" />
+              <ErrorMessage name="applicants" component="div" />
 
-                    <Field as={InputField} type="text" name="workLocation" placeholder="Work Location (OnSite, Remote, Hybrid)" />
-                    <ErrorMessage name="workLocation" component="div" />
+              <Field as={InputField} type="text" name="jobType" placeholder="Job Type (Full-Time, Internship ..)" />
+              <ErrorMessage name="jobType" component="div" />
 
-                    <Field as={InputField} type="text" name="experience" placeholder="Experience Level (Fresher, Beginner, Intermediate, Expert)" />
-                    <ErrorMessage name="experience" component="div" />
+              <Field as={InputField} type="text" name="workLocation" placeholder="Work Location (OnSite, Remote, Hybrid)" />
+              <ErrorMessage name="workLocation" component="div" />
 
-                    <Field as={InputField} type="number" name="salary" placeholder="Salary" />
-                    <ErrorMessage name="salary" component="div" />
+              <Field as={InputField} type="text" name="experience" placeholder="Experience Level (Fresher, Beginner, Intermediate, Expert)" />
+              <ErrorMessage name="experience" component="div" />
 
-                    <Field as={InputField} type="text" name="jobLocation" placeholder="Job Location" />
-                    <ErrorMessage name="jobLocation" component="div" />
-{/* 
+              <Field as={InputField} type="number" name="salary" placeholder="Salary" />
+              <ErrorMessage name="salary" component="div" />
+
+              <Field as={InputField} type="text" name="jobLocation" placeholder="Job Location" />
+              <ErrorMessage name="jobLocation" component="div" />
+              {/* 
                     <Label htmlFor="jobSkills">Skills Required:</Label> */}
-                        <Field as={InputField}
-                            id="jobSkills"
-                            type="text"
-                            name="skills"
-                            placeholder="Enter skills separated by commas"
-                            onChange={(e) => {
-                                // Custom onChange handler to parse skills as an array
-                                const skillValues = e.target.value.split(',').map((skill) => skill.trim());
-                                Formik.setFieldValue('skills', skillValues);
-                            }}
-                        />
-                        
-                        <ErrorMessage name="skills" component="div" />
+              <Field as={InputField}
+                id="jobSkills"
+                type="text"
+                name="skills"
+                placeholder="Enter skills separated by commas"
 
-                        <StyledLabel htmlFor="jobLogo">Company Logo:</StyledLabel>
+              />
 
-                       
+              <ErrorMessage name="skills" component="div" />
 
-                        <ErrorMessage name="jobLogo" component="div" />
-                        {click ? (
-                            <Field as={InputField} type="file" name="jobLogo" id="jobLogo" accept="image/*" />
-                        ) : (
-                            <Button2 onClick={() => setclick(!click)}>Choose File!</Button2>
-                        )}
-                        
-                    <SubmitButton type="submit">Create Job</SubmitButton>
-                </Form>
-                </Formik>
-            </InputFieldContainer>
-            </CreateJobContainer>
-        </ParentContainer>
-    );
+              <StyledLabel htmlFor="jobLogo">Company Logo:</StyledLabel>
+
+
+
+              <ErrorMessage name="jobLogo" component="div" />
+              {click ? (
+                <Field as={InputField} type="file" name="jobLogo" id="jobLogo" accept="image/*" />
+              ) : (
+                <Button2 onClick={() => setclick(!click)}>Choose File!</Button2>
+              )}
+
+              <SubmitButton type="submit">Create Job</SubmitButton>
+            </Form>
+          </Formik>
+        </InputFieldContainer>
+      </CreateJobContainer>
+    </ParentContainer>
+  );
 };
 
 export default CreateJob;
