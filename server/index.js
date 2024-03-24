@@ -25,7 +25,7 @@ app.use("/auth", authRouter)
 
 
 
-const PORT = process.env.PORT;
+const PORT = 3000;
 
 app.listen(PORT, () => {
   console.log(`Server runs perfectly on http://localhost:${PORT}`);
