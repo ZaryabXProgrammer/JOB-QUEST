@@ -10,8 +10,6 @@ export const mobile = (props) => {
     `;
 };
 
-
-
 export const tablet = (props) => {
     return css`
     

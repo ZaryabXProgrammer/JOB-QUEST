@@ -23,6 +23,9 @@ max-width: 60%; /* Set max-width to 70% */
 const ImgContainer = styled.div`
 height: 80%;
     flex: 1;
+    @media (max-width: 480px) { /* Adjust styles for mobile */
+    display: none;
+  }
 `
 
 const Image = styled.img`

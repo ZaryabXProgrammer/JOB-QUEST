@@ -1,32 +1,29 @@
 import styled from 'styled-components';
 import { jobSeekerReviews } from '../constants/index';
-import dots from '../assets/reviews/dots.png'
+import dots from '../assets/reviews/dots.png';
 
 const Container = styled.div`
   background-color: #ebeffa;
   overflow: hidden;
-  /* Center the container horizontally */
 `;
 
 const Wrapper = styled.div`
   margin: 0 auto; 
   width: 100%;
-  height: 80vh;
-  max-width: 70%; /* Set max-width to 70% */
+  max-width: 70%;
   display: flex;
   flex-direction: column;
 `;
 
 const Title = styled.h1`
   text-align: center;
-  
-  font-size: 50px;
+  font-size: 40px; /* Decrease font size for smaller devices */
 `;
 
 const Desc = styled.p`
   text-align: center;
   margin-top: 20px;
-  font-size: 15px;
+  font-size: 14px; /* Decrease font size for smaller devices */
 `;
 
 const Span = styled.span`
@@ -37,6 +34,7 @@ const CardList = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin-top: 20px; /* Add margin for better spacing */
 `;
 
 const CardContainer = styled.div`
@@ -44,14 +42,11 @@ const CardContainer = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-    width: 301px;
-    height: 228px;
-  justify-content: center;
-  
+  width: 280px; /* Adjust width for smaller devices */
+  height: auto; /* Set height to auto */
   margin: 10px;
   overflow: hidden;
   transition: transform 0.3s ease, background-color 0.32s ease;
-
   &:hover {
     transform: translateY(-10px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -62,74 +57,66 @@ const CardContainer = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  padding: 0 20px;
-  height: 70px;
-  width: 70px;
-  
-  border-radius: 50%;
- 
-  margin-top: 30px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const CardImage = styled.img`
-  width: 100%;
-  height: 100%;
+  max-width: 100%; /* Set max-width to prevent overflow */
+  max-height: 100%; /* Set max-height to prevent overflow */
   object-fit: cover;
-
- 
+  border-radius: 50%;
 `;
 
 const CardContent = styled.div`
   padding: 0 15px;
-  margin-bottom: 50px;
+  margin-bottom: 20px; /* Decrease margin for smaller devices */
 `;
 
 const CardTitle = styled.h3`
-  font-size: 1 rem;
+  font-size: 1rem;
   margin: 10px 0;
 `;
 
 const Company = styled.div`
-
-color: #616161a7;
-font-size: 12px;
-font-weight: bold;
-margin: 10px 0;
-`
+  color: #616161a7;
+  font-size: 12px;
+  font-weight: bold;
+  margin: 10px 0;
+`;
 
 const CardDescription = styled.p`
-  font-size: 11px;
+  font-size: 12px; /* Increase font size for better readability */
 `;
 
 const Reviews = () => {
-    return (
-        <Container>
-            <Wrapper>
-                <Title>What Says Job Seekers <Span>About Us </Span></Title>
-                <Desc>Here are some reviews from job seekers:</Desc>
-                <CardList>
-                    {jobSeekerReviews.map((review) => (
-                        <CardContainer key={review.id}>
-                            <ImageContainer>
-                                <CardImage src={review.image} alt={review.personaName} />
-                            </ImageContainer>
-                            <CardContent>
-                                <CardTitle>{review.personaName}</CardTitle>
-                                <Company>{review.company}</Company>
-                                <CardDescription>{review.review}</CardDescription>
-                            </CardContent>
-
-                          
-                        </CardContainer>
-                    ))}
-                </CardList>
-                <div style={{ display: 'flex', justifyContent: 'center'}}>
-                    <img src={dots}  alt="" />
-                </div>
-
-            </Wrapper>
-        </Container>
-    );
+  return (
+    <Container>
+      <Wrapper>
+        <Title>What Says Job Seekers <Span>About Us </Span></Title>
+        <Desc>Here are some reviews from job seekers:</Desc>
+        <CardList>
+          {jobSeekerReviews.map((review) => (
+            <CardContainer key={review.id}>
+              <ImageContainer>
+                <CardImage src={review.image} alt={review.personaName} />
+              </ImageContainer>
+              <CardContent>
+                <CardTitle>{review.personaName}</CardTitle>
+                <Company>{review.company}</Company>
+                <CardDescription>{review.review}</CardDescription>
+              </CardContent>
+            </CardContainer>
+          ))}
+        </CardList>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+          <img src={dots} alt="" />
+        </div>
+      </Wrapper>
+    </Container>
+  );
 };
 
 export default Reviews;
