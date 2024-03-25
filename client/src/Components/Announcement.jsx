@@ -9,7 +9,18 @@ const Container = styled.div`
     justify-content: center;
     font-size: 14px;
     font-weight: bold;
+    @media (max-width: 768px) { /* Adjust styles for tablet */
+        height: 50px;
+        font-size: 12px;
+    }
+
+    @media (max-width: 480px) { /* Adjust styles for mobile */
+        height: 70px;
+        font-size: 10px;
+    }
 `
+
+
 
 
 

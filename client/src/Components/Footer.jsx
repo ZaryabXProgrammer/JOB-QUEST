@@ -1,4 +1,3 @@
-
 import styled from 'styled-components';
 
 // Social icons (replace the placeholder URLs with actual URLs for each social platform)
@@ -13,63 +12,58 @@ const socialIcons = [
 const jobCategories = ['Software Development', 'Web Development', 'HR', 'Dance'];
 
 const FooterContainer = styled.div`
-    background-color: #062038;
-    color: white;
-    padding: 50px 0;
-    height: 50vh;
-   
-  `;
+  background-color: #062038;
+  color: white;
+  padding: 50px 0;
+`;
 
 const FooterWrapper = styled.div`
-
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 30px;
-    max-width: 1200px;
-    margin: 60px auto; /* Center horizontally */
-    /* Center the content inside each column */
-
-  `;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto; /* Center horizontally */
+  padding: 0 20px; /* Add padding to make responsive */
+`;
 
 const Column = styled.div`
-    display: flex;
-    flex-direction: column;
-  `;
+  display: flex;
+  flex-direction: column;
+`;
 
 const LogoContainer = styled.div`
-    display: flex;
-
-    margin-bottom: 20px;
-  `;
+  display: flex;
+  margin-bottom: 20px;
+`;
 
 const SocialIcon = styled.a`
-    color: white;
-    font-size: 13px;
-    margin-right: 10px;
-    text-decoration: none;
+  color: white;
+  font-size: 13px;
+  margin-right: 10px;
+  text-decoration: none;
 
-    &:hover {
-      color: #ffc107; /* Change the color on hover */
-    }
-  `;
+  &:hover {
+    color: #ffc107; /* Change the color on hover */
+  }
+`;
 
 const Title = styled.h3`
-    font-size: 20px;
-    margin-bottom: 10px;
-  `;
+  font-size: 20px;
+  margin-bottom: 10px;
+`;
 
 const List = styled.ul`
-    list-style-type: none;
-    padding: 0;
-  `;
+  list-style-type: none;
+  padding: 0;
+`;
 
 const ListItem = styled.li`
-    margin-bottom: 5px;
-  `;
+  margin-bottom: 5px;
+`;
 
 const Span = styled.span`
-    color: #1d59ff;
-  `;
+  color: #1d59ff;
+`;
 
 const Footer = () => {
   return (

@@ -10,14 +10,12 @@ export const mobile = (props) => {
     `;
 };
 
-
-
-// export const tablet = (props) => {
-//     return css`
+export const tablet = (props) => {
+    return css`
     
-//     @media only screen and (max-width: 540px){
-//         ${props}
-//     }
+    @media only screen and (max-width: 540px){
+        ${props}
+    }
     
-//     `
-// }
+    `
+}

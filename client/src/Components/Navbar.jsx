@@ -1,4 +1,3 @@
-
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -11,6 +10,10 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 480px) {
+    padding: 10px;
+  }
 `;
 
 const Left = styled.div`
@@ -20,18 +23,21 @@ const Left = styled.div`
 `;
 
 const SearchContainer = styled.div`
-
   display: flex;
   align-items: center;
   margin-left: 25px;
   padding: 5px;
 `;
 
-
 const Center = styled.div`
   flex: 1;
   text-align: center;
   display: flex;
+  justify-content: center;
+
+  @media (max-width: 480px) {
+    display: none; /* Hide Center content on mobile */
+  }
 `;
 
 const Logo = styled.h1`
@@ -64,8 +70,8 @@ const StyledLink = styled(Link)`
 `;
 
 const Span = styled.span`
-    color: #1d59ff;
-`
+  color: #1d59ff;
+`;
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -75,23 +81,29 @@ const Navbar = () => {
       <Wrapper>
         <Left>
           <SearchContainer>
-            <Logo onClick={() => navigate('/')}>Job<Span>Quest</Span></Logo>
+            <Logo onClick={() => navigate('/')}>
+              Job<Span>Quest</Span>
+            </Logo>
           </SearchContainer>
         </Left>
         <Center>
-
-          <MenuItem>Home</MenuItem>
-          <MenuItem>Jobs</MenuItem>
-          <MenuItem>Categories</MenuItem>
+          <MenuItem>
+            <StyledLink to="/">Home</StyledLink>
+          </MenuItem>
+          <MenuItem>
+            <StyledLink to="/jobs">Jobs</StyledLink>
+          </MenuItem>
+          <MenuItem>
+            <StyledLink to="/categories">Categories</StyledLink>
+          </MenuItem>
         </Center>
         <Right>
-          <StyledLink to='/register'>
+          <StyledLink to="/register">
             <MenuItem>Register</MenuItem>
           </StyledLink>
           <StyledLink to="/login">
             <MenuItem>Sign In</MenuItem>
           </StyledLink>
-
         </Right>
       </Wrapper>
     </Container>
