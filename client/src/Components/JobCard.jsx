@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import google from '../assets/benefits/google.png';
+
 import apply from '../assets/benefits/apply.png';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import AlarmOutlinedIcon from '@mui/icons-material/AlarmOutlined';
@@ -8,8 +8,8 @@ const CardContainer = styled.div`
   background-color: white;
   
  margin: 10px 15px 15px ;
-  width: 310px;
-  height: 260px;
+width: 287px;
+    height: 240px;
   justify-content: space-between;
   
   
@@ -72,7 +72,7 @@ const CompanyandApplicants = styled.div`
   display: flex;
   justify-content: space-between;
 
-  width: 50%;
+  width: 57%;
 `;
 
 const JobCompany = styled.p`
@@ -88,13 +88,13 @@ const JobApplicants = styled.p`
 const ApplyLogo = styled.img`
   width: 30px;
   height: 30px;
- margin-right: 21px;
+ margin-right: 20px;
  margin-top: 3px;
 `;
 
 const Center = styled.div`
 
-height: 110px;
+height: 80px;
 width: 80%;
 margin: 15px 20px;
 
@@ -132,20 +132,21 @@ align-items: center;
 `
 
 const JobLocation = styled.p`
-  font-size: 12px;
+  font-size: 10px;
   font-weight: bold;
   color: #333;
   margin-right: 12px;
 `;
 
 const Salary = styled.p`
+
   color: darkgreen;
   font-size: 20px;
   font-weight: bold;
 `;
 const Span = styled.span`
    color: #666;
-    font-size: 10px;
+    font-size: 9px;
 `
 
 const DateContainer = styled.div`
@@ -156,26 +157,35 @@ align-items: center;
 
 `
 const DatePosted = styled.p`
-  font-size: 11px;
+  font-size: 10px;
   color: #666;
-  margin: 0 3px;
+  margin: 0 2px;
 `;
 
 
 
-const JobCard = () => {
+const JobCard = ({ jobLogo, title, description, company, applicants, jobType, workLocation, salary, jobLocation, createdAt }) => {
+
+
+
+  //date
+  const currentDate = new Date();
+  const createdAtDate = new Date(createdAt);
+  const timeDifference = currentDate.getTime() - createdAtDate.getTime();
+  const daysAgo = Math.floor(timeDifference / (1000 * 3600 * 24));
+
   return (
     <CardContainer>
       <Wrapper>
         <Top>
-          <Logo src={google} alt="Company Logo" />
+          <Logo src={jobLogo} alt="Company Logo" />
 
           <JobTitleandDesc>
-            <JobTitle>Software Engineer</JobTitle>
+            <JobTitle>{title}</JobTitle>
             <JobDesc>
               <CompanyandApplicants>
-                <JobCompany>Google</JobCompany> {/* Replace "Company Name" with actual data */}
-                <JobApplicants>12 Applicants</JobApplicants> {/* Replace "100" with actual number of applicants */}
+                <JobCompany>{company}</JobCompany> {/* Replace "Company Name" with actual data */}
+                <JobApplicants>{applicants} Applicatnts</JobApplicants> {/* Replace "100" with actual number of applicants */}
               </CompanyandApplicants>
             </JobDesc>
           </JobTitleandDesc>
@@ -184,25 +194,48 @@ const JobCard = () => {
 
         <Center>
           <JobTypeContainer>
-            <JobType textColor="purple" bgColor='#ffc4ff'>Full-Time</JobType>
-            <JobType textColor="blue" bgColor="#c4e3ff">Part-Time</JobType>
-            <JobType textColor="orange" bgColor="#ffd9c4">Contract</JobType>
+            {jobType && (jobType.toLowerCase() === 'fulltime' || jobType.toLowerCase() === 'full-time') ? (
+              <JobType textColor="#4a148c" bgColor='#ffc4ff'>Full-Time</JobType>
+            ) : jobType && (jobType.toLowerCase() === 'parttime' || jobType.toLowerCase() === 'part-time') ? (
+              <JobType textColor="#0d47a1" bgColor="#c4e3ff">Part-Time</JobType>
+            ) : (
+              <JobType textColor="#ffffff" bgColor="#34495e">Contract</JobType>
+
+
+            )}
+
+            {workLocation && (workLocation.toLowerCase() === 'onsite' || workLocation.toLowerCase() === 'on-site') ? (
+              <JobType textColor="#4a148c" bgColor='#d0c7ff'>On-Site</JobType>
+            ) : workLocation && workLocation.toLowerCase() === 'remote' ? (
+              <JobType textColor="#1b5e20" bgColor="#dcedc8">Remote</JobType>
+            ) : (
+              <JobType textColor="#ff6d00" bgColor="#ffd9c4">Location</JobType>
+            )}
           </JobTypeContainer>
-          <JobDesc>Join Google&apos;s Cloud Platform team and work on cutting-edge technologies to empower businesses worldwide</JobDesc>
+
+
+
+
+          <JobDesc>{description}</JobDesc>
           {/* Update Location */}
 
 
         </Center>
-        
+
         <Bottom>
-          <Salary>$80K<Span> /month</Span></Salary>
+          <Salary>
+
+            {salary > 1000 ? `${(salary / 1000).toFixed(0)}K` : salary}<Span> /m</Span>
+
+          </Salary>
           <JobLocationContainer>
             <LocationOnIcon />
-            <JobLocation>Newyork</JobLocation>
+            <JobLocation>{jobLocation}</JobLocation>
           </JobLocationContainer>
           <  DateContainer>
             <AlarmOutlinedIcon />
-            <DatePosted>2 days ago</DatePosted></DateContainer>
+            <DatePosted>{daysAgo} days ago</DatePosted>
+          </DateContainer>
         </Bottom>
       </Wrapper>
     </CardContainer>

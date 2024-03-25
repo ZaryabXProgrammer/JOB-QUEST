@@ -1,8 +1,9 @@
 
-import { useState , useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
-import {fetchJobListings} from '../Pages/api/api'; 
+
+import axios from 'axios'
 
 import JobCard from '../Components/JobCard';
 
@@ -193,19 +194,19 @@ const CheckMarkLabel = styled.span`
 `;
 
 const CheckMark = ({ label }) => {
-    const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(false);
 
-    const handleCheck = () => {
-        setChecked(!checked);
-    };
+  const handleCheck = () => {
+    setChecked(!checked);
+  };
 
-    return (
-        <CheckMarkBox onClick={handleCheck}>
-            <CheckMarkIcon style={{ padding: '8px', color: 'green' }} >
-                {checked ? <CheckOutlinedIcon /> : ''}</CheckMarkIcon>
-            <CheckMarkLabel>{label}</CheckMarkLabel>
-        </CheckMarkBox>
-    );
+  return (
+    <CheckMarkBox onClick={handleCheck}>
+      <CheckMarkIcon style={{ padding: '8px', color: 'green' }} >
+        {checked ? <CheckOutlinedIcon /> : ''}</CheckMarkIcon>
+      <CheckMarkLabel>{label}</CheckMarkLabel>
+    </CheckMarkBox>
+  );
 };
 
 
@@ -324,150 +325,176 @@ margin: 18px 0 0px 4px; //top right bottom left
 
 
 const Jobs = () => {
+  const Api_Url = "http://localhost:8080";
+  const [salary, setSalary] = useState(100); // Initial salary value
+  const [jobs, setJobs] = useState([]);
+  const handleSalaryChange = (event) => {
+    setSalary(parseInt(event.target.value, 10)); // Parse the value to an integer
+  };
 
-    const [salary, setSalary] = useState(100); // Initial salary value
-    const [jobs, setJobs] = useState([]);
-    const handleSalaryChange = (event) => {
-        setSalary(parseInt(event.target.value, 10)); // Parse the value to an integer
+  // useEffect(() => {
+  //   // Fetch job listings when the component mounts
+  //   const getJobs = async () => {
+  //     try {
+  //       const jobListings = await fetchJobListings();
+  //       setJobs(jobListings);
+  //     } catch (error) {
+  //       console.error('Error fetching job listings:', error);
+  //     }
+  //   };
+  //   getJobs();
+  // }, []);
+
+  // console.log(jobs)
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        await axios.get(`${Api_Url}/jobs`).then((res) => setJobs(res.data))
+
+      } catch (error) {
+        console.error("Error fetching job listings:", error);
+      }
     };
 
-    useEffect(() => {
-      // Fetch job listings when the component mounts
-      const getJobs = async () => {
-          try {
-              const jobListings = await fetchJobListings();
-              setJobs(jobListings);
-          } catch (error) {
-              console.error('Error fetching job listings:', error);
-          }
-      };
-      getJobs();
+    fetchJobs(); // Call the fetchJobs function
+    console.log(jobs)
+
+    // Empty dependency array means this effect will only run once, similar to componentDidMount
   }, []);
 
 
+  return (
 
-    return (
+    <div>
 
-        <div>
-           
-            <Wrapper>
-
+      <Wrapper>
 
 
 
-                <LeftContainer>
+
+        <LeftContainer>
 
 
 
-                    <FilterHeading>
+          <FilterHeading>
 
-                        <FilterTitle>Filter</FilterTitle>
-                        <Reset>Reset </Reset>
-
-
-                    </FilterHeading>
-
-                    <hr />
-
-                    <SortBox>
-                        <SortTitle>Sort By</SortTitle>
-                        <CheckMarkContainer>
-                            <CheckMark label="Recently" />
-                            <CheckMark label="Top Salary" />
-                            <CheckMark label="Rating" />
-                            <CheckMark label="A-Z" />
-
-                        </CheckMarkContainer>
-                    </SortBox>
-
-                    <SalaryBox>
-                        <SalaryTitle>Salary Range</SalaryTitle>
-                        <SalarySlider
-                            type="range"
-                            min={500} // Minimum salary value
-                            max={100000} // Maximum salary value
-                            step={2000} // Incremental step
-                            value={salary}
-                            onChange={handleSalaryChange}
-                        />
-                        <p>{`$${salary}`}</p> {/* Display the current salary value */}
-                    </SalaryBox>
-                    <JobTypeBox>
-                        <JobtypeTitle>Job Type</JobtypeTitle>
-                        <CheckMarkContainer>
-                            <CheckMark label="Full-Time" />
-                            <CheckMark label="Part-Time" />
-                            <CheckMark label="Freelance" />
-                            <CheckMark label="Contractual" />
-                            <CheckMark label="Internship" />
-
-                        </CheckMarkContainer>
-                    </JobTypeBox>
-
-                    <WorkLocationBox>
-                        <WorkLocationTitle>Work Location</WorkLocationTitle>
-                        <CheckMarkContainer>                  <CheckMark label="On-site" />
-                            <CheckMark label="Remote" />
-                            <CheckMark label="Hybrid" />  </CheckMarkContainer>
+            <FilterTitle>Filter</FilterTitle>
+            <Reset>Reset </Reset>
 
 
-                    </WorkLocationBox>
+          </FilterHeading>
 
-                    <ExperienceBox >
-                        <ExperienceTitle>Experience </ExperienceTitle>
-                        <CheckMarkContainer>  <CheckMark label="Fresher" />
-                            <CheckMark label="Beginner" />
-                            <CheckMark label="Intermediate" />
-                            <CheckMark label="Expert" />
-                        </CheckMarkContainer>
+          <hr />
 
-                    </ExperienceBox>
+          <SortBox>
+            <SortTitle>Sort By</SortTitle>
+            <CheckMarkContainer>
+              <CheckMark label="Recently" />
+              <CheckMark label="Top Salary" />
+              <CheckMark label="Rating" />
+              <CheckMark label="A-Z" />
 
+            </CheckMarkContainer>
+          </SortBox>
 
-                </LeftContainer>
+          <SalaryBox>
+            <SalaryTitle>Salary Range</SalaryTitle>
+            <SalarySlider
+              type="range"
+              min={500} // Minimum salary value
+              max={100000} // Maximum salary value
+              step={2000} // Incremental step
+              value={salary}
+              onChange={handleSalaryChange}
+            />
+            <p>{`$${salary}`}</p> {/* Display the current salary value */}
+          </SalaryBox>
+          <JobTypeBox>
+            <JobtypeTitle>Job Type</JobtypeTitle>
+            <CheckMarkContainer>
+              <CheckMark label="Full-Time" />
+              <CheckMark label="Part-Time" />
+              <CheckMark label="Freelance" />
+              <CheckMark label="Contractual" />
+              <CheckMark label="Internship" />
 
-                <RightContainer>
+            </CheckMarkContainer>
+          </JobTypeBox>
 
-                    <FindContainer>
-
-                        <TitleBox>Find your Dream Job here! </TitleBox>
-                        <Desc>Explore our newest job opportunities to discover and apply for the top positions available today!</Desc>
-
-                        <SearchBox>
-
-
-                            <InputBox>
-                                <Input placeholder="&#x1F50E;&#xFE0E; Search job title or company here" />
-
-                                <Input placeholder="🖈 Search country or city here" />
-                            </InputBox>
-
-
-                            <Button>Search</Button>
-
-                        </SearchBox>
-
-                    </FindContainer>
-                    <ShowingJobsTitle>Showing <Span>1312 </Span>  Available Jobs</ShowingJobsTitle>
-                    <JobsContainer>
-<JobCard  />
-<JobCard/>
-<JobCard/>
-<JobCard/>
-<JobCard/>
-<JobCard/>
-<JobCard/>
-<JobCard/>
-
-                    </JobsContainer>
-
-                </RightContainer>
+          <WorkLocationBox>
+            <WorkLocationTitle>Work Location</WorkLocationTitle>
+            <CheckMarkContainer>                  <CheckMark label="On-site" />
+              <CheckMark label="Remote" />
+              <CheckMark label="Hybrid" />  </CheckMarkContainer>
 
 
-            </Wrapper>
-        </div>
+          </WorkLocationBox>
 
-    )
+          <ExperienceBox >
+            <ExperienceTitle>Experience </ExperienceTitle>
+            <CheckMarkContainer>  <CheckMark label="Fresher" />
+              <CheckMark label="Beginner" />
+              <CheckMark label="Intermediate" />
+              <CheckMark label="Expert" />
+            </CheckMarkContainer>
+
+          </ExperienceBox>
+
+
+        </LeftContainer>
+
+        <RightContainer>
+
+          <FindContainer>
+
+            <TitleBox>Find your Dream Job here! </TitleBox>
+            <Desc>Explore our newest job opportunities to discover and apply for the top positions available today!</Desc>
+
+            <SearchBox>
+
+
+              <InputBox>
+                <Input placeholder="&#x1F50E;&#xFE0E; Search job title or company here" />
+
+                <Input placeholder="🖈 Search country or city here" />
+              </InputBox>
+
+
+              <Button>Search</Button>
+
+            </SearchBox>
+
+          </FindContainer>
+          <ShowingJobsTitle>Showing <Span>1312 </Span>  Available Jobs</ShowingJobsTitle>
+          <JobsContainer>
+
+            {jobs.map((job) => (
+              <JobCard
+                key={job._id}
+                jobLogo={job.jobLogo}
+                title={job.title}
+                description={job.description}
+                company={job.company}
+                applicants={job.applicants}
+                jobType={job.jobType}
+                workLocation={job.workLocation}
+                salary={job.salary}
+                jobLocation={job.jobLocation}
+                createdAt={job.createdAt}
+              />
+            ))}
+
+
+
+          </JobsContainer>
+
+        </RightContainer>
+
+
+      </Wrapper>
+    </div>
+
+  )
 }
 
 export default Jobs

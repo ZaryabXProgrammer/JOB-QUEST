@@ -2,10 +2,10 @@
 import styled from 'styled-components';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-
+import axios from 'axios';
 import { useState } from 'react';
-import { saveJobListing } from './api/api'
-
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import app from '../Firebase'
 const ParentContainer = styled.div`
   background-image: url('./newjobs.jpg'); /* Directly specify a placeholder image */
   background-size: cover;
@@ -23,9 +23,7 @@ const CreateJobContainer = styled.div`
   align-items: center;
   justify-content: center; /* Center the content vertically */
   padding: 20px;
-  background-image: url('path_to_your_background_image.jpg'); /* Add the background image */
-  background-size: cover; /* Cover the entire container */
-  background-repeat: no-repeat; /* Do not repeat the background image */
+  /* Do not repeat the background image */
 
   @media (min-width: 768px) {
     width: 70%;
@@ -46,6 +44,7 @@ const InputField = styled.input`
   border-radius: 5px;
   box-sizing: border-box; /* Ensure padding and border are included in the width */
 `;
+
 
 const SubmitButton = styled.button`
   width: 100%;
@@ -95,11 +94,18 @@ transition: 0.3s ease;
 
 const CreateJob = () => {
 
+  const [file, setfile] = useState(null)
+
+  const [mySkills, setmySkills] = useState([])
+
+
+
+
   const [click, setclick] = useState(false)
 
   const validationSchema = Yup.object({
     title: Yup.string().min(5).max(30).required('Job Title is required'),
-    description: Yup.string().min(5).max(50).required('Job Description is required'),
+    description: Yup.string().min(5).max(100).required('Job Description is required'),
     company: Yup.string().required('Company name is required'),
     applicants: Yup.number().min(0),
     jobType: Yup.string().required('Job type is required'),
@@ -107,23 +113,59 @@ const CreateJob = () => {
     experience: Yup.string().required('Experience level is required'),
     salary: Yup.number().min(0).required('Salary is required'),
     jobLocation: Yup.string().required('Job location is required'),
-    skills: Yup.string().required('Skills are required'),
+
+    jobLogo: Yup.string(),
   });
 
-  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-    try {
-      console.log('Submitting form with values:', values); // Log form data
-      const response = await saveJobListing(values); // Call saveJobListing with the job data
-      console.log('Job created successfully:', response);
-      alert('Job created successfully');
-      resetForm();
-    } catch (error) {
-      console.error('Error creating job:', error);
-      alert('Error creating job. Please try again.'); // Show user-friendly error message
-    } finally {
-      setSubmitting(false);
-    }
+  const Api_Url = "http://localhost:8080";
+
+  const handleSubmit = async (values, { resetForm }) => {
+    const filename = new Date().getTime() + file.name;
+    const storage = getStorage(app);
+    const storageRef = ref(storage, filename);
+
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
+        switch (snapshot.state) {
+          case 'paused':
+            console.log('Upload is paused');
+            break;
+          case 'running':
+            console.log('Upload is running');
+            break;
+          default:
+        }
+      },
+      (error) => {
+        // Handle unsuccessful uploads
+        console.error('Error uploading file:', error);
+      },
+      () => {
+        // Handle successful uploads on complete
+        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+          console.log('File available at', downloadURL);
+          try {
+            const jobData = { ...values, jobLogo: downloadURL, skills: mySkills };
+            await axios.post(`${Api_Url}/jobs`, jobData);
+            alert("Job Created");
+            resetForm(); // Reset form fields after successful upload
+            setmySkills([])
+          } catch (error) {
+            console.error('Error saving job listing:', error);
+            throw error;
+          }
+
+        });
+      }
+    );
+
   };
+
 
   const initialValues = {
     title: '',
@@ -135,7 +177,8 @@ const CreateJob = () => {
     experience: '',
     salary: 0, // Default value from mongoose schema
     jobLocation: '',
-    skills: ''// Default value from mongoose schema
+
+    jobLogo: ''// Default value from mongoose schema
   };
   return (
 
@@ -179,23 +222,30 @@ const CreateJob = () => {
               <ErrorMessage name="jobLocation" component="div" />
               {/* 
                     <Label htmlFor="jobSkills">Skills Required:</Label> */}
-              <Field as={InputField}
+              {/* <Field as={InputField}
                 id="jobSkills"
                 type="text"
                 name="skills"
                 placeholder="Enter skills separated by commas"
+            
 
               />
 
-              <ErrorMessage name="skills" component="div" />
+          
+              <ErrorMessage name="skills" component="div" /> */}
+
+              <InputField
+                type='text'
+                placeholder='Enter Skills Separated By Comma'
+                onChange={(e) => setmySkills(e.target.value.split(','))}
+              />
 
               <StyledLabel htmlFor="jobLogo">Company Logo:</StyledLabel>
 
-
-
               <ErrorMessage name="jobLogo" component="div" />
               {click ? (
-                <Field as={InputField} type="file" name="jobLogo" id="jobLogo" accept="image/*" />
+
+                <input type="file" id="file" onChange={(e) => setfile(e.target.files[0])} />
               ) : (
                 <Button2 onClick={() => setclick(!click)}>Choose File!</Button2>
               )}

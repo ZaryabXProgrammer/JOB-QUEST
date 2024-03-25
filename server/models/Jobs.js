@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 
-const jobSchema = new mongoose.Schema({
+const jobSchema = new mongoose.Schema(
+  {
     jobLogo: {
       type: String,
-      required: true,
+      default: "http://example.com/logo.png",
     },
     title: {
       type: String,
@@ -36,7 +37,7 @@ const jobSchema = new mongoose.Schema({
     },
     salary: {
       type: Number,
-      required: true,
+      default: 0,
     },
     jobLocation: {
       type: String,
@@ -44,14 +45,11 @@ const jobSchema = new mongoose.Schema({
     },
     skills: {
       type: [String],
-      default: [],
+      default: "Not Mentioned",
     },
-    datePosted: {
-      type: Date,
-      default: Date.now, // Default value is the current date and time
-    },
-  }, {
-    timestamps: true
+  },
+  {
+    timestamps: true,
   } // Will generate createdAt and updatedAt timestamps
 );
 

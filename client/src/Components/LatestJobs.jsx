@@ -4,6 +4,8 @@ import leftArrow from '../assets/benefits/leftArrow.png'
 import JobCard from './JobCard';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import axios from 'axios'
 
 const Container = styled.div`
 background-color: #ebeffa;
@@ -118,7 +120,24 @@ text-decoration: none;
 `
 
 const LatestJobs = () => {
+  const Api_Url = "http://localhost:8080";
+const [jobs, setjobs] = useState([])
 
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        await axios.get(`${Api_Url}/jobs`).then((res) => setjobs(res.data))
+
+      } catch (error) {
+        console.error("Error fetching job listings:", error);
+      }
+    };
+
+    fetchJobs(); // Call the fetchJobs function
+    console.log(jobs)
+
+    // Empty dependency array means this effect will only run once, similar to componentDidMount
+  }, []);
   return (
 
 
@@ -145,9 +164,28 @@ const LatestJobs = () => {
 
         <Center>
 
+          {jobs.slice(3).map((job) => (
+            <JobCard
+              key={job._id}
+              jobLogo={job.jobLogo}
+              title={job.title}
+              description={job.description}
+              company={job.company}
+              applicants={job.applicants}
+              jobType={job.jobType}
+              workLocation={job.workLocation}
+              salary={job.salary}
+              jobLocation={job.jobLocation}
+              createdAt={job.createdAt}
+            />
+          ))}
+
+
+          {/* <JobCard />
           <JobCard />
-          <JobCard />
-          <JobCard />
+          <JobCard /> */}
+
+
         </Center>
 
         <Bottom>
