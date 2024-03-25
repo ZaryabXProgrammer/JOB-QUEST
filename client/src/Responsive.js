@@ -10,11 +10,6 @@ export const mobile = (props) => {
     `;
 };
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 68e8a1ef40efdfad6f1223c8349efd24321e29bb
 export const tablet = (props) => {
     return css`
     
