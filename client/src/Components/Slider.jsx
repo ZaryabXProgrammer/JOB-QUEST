@@ -1,12 +1,8 @@
 import styled from "styled-components"
-
-import HomeBanner from '../assets/homeVect.png'
 import { useState } from "react"
-// import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-// import app from '../Firebase'
+import HomeBanner from '../assets/homeVect.png'
 
 const ParentContainer = styled.div`
- 
   background-position: center;
   height: 100vh; /* Adjust the height as needed */
   display: flex;
@@ -14,55 +10,67 @@ const ParentContainer = styled.div`
   align-items: center;
 `;
 
-// Rest of your styled components and component code...
-
-
 const Container = styled.div`
-
-  width: 70%; /* Take up 80% of the available width */
-  margin: 0 auto; /* Set left and right margins to auto for centering */
-  height: 90vh; /* 100 vh is used to give the device width for landing page */
+  width: 100%;
+  height: 90vh;
   display: flex;
-  
   position: relative;
   overflow: hidden;
-
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    height: auto;
+  }
 `;
+
 const ImgContainer = styled.div`
-height: 100%;
-    flex: 1;
-`
+  height: 100%;
+  flex: 1;
+`;
 
 const Image = styled.img`
-height: 80%;
+  height: 80%;
+  width: 100%;
+`;
 
- 
-`
 const InfoContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: 1;
-    padding: 10px;
-    flex-direction: column;
-`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+  flex-direction: column;
+  
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
+`;
 
 const Title = styled.h1`
-    font-size: 50px;
-    
-`
-const Desc = styled.p`
-    margin: 10px 0px;
-    font-size: 18px;
-    font-weight: 500;
-    letter-spacing: 3px;
+  font-size: 70px;
+  text-align: center;
+  margin-bottom: 20px;
+  
+  @media (max-width: 768px) {
+    font-size: 40px;
+  }
+`;
 
-`
+const Desc = styled.p`
+  margin: 10px 0px;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  @media (max-width: 768px) {
+    font-size: 15px
+  }
+`;
 
 const Span = styled.span`
-    color: #1d59ff;
-    font-weight: bold;
-`
+  color: #1d59ff;
+  font-weight: bold;
+`;
+
 const SearchBoxContainer = styled.div`
   display: flex;
   align-items: center;
@@ -80,7 +88,7 @@ const SearchInput = styled.input`
 `;
 
 const Button = styled.button`
-outline: none;
+  outline: none;
   padding: 11px;
   font-size: 20px;
   background-color: transparent;
@@ -88,33 +96,30 @@ outline: none;
   font-weight: bold;
   cursor: pointer;
   transition: 0.3s ease;
+  
   &:hover {
     background-color: #2660ff;
     color: white;
   }
 `;
 
-
 const Button2 = styled.button`
-    padding: 8px;
-   
-    font-size: 14px;
-    background-color: transparent;
-    border: 1px solid #ccc;
-    font-weight: bold;
-   
-cursor: pointer;
-transition: 0.3s ease;
- &:hover {
-    background-color:#2660ff;
-
-    color: white;
-    
+  padding: 8px;
+  font-size: 14px;
+  background-color: transparent;
+  border: 1px solid #ccc;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
   
+  &:hover {
+    background-color: #2660ff;
+    color: white;
   }
-`
+`;
+
 const InputField = styled.input`
-  width: 30%;
+  width: 100%;
   padding: 10px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
@@ -122,56 +127,37 @@ const InputField = styled.input`
   box-sizing: border-box; /* Ensure padding and border are included in the width */
 `;
 
-
 const Slider = () => {
+  const [click, setClick] = useState(false);
 
-
-    const [click, setclick] = useState(false)
-
-
-    return (
-
-        <ParentContainer> 
-        <Container>
-
-            <InfoContainer>
-
-                <Title>Find <Span>Remote</Span>  <br /> Job in <Span>Worldwide</Span> </Title>
-                <Desc>Find Perfect Job Now</Desc>
-
-                <SearchBoxContainer>
-                    <SearchInput type="text" placeholder="Search..." />
-                    <Button >Find Now! </Button>
-                </SearchBoxContainer>
-
-                <Desc>OR SEARCH THROUGH YOUR <Span>RESUME</Span>! </Desc>
-
-
-                {click ? (
-                    <InputField
-                        id="resume"
-                        type="file"
-                        accept=".pdf,.doc,.docx"
-                        placeholder="Attach Resume"
-
-                    />
-                ) : (
-                    <Button2 onClick={() => setclick(!click)}>Choose File!</Button2>
-                )}
-
-            </InfoContainer>
-
-            <ImgContainer>
-                <Image src={HomeBanner} />
-            </ImgContainer>
-
-
-            </Container>
-            
-        </ParentContainer>
-
-
-    )
+  return (
+    <ParentContainer> 
+      <Container>
+        <InfoContainer>
+          <Title>Find <Span>Remote</Span>  <br /> Job in <Span>Worldwide</Span> </Title>
+          <Desc>Find Perfect Job Now</Desc>
+          <SearchBoxContainer>
+            <SearchInput type="text" placeholder="Search..." />
+            <Button>Find Now!</Button>
+          </SearchBoxContainer>
+          <Desc>OR SEARCH THROUGH YOUR <Span>RESUME</Span>! </Desc>
+          {click ? (
+            <InputField
+              id="resume"
+              type="file"
+              accept=".pdf,.doc,.docx"
+              placeholder="Attach Resume"
+            />
+          ) : (
+            <Button2 onClick={() => setClick(!click)}>Choose File!</Button2>
+          )}
+        </InfoContainer>
+        <ImgContainer>
+          <Image src={HomeBanner} />
+        </ImgContainer>
+      </Container>
+    </ParentContainer>
+  );
 }
 
-export default Slider
+export default Slider;

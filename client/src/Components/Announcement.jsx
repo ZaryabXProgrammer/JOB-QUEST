@@ -12,21 +12,31 @@ const Container = styled.div`
     font-weight: bold;
 
     /* Apply responsive font size adjustments */
-    ${mobile`
-        font-size: 6px;
+    // ${mobile`
+    //     font-size: 6px;
          
-    `}
-    ${tablet`
-        font-size: 16px;
-    `}
+    // `}
+    // ${tablet`
+    //     font-size: 16px;
+    // `}
+
+    @media (max-width: 768px) { /* Adjust styles for tablet */
+       height: 50px;
+         font-size: 12px;
+     }
+     @media (max-width: 480px) { /* Adjust styles for mobile */
+         height: 70px;
+         font-size: 10px;
+    }
+    
 `;
 
 const Announcement = () => {
-  return (
-    <Container>
-      JOB QUEST - YOUR ULTIMATE JOB SEARCH PLATFORM
-    </Container>
-  );
+    return (
+        <Container>
+            JOB QUEST - YOUR ULTIMATE JOB SEARCH PLATFORM
+        </Container>
+    );
 };
 
 export default Announcement;
