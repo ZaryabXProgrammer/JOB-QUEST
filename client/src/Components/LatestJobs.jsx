@@ -3,6 +3,9 @@ import rightArrow from '../assets/benefits/rightArrow.png';
 import leftArrow from '../assets/benefits/leftArrow.png';
 import JobCard from './JobCard';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
+import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import axios from 'axios'
 
 const Container = styled.div`
   background-color: #ebeffa;
@@ -103,6 +106,11 @@ const LowerButton = styled.button`
   }
 `;
 
+const StyledLink = styled(Link)`
+text-decoration: none;
+  color: white;
+`
+
 const LatestJobs = () => {
   return (
     <Container>
@@ -133,3 +141,90 @@ const LatestJobs = () => {
 };
 
 export default LatestJobs;
+//   const Api_Url = "http://localhost:8080";
+// const [jobs, setjobs] = useState([])
+
+//   useEffect(() => {
+//     const fetchJobs = async () => {
+//       try {
+//         await axios.get(`${Api_Url}/jobs`).then((res) => setjobs(res.data))
+
+//       } catch (error) {
+//         console.error("Error fetching job listings:", error);
+//       }
+//     };
+
+//     fetchJobs(); // Call the fetchJobs function
+//     console.log(jobs)
+
+//     // Empty dependency array means this effect will only run once, similar to componentDidMount
+//   }, []);
+//   return (
+
+
+//     <Container>
+
+//       <Wrapper>
+
+//         <Title>Latest Jobs <Span>Here</Span> </Title>
+
+//         <Top>
+//           <LeftButtons>
+//             <LeftBtn>Hot Jobs</LeftBtn>
+//             <LeftBtn>Popular Jobs</LeftBtn>
+//             <LeftBtn>Recent Jobs</LeftBtn>
+//           </LeftButtons>
+
+//           <RightButtons>
+//             <Arrow src={leftArrow} />
+//             <Arrow src={rightArrow} />
+
+
+//           </RightButtons>
+//         </Top>
+
+//         <Center>
+
+//           {jobs.slice(3).map((job) => (
+//             <JobCard
+//               key={job._id}
+//               jobLogo={job.jobLogo}
+//               title={job.title}
+//               description={job.description}
+//               company={job.company}
+//               applicants={job.applicants}
+//               jobType={job.jobType}
+//               workLocation={job.workLocation}
+//               salary={job.salary}
+//               jobLocation={job.jobLocation}
+//               createdAt={job.createdAt}
+//             />
+//           ))}
+
+
+//           {/* <JobCard />
+//           <JobCard />
+//           <JobCard /> */}
+
+
+//         </Center>
+
+//         <Bottom>
+
+//           <LowerButton><StyledLink to='/jobs'>View all Jobs </StyledLink> <DoubleArrowIcon style={{ color: 'white' }} /></LowerButton>
+
+
+
+//         </Bottom>
+
+
+
+
+
+//       </Wrapper>
+
+//     </Container>
+//   )
+// }
+
+// export default LatestJobs

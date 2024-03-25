@@ -15,12 +15,18 @@
     "@mui/icons-material": "^5.15.14",
     "@mui/material": "^5.15.14",
     "@mui/styled-engine-sc": "^6.0.0-alpha.17",
+    "axios": "^1.6.8",
+    "express": "^4.19.1",
+    "firebase": "^10.9.0",
+    "formik": "^2.4.5",
     "mui": "^0.0.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
-    "styled-components": "^6.1.8"
+    "react-slider": "^2.0.6",
+    "styled-components": "^6.1.8",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.56",

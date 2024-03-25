@@ -77,6 +77,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   return (
+
     <Container>
       <Wrapper>
         <Left>
@@ -101,6 +102,15 @@ const Navbar = () => {
           <StyledLink to="/register">
             <MenuItem>Register</MenuItem>
           </StyledLink>
+
+          {/* <StyledLink to='/' ><MenuItem>Home</MenuItem></StyledLink>
+          <StyledLink to='/jobs'><MenuItem>Find Jobs</MenuItem> </StyledLink>
+          <StyledLink to='/createJob'><MenuItem>Create Job</MenuItem> </StyledLink>
+
+        
+        </Center>
+        <Right>
+          <StyledLink to='/register'><MenuItem>Register</MenuItem></StyledLink> */}
           <StyledLink to="/login">
             <MenuItem>Sign In</MenuItem>
           </StyledLink>

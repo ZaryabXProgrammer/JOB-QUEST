@@ -19,7 +19,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-   
+    resumeUrl: {
+      type: String,
+      default: null, // Default value for resume URL is null
+    },
   },
   { timestamps: true } // will generate the timestamps
 );
