@@ -2,7 +2,7 @@ const fs = require("fs");
 const PDFParser = require("pdf-parse");
 const natural = require("natural");
 
-const resumePath = "./6249-ZARYAB HAIDER.pdf"; // Update this with the path to your resume PDF file
+const resumePath = "./CV (Zaryab Haider).pdf"; // Update this with the path to your resume PDF file
 
 const parseResume = async () => {
   try {

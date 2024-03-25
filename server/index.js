@@ -1,17 +1,20 @@
-const express = require('express');
+const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const app = express();
-const cors = require('cors')
+const cors = require("cors");
 dotenv.config();
-const authRouter = require('./routes/Auth')
-const jobsRouter = require('./routes/Jobs');
+const authRouter = require("./routes/Auth");
+const jobsRouter = require("./routes/Jobs");
+const resumeRouter = require("./routes/Resume");
 
-app.use(express.urlencoded({
-  extended: true
-}));
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -20,12 +23,11 @@ mongoose
     console.log(err);
   });
 
-
-
-app.use("/auth", authRouter)
+app.use("/auth", authRouter);
 
 app.use("/jobs", jobsRouter);
 
+app.use("/api", resumeRouter);
 
 const PORT = process.env.PORT;
 
