@@ -23,9 +23,7 @@ const CreateJobContainer = styled.div`
   align-items: center;
   justify-content: center; /* Center the content vertically */
   padding: 20px;
-  background-image: url('path_to_your_background_image.jpg'); /* Add the background image */
-  background-size: cover; /* Cover the entire container */
-  background-repeat: no-repeat; /* Do not repeat the background image */
+  /* Do not repeat the background image */
 
   @media (min-width: 768px) {
     width: 70%;
@@ -46,6 +44,7 @@ const InputField = styled.input`
   border-radius: 5px;
   box-sizing: border-box; /* Ensure padding and border are included in the width */
 `;
+
 
 const SubmitButton = styled.button`
   width: 100%;
@@ -97,17 +96,16 @@ const CreateJob = () => {
 
   const [file, setfile] = useState(null)
 
+  const [mySkills, setmySkills] = useState([])
 
 
-
- 
 
 
   const [click, setclick] = useState(false)
 
   const validationSchema = Yup.object({
     title: Yup.string().min(5).max(30).required('Job Title is required'),
-    description: Yup.string().min(5).max(50).required('Job Description is required'),
+    description: Yup.string().min(5).max(100).required('Job Description is required'),
     company: Yup.string().required('Company name is required'),
     applicants: Yup.number().min(0),
     jobType: Yup.string().required('Job type is required'),
@@ -115,7 +113,7 @@ const CreateJob = () => {
     experience: Yup.string().required('Experience level is required'),
     salary: Yup.number().min(0).required('Salary is required'),
     jobLocation: Yup.string().required('Job location is required'),
-    skills: Yup.string().required('Skills are required'),
+
     jobLogo: Yup.string(),
   });
 
@@ -152,10 +150,11 @@ const CreateJob = () => {
         getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
           console.log('File available at', downloadURL);
           try {
-            const jobData = { ...values, jobLogo: downloadURL };
+            const jobData = { ...values, jobLogo: downloadURL, skills: mySkills };
             await axios.post(`${Api_Url}/jobs`, jobData);
             alert("Job Created");
             resetForm(); // Reset form fields after successful upload
+            setmySkills([])
           } catch (error) {
             console.error('Error saving job listing:', error);
             throw error;
@@ -178,7 +177,7 @@ const CreateJob = () => {
     experience: '',
     salary: 0, // Default value from mongoose schema
     jobLocation: '',
-    skills: '',
+
     jobLogo: ''// Default value from mongoose schema
   };
   return (
@@ -223,7 +222,7 @@ const CreateJob = () => {
               <ErrorMessage name="jobLocation" component="div" />
               {/* 
                     <Label htmlFor="jobSkills">Skills Required:</Label> */}
-              <Field as={InputField}
+              {/* <Field as={InputField}
                 id="jobSkills"
                 type="text"
                 name="skills"
@@ -232,11 +231,16 @@ const CreateJob = () => {
 
               />
 
-              <ErrorMessage name="skills" component="div" />
+          
+              <ErrorMessage name="skills" component="div" /> */}
+
+              <InputField
+                type='text'
+                placeholder='Enter Skills Separated By Comma'
+                onChange={(e) => setmySkills(e.target.value.split(','))}
+              />
 
               <StyledLabel htmlFor="jobLogo">Company Logo:</StyledLabel>
-
-
 
               <ErrorMessage name="jobLogo" component="div" />
               {click ? (

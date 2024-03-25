@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const Api_Url = "http://localhost:3000";
+const Api_Url = "http://localhost:8080";
 
 const fetchJobListings = async () => {
   try {
