@@ -4,7 +4,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useState } from 'react';
-
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import app from '../Firebase'
 const ParentContainer = styled.div`
   background-image: url('./newjobs.jpg'); /* Directly specify a placeholder image */
   background-size: cover;
@@ -94,6 +95,14 @@ transition: 0.3s ease;
 
 const CreateJob = () => {
 
+  const [file, setfile] = useState(null)
+
+
+
+
+ 
+
+
   const [click, setclick] = useState(false)
 
   const validationSchema = Yup.object({
@@ -112,16 +121,52 @@ const CreateJob = () => {
 
   const Api_Url = "http://localhost:8080";
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, { resetForm }) => {
+    const filename = new Date().getTime() + file.name;
+    const storage = getStorage(app);
+    const storageRef = ref(storage, filename);
 
-    try {
-      await axios.post(`${Api_Url}/jobs`, values).then(() => alert("Job Created"))
+    const uploadTask = uploadBytesResumable(storageRef, file);
 
-    } catch (error) {
-      console.error('Error saving job listing:', error);
-      throw error;
-    }
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
+        switch (snapshot.state) {
+          case 'paused':
+            console.log('Upload is paused');
+            break;
+          case 'running':
+            console.log('Upload is running');
+            break;
+          default:
+        }
+      },
+      (error) => {
+        // Handle unsuccessful uploads
+        console.error('Error uploading file:', error);
+      },
+      () => {
+        // Handle successful uploads on complete
+        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+          console.log('File available at', downloadURL);
+          try {
+            const jobData = { ...values, jobLogo: downloadURL };
+            await axios.post(`${Api_Url}/jobs`, jobData);
+            alert("Job Created");
+            resetForm(); // Reset form fields after successful upload
+          } catch (error) {
+            console.error('Error saving job listing:', error);
+            throw error;
+          }
+
+        });
+      }
+    );
+
   };
+
 
   const initialValues = {
     title: '',
@@ -183,6 +228,7 @@ const CreateJob = () => {
                 type="text"
                 name="skills"
                 placeholder="Enter skills separated by commas"
+            
 
               />
 
@@ -192,12 +238,13 @@ const CreateJob = () => {
 
 
 
-              {/* <ErrorMessage name="jobLogo" component="div" />
+              <ErrorMessage name="jobLogo" component="div" />
               {click ? (
-                <Field as={InputField} type="file" name="jobLogo" id="jobLogo" accept="image/*" />
+
+                <input type="file" id="file" onChange={(e) => setfile(e.target.files[0])} />
               ) : (
                 <Button2 onClick={() => setclick(!click)}>Choose File!</Button2>
-              )} */}
+              )}
 
               <SubmitButton type="submit">Create Job</SubmitButton>
             </Form>
