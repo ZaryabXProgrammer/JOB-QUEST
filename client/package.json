@@ -20,6 +20,8 @@
     "firebase": "^10.9.0",
     "formik": "^2.4.5",
     "mui": "^0.0.1",
+    "natural": "^6.12.0",
+    "node-nlp": "^4.27.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

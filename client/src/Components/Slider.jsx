@@ -1,5 +1,5 @@
 import styled from "styled-components"
-
+import axios from 'axios'
 import HomeBanner from '../assets/homeVect.png'
 import { useState } from "react"
 // import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
@@ -126,52 +126,76 @@ const InputField = styled.input`
 const Slider = () => {
 
 
-    const [click, setclick] = useState(false)
+  const [click, setclick] = useState(false)
+  const [file, setFile] = useState(null);
+  const Api_Url = "http://localhost:8080";
+
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
+
+  const handleClick = async (event) => {
+    event.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("resume", file);
+
+      const response = await axios.post(`${Api_Url}/api/parse-resume`, formData);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error uploading resume:", error);
+    }
+  };
 
 
-    return (
-
-        <ParentContainer> 
-        <Container>
-
-            <InfoContainer>
-
-                <Title>Find <Span>Remote</Span>  <br /> Job in <Span>Worldwide</Span> </Title>
-                <Desc>Find Perfect Job Now</Desc>
-
-                <SearchBoxContainer>
-                    <SearchInput type="text" placeholder="Search..." />
-                    <Button >Find Now! </Button>
-                </SearchBoxContainer>
-
-                <Desc>OR SEARCH THROUGH YOUR <Span>RESUME</Span>! </Desc>
 
 
-                {click ? (
-                    <InputField
-                        id="resume"
-                        type="file"
-                        accept=".pdf,.doc,.docx"
-                        placeholder="Attach Resume"
 
-                    />
-                ) : (
-                    <Button2 onClick={() => setclick(!click)}>Choose File!</Button2>
-                )}
+  return (
 
-            </InfoContainer>
+    <ParentContainer>
+      <Container>
 
-            <ImgContainer>
-                <Image src={HomeBanner} />
-            </ImgContainer>
+        <InfoContainer>
 
+          <Title>Find <Span>Remote</Span>  <br /> Job in <Span>Worldwide</Span> </Title>
+          <Desc>Find Perfect Job Now</Desc>
 
-            </Container>
-            
-        </ParentContainer>
+          <SearchBoxContainer>
+            <SearchInput type="text" placeholder="Search..." />
+            <Button >Find Now! </Button>
+          </SearchBoxContainer>
+
+          <Desc>OR SEARCH THROUGH YOUR <Span>RESUME</Span>! </Desc>
 
 
-    )
+          {click ? (
+            <InputField
+              id="resume"
+              type="file"
+              accept=".pdf,.doc,.docx"
+              placeholder="Attach Resume"
+              onChange={handleFileChange}
+
+            />
+          ) : (
+            <Button2 onClick={() => setclick(!click)}>Choose File!</Button2>
+          )}
+
+          <Button2 onClick={handleClick}>Search Now</Button2>
+        </InfoContainer>
+
+        <ImgContainer>
+          <Image src={HomeBanner} />
+        </ImgContainer>
+
+
+      </Container>
+
+    </ParentContainer>
+
+
+  )
 }
 
 export default Slider

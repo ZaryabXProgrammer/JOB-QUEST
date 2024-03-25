@@ -9,8 +9,6 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 // Middleware to handle JSON and file uploads
-router.use(express.json());
-router.use(express.urlencoded({ extended: true }));
 
 const uploadResume = upload.single("resume");
 
@@ -57,13 +55,15 @@ router.post("/parse-resume", uploadResume, async (req, res) => {
       : Buffer.from(req.body.resume, "base64");
 
     // Parse the resume buffer and extract skills
-    const skills = await parseResume(resumeBuffer);
+    const resumeSkill = await parseResume(resumeBuffer);
 
-    // Search for jobs in the database that match the extracted skills
-    const matchingJobs = await Jobs.find({ skills: { $in: skills } });
+    // Search for jobs in the database that match the extracted skill using a regular expression for case-insensitive match
+    const matchingJobs = await Jobs.find({
+      skills: { $regex: new RegExp(resumeSkill[0], "i") },
+    });
 
-    // Respond with the extracted skills and matching jobs
-    res.json({ matchingJobs });
+    // Respond with the extracted skill and matching jobs
+    res.json({ matchingJobs, mySkill: resumeSkill[0] });
   } catch (error) {
     console.error("Error parsing resume:", error);
     res.status(500).json({ error: "Error parsing resume" });

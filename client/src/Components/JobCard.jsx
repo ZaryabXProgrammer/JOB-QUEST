@@ -141,12 +141,12 @@ const JobLocation = styled.p`
 const Salary = styled.p`
 
   color: darkgreen;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
 `;
 const Span = styled.span`
    color: #666;
-    font-size: 9px;
+    font-size: 5px;
 `
 
 const DateContainer = styled.div`
@@ -225,7 +225,7 @@ const JobCard = ({ jobLogo, title, description, company, applicants, jobType, wo
         <Bottom>
           <Salary>
 
-            {salary > 1000 ? `${(salary / 1000).toFixed(0)}K` : salary}<Span> /m</Span>
+            ${salary > 1000 ? `${(salary / 1000).toFixed(0)}K` : salary}<Span> /m</Span>
 
           </Salary>
           <JobLocationContainer>
