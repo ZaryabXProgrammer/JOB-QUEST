@@ -98,14 +98,14 @@ const CreateJob = () => {
 
   const [mySkills, setmySkills] = useState([])
 
-const [resetState, setresetState] = useState(null)
+
 
 
   const [click, setclick] = useState(false)
 
   const validationSchema = Yup.object({
     title: Yup.string().min(5).max(30).required('Job Title is required'),
-    description: Yup.string().min(5).max(70).required('Job Description is required'),
+    description: Yup.string().min(5).max(100).required('Job Description is required'),
     company: Yup.string().required('Company name is required'),
     applicants: Yup.number().min(0),
     jobType: Yup.string().required('Job type is required'),
@@ -155,7 +155,6 @@ const [resetState, setresetState] = useState(null)
             alert("Job Created");
             resetForm(); // Reset form fields after successful upload
             setmySkills([])
-            setresetState(null)
           } catch (error) {
             console.error('Error saving job listing:', error);
             throw error;
@@ -238,7 +237,6 @@ const [resetState, setresetState] = useState(null)
               <InputField
                 type='text'
                 placeholder='Enter Skills Separated By Comma'
-                value={resetState}
                 onChange={(e) => setmySkills(e.target.value.split(','))}
               />
 
