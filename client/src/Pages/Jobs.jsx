@@ -417,7 +417,7 @@ const Jobs = () => {
               <CheckMark label="Freelance" />
               <CheckMark label="Contractual" />
               <CheckMark label="Internship" />
-
+             
             </CheckMarkContainer>
           </JobTypeBox>
 

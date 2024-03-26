@@ -1,7 +1,7 @@
 const express = require("express");
 const Jobs = require("../models/Jobs");
 const router = express.Router();
-
+const filterController = require("../routes/Filter");
 // Custom logger middleware
 router.use(function logger(req, res, next) {
   console.log(req.method, req.url);
@@ -52,5 +52,16 @@ router.delete("/:id", async (req, res) => {
     });
   }
 });
-
+router.post("/filter", async (req, res) => {
+  try {
+    const filteredJobs = await filterController.applyFilters(req.body);
+    console.log("Filtered jobs:", filteredJobs);
+    res.json(filteredJobs);
+  } catch (err) {
+    console.error("Error filtering jobs:", err);
+    res.status(500).json({
+      message: "Internal server error"
+    });
+  }
+})
 module.exports = router;
