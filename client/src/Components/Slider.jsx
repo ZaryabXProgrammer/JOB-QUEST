@@ -174,7 +174,7 @@ const Slider = () => {
           ) : (
             <Button2 onClick={() => setClick(!click)}>Choose File!</Button2>
           )}
-          <Button2 onClick={handleClick}>Search Now</Button2>
+          {click && <Button2 onClick={handleClick}>Search Now</Button2> } 
         </InfoContainer>
         <ImgContainer>
           <Image src={HomeBanner} />

@@ -95,7 +95,7 @@ const Navbar = () => {
             <StyledLink to="/jobs">Jobs</StyledLink>
           </MenuItem>
           <MenuItem>
-            <StyledLink to="/categories">Categories</StyledLink>
+            <StyledLink to="/createJob">Create a Job</StyledLink>
           </MenuItem>
         </Center>
         <Right>

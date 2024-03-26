@@ -325,6 +325,11 @@ margin: 18px 0 0px 4px; //top right bottom left
 
 
 const Jobs = () => {
+
+  const [jobInput, setjobInput] = useState('')
+
+  const [countJobs, setcountJobs] = useState(0)
+
   const Api_Url = "http://localhost:8080";
   const [salary, setSalary] = useState(100); // Initial salary value
   const [jobs, setJobs] = useState([]);
@@ -332,35 +337,39 @@ const Jobs = () => {
     setSalary(parseInt(event.target.value, 10)); // Parse the value to an integer
   };
 
-  // useEffect(() => {
-  //   // Fetch job listings when the component mounts
-  //   const getJobs = async () => {
-  //     try {
-  //       const jobListings = await fetchJobListings();
-  //       setJobs(jobListings);
-  //     } catch (error) {
-  //       console.error('Error fetching job listings:', error);
-  //     }
-  //   };
-  //   getJobs();
-  // }, []);
 
-  // console.log(jobs)
+
+
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        await axios.get(`${Api_Url}/jobs`).then((res) => setJobs(res.data))
+        const res = await axios.get(`${Api_Url}/jobs`);
+        setJobs(res.data);
+        setcountJobs(res.data.length);
 
       } catch (error) {
         console.error("Error fetching job listings:", error);
       }
     };
 
-    fetchJobs(); // Call the fetchJobs function
+    fetchJobs();
     console.log(jobs)
 
-    // Empty dependency array means this effect will only run once, similar to componentDidMount
   }, []);
+
+  //sending Search input to the databse to fetch jobs
+
+  const handleJobSearch = async () => {
+    try {
+      const response = await axios.get(`${Api_Url}/jobs/search`, {
+        params: { title: jobInput }
+      });
+      setJobs(response.data.jobs);
+      setcountJobs(response.data.jobs.length)
+    } catch (error) {
+      console.error('Error fetching jobs:', error);
+    }
+  }
 
 
   return (
@@ -454,21 +463,25 @@ const Jobs = () => {
 
 
               <InputBox>
-                <Input placeholder="&#x1F50E;&#xFE0E; Search job title or company here" />
+                <Input
+                  placeholder="&#x1F50E;&#xFE0E; Search job title or company here"
+                  onChange={(e) => setjobInput(e.target.value)}
+                  value={jobInput}
+                />
 
                 <Input placeholder="🖈 Search country or city here" />
               </InputBox>
 
 
-              <Button>Search</Button>
+              <Button onClick={handleJobSearch} >Search</Button>
 
             </SearchBox>
 
           </FindContainer>
-          <ShowingJobsTitle>Showing <Span>1312 </Span>  Available Jobs</ShowingJobsTitle>
+          <ShowingJobsTitle>Showing <Span>{countJobs}</Span>  Available Jobs</ShowingJobsTitle>
           <JobsContainer>
 
-            {jobs.map((job) => (
+            {jobs && jobs.length > 0 && jobs.map((job) => (
               <JobCard
                 key={job._id}
                 jobLogo={job.jobLogo}
