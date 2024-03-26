@@ -17,6 +17,27 @@ router.get("/", async (req, res) => {
   }
 });
 
+//get job py job title
+
+router.get("/search", async (req, res) => {
+  const titleQuery = req.query.title.trim();
+
+  try {
+    const jobs = await Jobs.find({
+      title: { $regex: new RegExp(titleQuery, "i") },
+    });
+
+    if (jobs.length > 0) {
+      res.status(200).json({ jobs });
+    } else {
+      res.status(404).json({ message: "Jobs Not Found " });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 router.post("/", async (req, res) => {
   try {
     const job = new Jobs(req.body);
