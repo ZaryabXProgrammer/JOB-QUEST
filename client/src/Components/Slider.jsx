@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import HomeBanner from "../assets/homeVect.png";
+import { JobsContext } from '../Helpers/JobContext'
+import { useNavigate } from 'react-router-dom'
 
 const ParentContainer = styled.div`
   background-position: center;
@@ -129,6 +131,13 @@ const InputField = styled.input`
 `;
 
 const Slider = () => {
+
+  const navigate = useNavigate();
+
+  const [jobInput, setjobInput] = useState('')
+
+  const { setnewJobs, setPage1JobsActive } = useContext(JobsContext);
+
   const [click, setClick] = useState(false);
   const [file, setFile] = useState(null);
   const Api_Url = "http://localhost:8080";
@@ -144,11 +153,31 @@ const Slider = () => {
       formData.append("resume", file);
 
       const response = await axios.post(`${Api_Url}/api/parse-resume`, formData);
-      console.log(response.data);
+
+      setnewJobs(response.data.matchingJobs);
+      setPage1JobsActive(true);
+      navigate('/jobs')
+
+      console.log(response.data.matchingJobs);
     } catch (error) {
       console.error("Error uploading resume:", error);
     }
   };
+
+  const handleJobSearch = async () => {
+    try {
+      const response = await axios.get(`${Api_Url}/jobs/search`, {
+        params: { title: jobInput }
+      });
+
+      setnewJobs(response.data.jobs);
+      setPage1JobsActive(true);
+      navigate('/jobs')
+
+    } catch (error) {
+      console.error('Error fetching jobs:', error);
+    }
+  }
 
   return (
     <ParentContainer>
@@ -159,10 +188,13 @@ const Slider = () => {
           </Title>
           <Desc>Find Perfect Job Now</Desc>
           <SearchBoxContainer>
-            <SearchInput type="text" placeholder="Search..." />
-            <Button>Find Now!</Button>
+            <SearchInput
+              type="text"
+              placeholder="Search..."
+              onChange={(e) => setjobInput(e.target.value)} />
+            <Button onClick={handleJobSearch}>Find Now!</Button>
           </SearchBoxContainer>
-          <Desc>OR SEARCH THROUGH YOUR <Span>RESUME</Span>! </Desc>
+          <Desc>OR SEARCH THROUGH YOUR <Span><u>RESUME </u></Span></Desc>
           {click ? (
             <InputField
               id="resume"
@@ -174,7 +206,7 @@ const Slider = () => {
           ) : (
             <Button2 onClick={() => setClick(!click)}>Choose File!</Button2>
           )}
-          {click && <Button2 onClick={handleClick}>Search Now</Button2> } 
+          {click && <Button2 onClick={handleClick}>Search Now</Button2>}
         </InfoContainer>
         <ImgContainer>
           <Image src={HomeBanner} />

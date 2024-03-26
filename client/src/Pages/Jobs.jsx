@@ -1,11 +1,12 @@
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 
 import axios from 'axios'
 
 import JobCard from '../Components/JobCard';
+import { JobsContext } from '../Helpers/JobContext';
 
 const Wrapper = styled.div`
   display: flex; /* Make the wrapper a flex container */
@@ -326,6 +327,10 @@ margin: 18px 0 0px 4px; //top right bottom left
 
 const Jobs = () => {
 
+  //from contextApi
+  
+  const { newJobs, page1JobsActive } = useContext(JobsContext);
+
   const [jobInput, setjobInput] = useState('')
 
   const [countJobs, setcountJobs] = useState(0)
@@ -341,6 +346,10 @@ const Jobs = () => {
 
 
   useEffect(() => {
+
+
+
+
     const fetchJobs = async () => {
       try {
         const res = await axios.get(`${Api_Url}/jobs`);
@@ -352,7 +361,15 @@ const Jobs = () => {
       }
     };
 
-    fetchJobs();
+    if (!page1JobsActive) {
+      fetchJobs();
+    } else {
+      setJobs(newJobs)
+      setcountJobs(newJobs.length);
+    }
+
+
+
     console.log(jobs)
 
   }, []);
