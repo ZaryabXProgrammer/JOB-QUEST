@@ -4,7 +4,8 @@ const jobSchema = new mongoose.Schema(
   {
     jobLogo: {
       type: String,
-      default: "http://example.com/logo.png",
+      default:
+        "https://firebasestorage.googleapis.com/v0/b/job-app-b16b7.appspot.com/o/mastercard.png?alt=media&token=a710f1f6-6447-451d-a239-357b7b561616",
     },
     title: {
       type: String,
