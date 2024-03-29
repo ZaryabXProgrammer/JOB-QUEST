@@ -73,16 +73,88 @@ router.delete("/:id", async (req, res) => {
     });
   }
 });
+
 router.post("/filter", async (req, res) => {
   try {
-    const filteredJobs = await filterController.applyFilters(req.body);
-    console.log("Filtered jobs:", filteredJobs);
-    res.json(filteredJobs);
-  } catch (err) {
-    console.error("Error filtering jobs:", err);
-    res.status(500).json({
-      message: "Internal server error"
-    });
+    const { filters, salary } = req.body;
+
+    console.log(req.body);
+
+    let filteredJobs;
+
+    if (
+      filters === "Full-Time" ||
+      filters === "Part-Time" ||
+      filters === "Internship" ||
+      filters === "Contractual" ||
+      filters === "Freelance"
+    ) {
+      filteredJobs = await Jobs.find({ jobType: filters });
+    } else if (
+      filters === "Remote" ||
+      filters === "Hybrid" ||
+      filters === "On-Site"
+    ) {
+      filteredJobs = await Jobs.find({ workLocation: filters });
+    } else if (
+      filters === "Fresher" ||
+      filters === "Beginner" ||
+      filters === "Intermediate"
+    ) {
+      filteredJobs = await Jobs.find({ experience: filters });
+    } else if (salary) {
+      filteredJobs = await Jobs.find({ salary: { $gt: salary } });
+    } else {
+      // Handle invalid or missing filters
+      return res.status(400).json({ error: "Invalid filters" });
+    }
+
+    return res.json(filteredJobs);
+  } catch (error) {
+    console.error("Error applying filters:", error);
+    return res.status(500).json({ error: "Internal server error" });
   }
-})
+});
+
+
+
+
+
+//   const jobTypesLabels = [
+//     "Full-Time",
+//     "Part-Time",
+//     "Freelance",
+//     "Contractual",
+//     "Internship",
+//   ];
+//   if (jobTypesLabels.includes(filters)) {
+//     updatedFilters.jobType = filters; // Set jobType to label if checked, otherwise empty string
+//   } else if (
+//     filters === "On-site" ||
+//     filters === "Remote" ||
+//     filters === "Hybrid"
+//   ) {
+//     updatedFilters.workLocation = filters; // Set workLocation to label if checked, otherwise empty string
+//   } else if (
+//     filters === "Fresher" ||
+//     filters === "Beginner" ||
+//     filters === "Intermediate"
+//   ) {
+//     updatedFilters.experience = filters; // Set experienceLevel to label if checked, otherwise empty string
+//   }
+
+//   // Update the filters state with the updatedFilters object
+
+//   try {
+//     const filteredJobs = await filterController.applyFilters(updatedFilters);
+//     console.log("Filtered jobs:", filteredJobs);
+//     res.json(filteredJobs);
+//   } catch (err) {
+//     console.error("Error filtering jobs:", err);
+//     res.status(500).json({
+//       message: "Internal server error",
+//     });
+//   }
+  // });
+  
 module.exports = router;

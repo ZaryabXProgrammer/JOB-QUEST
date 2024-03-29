@@ -3,12 +3,12 @@ import rightArrow from '../assets/benefits/rightArrow.png';
 import leftArrow from '../assets/benefits/leftArrow.png';
 import JobCard from './JobCard';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
-import { Link } from 'react-router-dom'
-import { useEffect, useState } from 'react';
-import axios from 'axios'
+// import { Link } from 'react-router-dom'
+
 
 const Container = styled.div`
-  background-color: #ebeffa;
+  background: rgb(215, 219, 255);
+
   overflow: hidden;
 `;
 
@@ -106,10 +106,10 @@ const LowerButton = styled.button`
   }
 `;
 
-const StyledLink = styled(Link)`
-text-decoration: none;
-  color: white;
-`
+// const StyledLink = styled(Link)`
+// text-decoration: none;
+//   color: white;
+// `
 
 const LatestJobs = () => {
   return (

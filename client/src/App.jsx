@@ -17,7 +17,9 @@ const App = () => {
     <div>
 
       <Router>
+        
         <JobsProvider>
+
           <Announcement />
           <Navbar />
 

@@ -3,7 +3,7 @@ import benefit from '../assets/categories/benefit.png';
 import { companiesData } from '../constants/index';
 
 const Container = styled.div`
-  background-color: #f2f5ff;
+   background-color: #eaf0ff;
   overflow: hidden;
 `;
 

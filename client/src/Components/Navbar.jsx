@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
+color: white;
+background: rgb(26,41,189);
+background: linear-gradient(90deg, rgba(26,41,189,1) 24%, rgba(0,0,0,1) 100%, rgba(9,9,133,1) 100%, rgba(0,212,255,1) 100%);
   height: 60px;
 `;
 
@@ -59,7 +62,7 @@ const MenuItem = styled.div`
 `;
 
 const StyledLink = styled(Link)`
-  color: black;
+  color: white;
   text-decoration: none;
   transition: color 0.3s ease;
   font-weight: 590;
