@@ -6,12 +6,10 @@ import AlarmOutlinedIcon from '@mui/icons-material/AlarmOutlined';
 
 const CardContainer = styled.div`
   background-color: white;
-  
  margin: 10px 15px 15px ;
 width: 287px;
     height: 240px;
   justify-content: space-between;
-  
   
   border-radius: 19px;
   overflow: hidden;
