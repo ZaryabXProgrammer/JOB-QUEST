@@ -6,7 +6,7 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #bcceff;
+ /* background-color: #eaf0ff; */
     flex-direction: column;
 `;
 
@@ -35,7 +35,7 @@ const CardList = styled.div`
 `;
 
 const CardContainer = styled.div`
-    background-color: rgb(250, 250, 250);
+    background-color: rgb(248, 248, 248);
     position: relative;
     display: flex;
     flex-direction: column;

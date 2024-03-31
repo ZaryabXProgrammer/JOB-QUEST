@@ -3,7 +3,8 @@ import subscribe from '../assets/benefits/subscribe.jpg'
 
 const Container = styled.div`
 
-background-color: #396eff;
+background: rgb(26,41,189);
+background: linear-gradient(90deg, rgba(26,41,189,1) 28%, rgba(0,0,0,1) 100%, rgba(0,0,0,1) 100%, rgba(9,9,133,1) 100%);
 overflow: hidden;
   /* Center the container horizontally */
 `;

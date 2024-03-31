@@ -1,6 +1,7 @@
-import styled from 'styled-components';
-
+import styled, { keyframes } from 'styled-components';
+import { Link } from 'react-router-dom'
 import apply from '../assets/benefits/apply.png';
+import green from '../assets/benefits/green.png';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import AlarmOutlinedIcon from '@mui/icons-material/AlarmOutlined';
 
@@ -82,12 +83,28 @@ const JobApplicants = styled.p`
   font-size: 10px;
   color: #666;
 `;
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
 
 const ApplyLogo = styled.img`
   width: 30px;
   height: 30px;
- margin-right: 20px;
- margin-top: 3px;
+  margin-right: 20px;
+  margin-top: 3px;
+  transition: all 0.3s ease; /* Apply transition to all properties in default state */
+  animation: ${fadeIn} 0.3s ease forwards; /* Apply animation on hover */
+
+  /* Change properties on hover */
+  &:hover {
+    content: url(${green}); /* Change image source on hover */
+    opacity: 0.8; /* Example transition for opacity */
+  }
 `;
 
 const Center = styled.div`
@@ -162,7 +179,7 @@ const DatePosted = styled.p`
 
 
 
-const JobCard = ({ jobLogo, title, description, company, applicants, jobType, workLocation, salary, jobLocation, createdAt }) => {
+const JobCard = ({ id, jobLogo, title, description, company, applicants, jobType, workLocation, salary, jobLocation, createdAt }) => {
 
 
 
@@ -172,8 +189,17 @@ const JobCard = ({ jobLogo, title, description, company, applicants, jobType, wo
   const timeDifference = currentDate.getTime() - createdAtDate.getTime();
   const daysAgo = Math.floor(timeDifference / (1000 * 3600 * 24));
 
+
+  // const navigate = useNavigate()
+  //   const HandleJobApply = () => {
+
+
+  //     navigate(`/apply/${id}`)
+  // }
+
+
   return (
-    <CardContainer>
+    <CardContainer >
       <Wrapper>
         <Top>
           <Logo src={jobLogo} alt="Company Logo" />
@@ -187,7 +213,7 @@ const JobCard = ({ jobLogo, title, description, company, applicants, jobType, wo
               </CompanyandApplicants>
             </JobDesc>
           </JobTitleandDesc>
-          <ApplyLogo src={apply} alt="Apply Logo" />
+          <Link to={`/apply/${id}`} > <ApplyLogo src={apply} alt="Apply Logo" /></Link>
         </Top>
 
         <Center>

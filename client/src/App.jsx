@@ -8,6 +8,7 @@ import Navbar from './Components/Navbar'
 import SignIn from './Pages/SignIn'
 import CreateJob from './Pages/CreateJob'
 import { JobsProvider } from './Helpers/JobContext';
+import JobApply from './Pages/JobApply'
 
 
 
@@ -17,7 +18,9 @@ const App = () => {
     <div>
 
       <Router>
+        
         <JobsProvider>
+
           <Announcement />
           <Navbar />
 
@@ -27,6 +30,7 @@ const App = () => {
             <Route path="/" exact element={<Home />} />
             <Route path='/jobs' exact element={<Jobs />} />
             <Route path='/createJob' exact element={<CreateJob />} />
+            <Route path='/apply/:id' exact element={<JobApply/>} />
 
             <Route path='/register' exact element={<Register />} />
             <Route path='/login' exact element={<SignIn />} />

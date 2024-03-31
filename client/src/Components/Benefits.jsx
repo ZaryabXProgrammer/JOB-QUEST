@@ -3,7 +3,7 @@ import benefit from '../assets/categories/benefit.png';
 import { companiesData } from '../constants/index';
 
 const Container = styled.div`
-  background-color: #f2f5ff;
+   background-color: #eaf0ff;
   overflow: hidden;
 `;
 
@@ -15,7 +15,11 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column; /* Change flex-direction to column for responsiveness */
+ /* Change flex-direction to column for responsiveness */
+
+  @media screen and (max-width: 768px) {
+     flex-direction: column;
+  }
 `;
 
 const ImgContainer = styled.div`
@@ -25,7 +29,8 @@ const ImgContainer = styled.div`
 
 const Image = styled.img`
   height: auto; /* Change height to auto */
-  width: 100%; /* Add width to occupy full width of the container */
+  width: 75%;
+  margin-top: 30px; /* Add width to occupy full width of the container */
 `;
 
 const InfoContainer = styled.div`

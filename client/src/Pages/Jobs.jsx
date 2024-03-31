@@ -156,26 +156,46 @@ const ExperienceTitle = styled.h1`
   margin-bottom: 10px;
 `;
 
-const CheckMarkContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: center;
-`;
+// const CheckMarkContainer = styled.div`
+//   display: flex;
+//   flex-wrap: wrap;
+//   justify-content: flex-start;
+//   align-items: center;
+// `;
 
-const CheckMarkBox = styled.div`
-  display: flex;
+// const CheckMarkBox = styled.div`
+//   display: flex;
 
-  align-items: center;
-  margin-right: 16px;
-  margin-bottom: 10px;
-  cursor: pointer;
+//   align-items: center;
+//   margin-right: 16px;
+//   margin-bottom: 10px;
+//   cursor: pointer;
 
-  
-`;
+
+// `;
+
+// const CheckMarkIcon = styled.span`
+
+//   width: 7px;
+//   height: 7px;
+//   border: 1px solid #333;
+//   border-radius: 30%;
+//   display: inline-flex;
+//   align-items: center;
+//   justify-content: center;
+//   margin-right: 3px;
+//   margin-bottom: 3px;
+//   padding: 7px;
+// `;
+
+// const CheckMarkLabel = styled.span`
+//   font-size: 13px;
+
+
+// `;
+
 
 const CheckMarkIcon = styled.span`
-
   width: 7px;
   height: 7px;
   border: 1px solid #333;
@@ -186,30 +206,25 @@ const CheckMarkIcon = styled.span`
   margin-right: 3px;
   margin-bottom: 3px;
   padding: 7px;
+  margin-left: 10px;
 `;
 
 const CheckMarkLabel = styled.span`
   font-size: 13px;
-  
-  
+  margin-left: 5px; /* Adjust margin as needed */
 `;
 
-const CheckMark = ({ label }) => {
-  const [checked, setChecked] = useState(false);
+const StyledInput = styled.input`
+  display: none; /* Hide the default checkbox input */
+`;
 
-  const handleCheck = () => {
-    setChecked(!checked);
-  };
-
-  return (
-    <CheckMarkBox onClick={handleCheck}>
-      <CheckMarkIcon style={{ padding: '8px', color: 'green' }} >
-        {checked ? <CheckOutlinedIcon /> : ''}</CheckMarkIcon>
-      <CheckMarkLabel>{label}</CheckMarkLabel>
-    </CheckMarkBox>
-  );
-};
-
+const CheckMarkContainer = styled.label`
+  display: grid;
+  grid-template-columns: auto 1fr; /* First column auto-sized, second column takes remaining space */
+  align-items: center;
+  cursor: pointer;
+  margin-top: 10px; /* Add margin as needed */
+`;
 
 
 const RightContainer = styled.div`
@@ -327,8 +342,40 @@ margin: 18px 0 0px 4px; //top right bottom left
 
 const Jobs = () => {
 
+  const [salary, setSalary] = useState(100); // Initial salary value
+  const [filters, setFilters] = useState('');
+
+  const handleSalaryChange = (event) => {
+    const value = parseInt(event.target.value, 10); // Parse the value to an integer
+    setSalary(value);
+  };
+
+  const CheckMark = ({ label, onChange }) => {
+    const [checked, setChecked] = useState(false);
+
+    const handleCheckChange = (event) => {
+      const isChecked = event.target.checked;
+
+      setFilters(isChecked ? label : ''); // Update filters based on checkbox state
+      setChecked(isChecked);
+      console.log(filters)
+      onChange(label, isChecked); // Call the onChange handler with label and checked value
+    };
+    return (
+      <CheckMarkContainer>
+        <StyledInput type="checkbox" checked={checked} onChange={handleCheckChange} />
+        <CheckMarkIcon checked={checked}>
+          {checked && <CheckOutlinedIcon style={{ color: 'darkgreen' }} />}
+        </CheckMarkIcon>
+        <CheckMarkLabel>{label}</CheckMarkLabel>
+      </CheckMarkContainer>
+    );
+  };
+
+
+
   //from contextApi
-  
+
   const { newJobs, page1JobsActive } = useContext(JobsContext);
 
   const [jobInput, setjobInput] = useState('')
@@ -336,18 +383,26 @@ const Jobs = () => {
   const [countJobs, setcountJobs] = useState(0)
 
   const Api_Url = "http://localhost:8080";
-  const [salary, setSalary] = useState(100); // Initial salary value
+
   const [jobs, setJobs] = useState([]);
-  const handleSalaryChange = (event) => {
-    setSalary(parseInt(event.target.value, 10)); // Parse the value to an integer
+
+  const Filters = async () => {
+    try {
+      const res = await axios.post(`${Api_Url}/jobs/filter`,
+        {
+          filters: filters, salary: salary
+        });
+      setJobs(res.data);
+      setcountJobs(res.data.length);
+
+    } catch (error) {
+      console.error("Error fetching job listings:", error);
+    }
   };
 
 
 
-
   useEffect(() => {
-
-
 
 
     const fetchJobs = async () => {
@@ -361,15 +416,20 @@ const Jobs = () => {
       }
     };
 
+
     if (!page1JobsActive) {
       fetchJobs();
-    } else {
+
+    }
+    else if (filters) {
+      Filters();
+    }
+    else {
       setJobs(newJobs)
       setcountJobs(newJobs.length);
     }
 
-
-
+  
     console.log(jobs)
 
   }, []);
@@ -387,6 +447,16 @@ const Jobs = () => {
       console.error('Error fetching jobs:', error);
     }
   }
+
+
+
+  //filtered job search:
+
+
+
+
+
+
 
 
   return (
@@ -419,7 +489,6 @@ const Jobs = () => {
               <CheckMark label="Top Salary" />
               <CheckMark label="Rating" />
               <CheckMark label="A-Z" />
-
             </CheckMarkContainer>
           </SortBox>
 
@@ -429,12 +498,15 @@ const Jobs = () => {
               type="range"
               min={500} // Minimum salary value
               max={100000} // Maximum salary value
-              step={2000} // Incremental step
+              step={1000} // Incremental step
               value={salary}
               onChange={handleSalaryChange}
+
             />
             <p>{`$${salary}`}</p> {/* Display the current salary value */}
+
           </SalaryBox>
+
           <JobTypeBox>
             <JobtypeTitle>Job Type</JobtypeTitle>
             <CheckMarkContainer>
@@ -443,29 +515,29 @@ const Jobs = () => {
               <CheckMark label="Freelance" />
               <CheckMark label="Contractual" />
               <CheckMark label="Internship" />
-             
             </CheckMarkContainer>
           </JobTypeBox>
 
           <WorkLocationBox>
             <WorkLocationTitle>Work Location</WorkLocationTitle>
-            <CheckMarkContainer>                  <CheckMark label="On-site" />
+            <CheckMarkContainer>
+              <CheckMark label="On-site" />
               <CheckMark label="Remote" />
-              <CheckMark label="Hybrid" />  </CheckMarkContainer>
-
-
+              <CheckMark label="Hybrid" />
+            </CheckMarkContainer>
           </WorkLocationBox>
 
-          <ExperienceBox >
-            <ExperienceTitle>Experience </ExperienceTitle>
-            <CheckMarkContainer>  <CheckMark label="Fresher" />
+          <ExperienceBox>
+            <ExperienceTitle>Experience</ExperienceTitle>
+            <CheckMarkContainer>
+              <CheckMark label="Fresher" />
               <CheckMark label="Beginner" />
               <CheckMark label="Intermediate" />
-              <CheckMark label="Expert" />
-            </CheckMarkContainer>
 
+            </CheckMarkContainer>
           </ExperienceBox>
 
+          <Button onClick={Filters}>Apply Filters </Button>
 
         </LeftContainer>
 
@@ -500,6 +572,7 @@ const Jobs = () => {
 
             {jobs && jobs.length > 0 && jobs.map((job) => (
               <JobCard
+                id={job._id}
                 key={job._id}
                 jobLogo={job.jobLogo}
                 title={job.title}

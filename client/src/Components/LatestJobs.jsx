@@ -3,12 +3,15 @@ import rightArrow from '../assets/benefits/rightArrow.png';
 import leftArrow from '../assets/benefits/leftArrow.png';
 import JobCard from './JobCard';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
-import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react';
-import axios from 'axios'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
+
 
 const Container = styled.div`
-  background-color: #ebeffa;
+  background: rgb(215, 219, 255);
+
   overflow: hidden;
 `;
 
@@ -106,12 +109,42 @@ const LowerButton = styled.button`
   }
 `;
 
-const StyledLink = styled(Link)`
-text-decoration: none;
-  color: white;
-`
+// const StyledLink = styled(Link)`
+// text-decoration: none;
+//   color: white;
+// `
 
 const LatestJobs = () => {
+
+  const navigate = useNavigate()
+
+
+  const [jobs, setJobs] = useState([]);
+
+
+  const Api_Url = "http://localhost:8080";
+
+
+  useEffect(() => {
+
+
+    const fetchJobs = async () => {
+      try {
+        const res = await axios.get(`${Api_Url}/jobs`);
+        setJobs(res.data);
+
+
+      } catch (error) {
+        console.error("Error fetching job listings:", error);
+      }
+    };
+
+
+    fetchJobs();
+
+
+  }, []);
+
   return (
     <Container>
       <Wrapper>
@@ -128,12 +161,24 @@ const LatestJobs = () => {
           </RightButtons>
         </Top>
         <Center>
-          <JobCard />
-          <JobCard />
-          <JobCard />
+          {jobs && jobs.length > 0 && jobs.slice(0, 3).map((job) => (
+            <JobCard
+              key={job._id}
+              jobLogo={job.jobLogo}
+              title={job.title}
+              description={job.description}
+              company={job.company}
+              applicants={job.applicants}
+              jobType={job.jobType}
+              workLocation={job.workLocation}
+              salary={job.salary}
+              jobLocation={job.jobLocation}
+              createdAt={job.createdAt}
+            />
+          ))}
         </Center>
         <Bottom>
-          <LowerButton>View all Jobs <DoubleArrowIcon style={{ color: 'white' }} /></LowerButton>
+          <LowerButton onClick={() => navigate('/jobs')} >View all Jobs <DoubleArrowIcon style={{ color: 'white' }} /></LowerButton>
         </Bottom>
       </Wrapper>
     </Container>

@@ -16,6 +16,7 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1`
+margin-top: 20px;
   text-align: center;
   font-size: 40px; /* Decrease font size for smaller devices */
 `;
