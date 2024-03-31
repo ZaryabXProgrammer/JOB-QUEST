@@ -1,13 +1,14 @@
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const Container = styled.div`
-color: white;
-background: rgb(26,41,189);
-background: linear-gradient(90deg, rgba(26,41,189,1) 24%, rgba(0,0,0,1) 100%, rgba(9,9,133,1) 100%, rgba(0,212,255,1) 100%);
-  height: 60px;
+  color: ${({ isNavbar }) => (isNavbar ? 'white' : 'black')};
+  background: ${({ isNavbar }) =>
+    isNavbar
+      ? 'linear-gradient(90deg, rgba(26,41,189,1) 24%, rgba(0,0,0,1) 100%, rgba(9,9,133,1) 100%, rgba(0,212,255,1) 100%)'
+      : 'white'};
+  height: ${({ isNavbar }) => (isNavbar ? '60px' : 'auto')};
 `;
-
 const Wrapper = styled.div`
   padding: 10px 20px;
   display: flex;
@@ -62,13 +63,13 @@ const MenuItem = styled.div`
 `;
 
 const StyledLink = styled(Link)`
-  color: white;
+  color: ${({ isHomePage }) => (isHomePage ? 'white' : 'black')};
   text-decoration: none;
   transition: color 0.3s ease;
   font-weight: 590;
 
   &:hover {
-    color: teal;
+    color: ${({ isHomePage }) => (isHomePage ? 'white' : 'darkgray')};
   }
 `;
 
@@ -76,12 +77,20 @@ const Span = styled.span`
   color: #1d59ff;
 `;
 
+const useIsHomepage = () => {
+  const location = useLocation();
+  return location.pathname === '/';
+};
+
 const Navbar = () => {
+
+  const isHomePage = useIsHomepage();
+
   const navigate = useNavigate();
 
   return (
 
-    <Container>
+    <Container isNavbar={isHomePage}>
       <Wrapper>
         <Left>
           <SearchContainer>
@@ -92,17 +101,18 @@ const Navbar = () => {
         </Left>
         <Center>
           <MenuItem>
-            <StyledLink to="/">Home</StyledLink>
+            <StyledLink isHomePage={isHomePage} to="/">Home</StyledLink>
           </MenuItem>
           <MenuItem>
-            <StyledLink to="/jobs">Jobs</StyledLink>
+            <StyledLink isHomePage={isHomePage} to="/jobs">Jobs</StyledLink>
           </MenuItem>
+      
           <MenuItem>
-            <StyledLink to="/createJob">Create a Job</StyledLink>
+            <StyledLink isHomePage={isHomePage} to="/createJob">Create a Job</StyledLink>
           </MenuItem>
         </Center>
         <Right>
-          <StyledLink to="/register">
+          <StyledLink isHomePage={isHomePage} to="/register">
             <MenuItem>Register</MenuItem>
           </StyledLink>
 
@@ -114,7 +124,7 @@ const Navbar = () => {
         </Center>
         <Right>
           <StyledLink to='/register'><MenuItem>Register</MenuItem></StyledLink> */}
-          <StyledLink to="/login">
+          <StyledLink isHomePage={isHomePage} to="/login">
             <MenuItem>Sign In</MenuItem>
           </StyledLink>
         </Right>

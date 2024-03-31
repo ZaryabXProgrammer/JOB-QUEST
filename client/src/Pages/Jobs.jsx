@@ -572,6 +572,7 @@ const Jobs = () => {
 
             {jobs && jobs.length > 0 && jobs.map((job) => (
               <JobCard
+                id={job._id}
                 key={job._id}
                 jobLogo={job.jobLogo}
                 title={job.title}

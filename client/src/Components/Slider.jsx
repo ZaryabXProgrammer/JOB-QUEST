@@ -7,11 +7,11 @@ import { useNavigate } from 'react-router-dom'
 const ParentContainer = styled.div`
   position: relative;
   color: white;
-  height: 90vh; /* Adjust the height as needed */
+  height: 96vh; /* Adjust the height as needed */
   display: flex;
   justify-content: center;
   align-items: center;
- background: rgb(26,41,189);
+
 background: linear-gradient(90deg, rgba(26,41,189,1) 24%, rgba(0,0,0,1) 100%, rgba(9,9,133,1) 100%, rgba(0,212,255,1) 100%);/* Blue background color */
 
 
