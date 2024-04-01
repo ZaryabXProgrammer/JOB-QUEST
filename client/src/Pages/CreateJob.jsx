@@ -151,7 +151,7 @@ const CreateJob = () => {
           console.log('File available at', downloadURL);
           try {
             const jobData = { ...values, jobLogo: downloadURL, skills: mySkills };
-            await axios.post(`${Api_Url}/jobs`, jobData);
+            await axios.post(`${Api_Url}/jobs`, jobData)
             alert("Job Created");
             resetForm(); // Reset form fields after successful upload
             setmySkills([])

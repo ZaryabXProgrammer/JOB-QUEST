@@ -7,6 +7,7 @@ dotenv.config();
 const authRouter = require("./routes/Auth");
 const jobsRouter = require("./routes/Jobs");
 const resumeRouter = require("./routes/Resume");
+const appliedJobRouter = require("./routes/AppliedJobs");
 
 app.use(
   express.urlencoded({
@@ -28,6 +29,8 @@ app.use("/auth", authRouter);
 app.use("/jobs", jobsRouter);
 
 app.use("/api", resumeRouter);
+
+app.use("/applied", appliedJobRouter);
 
 const PORT = process.env.PORT;
 

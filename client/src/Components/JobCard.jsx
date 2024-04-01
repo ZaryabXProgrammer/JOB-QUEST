@@ -4,7 +4,9 @@ import apply from '../assets/benefits/apply.png';
 import green from '../assets/benefits/green.png';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import AlarmOutlinedIcon from '@mui/icons-material/AlarmOutlined';
-
+import { useSelector } from 'react-redux'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const CardContainer = styled.div`
   background-color: white;
   
@@ -183,7 +185,8 @@ const DatePosted = styled.p`
 
 const JobCard = ({ id, jobLogo, title, description, company, applicants, jobType, workLocation, salary, jobLocation, createdAt }) => {
 
-
+  //redux
+  const userId = useSelector((state) => (state.user.currentUser ? state.user.currentUser._id : null))
 
   //date
   const currentDate = new Date();
@@ -197,11 +200,17 @@ const JobCard = ({ id, jobLogo, title, description, company, applicants, jobType
 
 
   //     navigate(`/apply/${id}`)
-  // }
-
+  const handleApplyClick = (e) => {
+    if (!userId) {
+      e.preventDefault(); // Prevent the default behavior of the link (i.e., page reload)
+      // Show a toast message if userId is falsy (e.g., not logged in)
+      toast.error('Please log in first to apply.');
+    }
+  };
 
   return (
     <CardContainer >
+      <ToastContainer/>
       <Wrapper>
         <Top>
           <Logo src={jobLogo} alt="Company Logo" />
@@ -215,7 +224,11 @@ const JobCard = ({ id, jobLogo, title, description, company, applicants, jobType
               </CompanyandApplicants>
             </JobDesc>
           </JobTitleandDesc>
-          <Link to={`/apply/${id}`} > <ApplyLogo src={apply} alt="Apply Logo" /></Link>
+
+
+          <Link to={userId ? `/apply/${id}` : ''}  onClick={handleApplyClick}>
+            <ApplyLogo src={apply} alt="Apply Logo" />
+          </Link>
         </Top>
 
         <Center>

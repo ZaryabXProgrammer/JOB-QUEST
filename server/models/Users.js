@@ -19,9 +19,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    resumeUrl: {
+    resume: {
       type: String,
-      default: null, // Default value for resume URL is null
+      default: 'No Resume Found', // Default value for resume URL is null
     },
   },
   { timestamps: true } // will generate the timestamps

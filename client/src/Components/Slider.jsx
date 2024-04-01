@@ -3,6 +3,8 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import HomeBanner from "../assets/homeVect.png";
 import { JobsContext } from '../Helpers/JobContext'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom'
 const ParentContainer = styled.div`
   position: relative;
@@ -193,6 +195,7 @@ const Slider = () => {
     setFile(event.target.files[0]);
   };
 
+
   const handleClick = async (event) => {
     event.preventDefault();
     try {
@@ -203,7 +206,13 @@ const Slider = () => {
 
       setnewJobs(response.data.matchingJobs);
       setPage1JobsActive(true);
-      navigate('/jobs')
+
+      if (response.data.matchingJobs.length > 0) {
+        navigate('/jobs')
+
+      } else {
+        toast.error('OOPS! No Job Found');
+      }
 
       console.log(response.data.matchingJobs);
     } catch (error) {
@@ -226,8 +235,11 @@ const Slider = () => {
     }
   }
 
+
+
   return (
     <ParentContainer>
+      <ToastContainer />
       <WaveSVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
         <path fill="white" fillOpacity="1.5" d="M0,224L60,224C120,224,240,224,360,213.3C480,203,600,181,720,197.3C840,213,960,267,1080,240C1200,213,1320,107,1380,53.3L1440,0L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
       </WaveSVG>

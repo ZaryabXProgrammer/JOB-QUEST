@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 
+
 import axios from 'axios'
 
 import JobCard from '../Components/JobCard';
@@ -345,6 +346,8 @@ const Jobs = () => {
   const [salary, setSalary] = useState(100); // Initial salary value
   const [filters, setFilters] = useState('');
 
+
+
   const handleSalaryChange = (event) => {
     const value = parseInt(event.target.value, 10); // Parse the value to an integer
     setSalary(value);
@@ -385,6 +388,7 @@ const Jobs = () => {
   const Api_Url = "http://localhost:8080";
 
   const [jobs, setJobs] = useState([]);
+
 
   const Filters = async () => {
     try {
@@ -451,11 +455,6 @@ const Jobs = () => {
 
 
   //filtered job search:
-
-
-
-
-
 
 
 
