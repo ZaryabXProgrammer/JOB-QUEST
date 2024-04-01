@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-
+import { useSelector, useDispatch } from "react-redux"
+import { signOut } from '../Redux/userSlice';
 const Container = styled.div`
   color: ${({ isNavbar }) => (isNavbar ? 'white' : 'black')};
   background: ${({ isNavbar }) =>
@@ -84,9 +85,19 @@ const useIsHomepage = () => {
 
 const Navbar = () => {
 
+  
+
+  const username = useSelector((state) => (state.user.currentUser ? state.user.currentUser.username : null))
+
   const isHomePage = useIsHomepage();
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleSignOut = () => {
+    dispatch(signOut());
+    navigate('/'); // Replace '/' with the route you want to navigate to after signing out
+  };
 
   return (
 
@@ -106,30 +117,44 @@ const Navbar = () => {
           <MenuItem>
             <StyledLink isHomePage={isHomePage} to="/jobs">Jobs</StyledLink>
           </MenuItem>
-      
+
           <MenuItem>
             <StyledLink isHomePage={isHomePage} to="/createJob">Create a Job</StyledLink>
           </MenuItem>
         </Center>
         <Right>
-          <StyledLink isHomePage={isHomePage} to="/register">
-            <MenuItem>Register</MenuItem>
-          </StyledLink>
 
-          {/* <StyledLink to='/' ><MenuItem>Home</MenuItem></StyledLink>
-          <StyledLink to='/jobs'><MenuItem>Find Jobs</MenuItem> </StyledLink>
-          <StyledLink to='/createJob'><MenuItem>Create Job</MenuItem> </StyledLink>
+          {!username ?
+            <>
+              <StyledLink isHomePage={isHomePage} to="/register">
+                <MenuItem>Register</MenuItem>
+              </StyledLink>
 
-        
-        </Center>
-        <Right>
-          <StyledLink to='/register'><MenuItem>Register</MenuItem></StyledLink> */}
-          <StyledLink isHomePage={isHomePage} to="/login">
-            <MenuItem>Sign In</MenuItem>
-          </StyledLink>
+              <StyledLink isHomePage={isHomePage} to="/login">
+                <MenuItem>Sign In</MenuItem>
+              </StyledLink>
+
+            </>
+            :
+            <>
+              <StyledLink isHomePage={isHomePage} >
+                <MenuItem>@{username}</MenuItem>
+              </StyledLink>
+
+              <StyledLink onClick={handleSignOut} isHomePage={isHomePage}>
+                <MenuItem >Sign Out</MenuItem>
+              </StyledLink>
+            </>
+
+
+          }
+
+
+
+
         </Right>
       </Wrapper>
-    </Container>
+    </Container >
   );
 };
 
