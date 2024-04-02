@@ -5,7 +5,7 @@ const CryptoJS = require("crypto-js");
 
 // Registration
 router.post("/register", async (req, res) => {
-  const { username, email, password, phone } = req.body;
+  const { username, email, password, phone, resume } = req.body;
 
   try {
     const hashedPassword = CryptoJS.AES.encrypt(
@@ -17,12 +17,15 @@ router.post("/register", async (req, res) => {
       email,
       password: hashedPassword,
       phone,
+      resume,
     });
     const savedUser = await newUser.save();
     return res.status(200).json(savedUser);
   } catch (error) {
+    console.error("Error:", error); // Log the error for debugging
     return res.status(500).json({ error: "Internal Server Error" });
   }
+
 });
 
 // Login
@@ -39,13 +42,15 @@ router.post("/login", async (req, res) => {
       user.password,
       process.env.PASS_SEC
     ).toString(CryptoJS.enc.Utf8);
-    if (password === decryptedPassword) {
+    if (password === decryptedPassword)
+    {
       const accessToken = jwt.sign(
-        { id: user._id, isAdmin: user.isAdmin },
+        { id: user._id },
         process.env.JWT_SEC,
         { expiresIn: "7d" }
       );
       const { password, ...others } = user._doc;
+      
       return res.json({ ...others, accessToken });
     } else {
       return res.status(401).json({ error: "Wrong Username or Password" });

@@ -1,6 +1,6 @@
 const express = require("express");
-const Jobs = require("../models/Jobs");
 const router = express.Router();
+const Jobs = require("../models/Jobs");
 const filterController = require("../routes/Filter");
 // Custom logger middleware
 router.use(function logger(req, res, next) {
@@ -14,6 +14,20 @@ router.get("/", async (req, res) => {
     res.json(jobs);
   } catch (err) {
     console.log(err);
+  }
+});
+
+//get single job
+
+router.get("/job/:id", async (req, res) => {
+  const jobId =  req.params.id;
+
+  try {
+    const job = await Jobs.findOne({_id: jobId});
+
+    res.json(job);
+  } catch (error) {
+    res.status(400).json(error);
   }
 });
 
@@ -116,10 +130,6 @@ router.post("/filter", async (req, res) => {
   }
 });
 
-
-
-
-
 //   const jobTypesLabels = [
 //     "Full-Time",
 //     "Part-Time",
@@ -155,6 +165,6 @@ router.post("/filter", async (req, res) => {
 //       message: "Internal server error",
 //     });
 //   }
-  // });
-  
+// });
+
 module.exports = router;

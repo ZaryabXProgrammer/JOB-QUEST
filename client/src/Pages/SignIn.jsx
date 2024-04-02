@@ -1,4 +1,11 @@
+import { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from "react-redux"
+import { loginFailture, loginStart, loginSuccess } from '../Redux/userSlice';
 
 const SignInContainer = styled.div`
   display: flex;
@@ -37,14 +44,50 @@ color: black;
 `
 
 const SignIn = () => {
-    return (
-        <SignInContainer>
-            <Title>Sign <Span>In</Span></Title>
-            <InputField type="username" placeholder="Username" />
-            <InputField type="password" placeholder="Password" />
-            <SubmitButton>Sign In</SubmitButton>
-        </SignInContainer>
-    );
+  const navigate = useNavigate();
+
+  const Api_Url = "http://localhost:8080";
+  const [username, setusername] = useState('')
+  const [password, setpassword] = useState('')
+
+
+  //Redux
+
+  const dispatch = useDispatch()
+
+
+  const handleClick = async (e) => {
+
+    e.preventDefault();
+    dispatch(loginStart())
+    try {
+      const res = await axios.post(`${Api_Url}/auth/login`, { username, password })
+      dispatch(loginSuccess(res.data));
+      toast.success(`${res.data.username} Logged In Successfully`,{
+        autoClose: 3000
+      });      
+      setTimeout(() => {
+        navigate('/');
+      }, 3000); // Redirect after 5 seconds
+
+    
+  
+    } catch (error) {
+      console.log(error)
+      dispatch(loginFailture());
+      toast.error('Wrong Username or Password');
+    }
+  }
+
+  return (
+    <SignInContainer>
+      <ToastContainer />
+      <Title>Sign <Span>In</Span></Title>
+      <InputField type="username" name='username' placeholder="Username" onChange={(e) => setusername(e.target.value)} />
+      <InputField type="password" name='password' placeholder="Password" onChange={(e) => setpassword(e.target.value)} />
+      <SubmitButton onClick={handleClick} >Sign In</SubmitButton>
+    </SignInContainer>
+  );
 };
 
 export default SignIn;
