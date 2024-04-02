@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import { IoMdMenu } from 'react-icons/io';
 
 const Container = styled.div`
   color: ${({ isNavbar }) => (isNavbar ? 'white' : 'black')};
@@ -9,15 +11,13 @@ const Container = styled.div`
       : 'white'};
   height: ${({ isNavbar }) => (isNavbar ? '60px' : 'auto')};
 `;
+
 const Wrapper = styled.div`
+  position: relative; /* Ensure proper positioning for MobileMenu */
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  @media (max-width: 480px) {
-    padding: 10px;
-  }
 `;
 
 const Left = styled.div`
@@ -39,14 +39,14 @@ const Center = styled.div`
   display: flex;
   justify-content: center;
 
-  @media (max-width: 480px) {
-    display: none; /* Hide Center content on mobile */
-  }
 `;
 
 const Logo = styled.h1`
   cursor: pointer;
   font-weight: bold;
+  @media (max-width: 768px) {
+    font-size: 24px;
+  }
 `;
 
 const Right = styled.div`
@@ -60,6 +60,10 @@ const MenuItem = styled.div`
   font-size: 14px;
   cursor: pointer;
   margin-left: 25px;
+
+  @media (max-width: 768px) {
+    display: none; /* Hide on smaller screens */
+  }
 `;
 
 const StyledLink = styled(Link)`
@@ -77,19 +81,53 @@ const Span = styled.span`
   color: #1d59ff;
 `;
 
+const MobileMenuButton = styled.button`
+  background: transparent;
+  border: none;
+  display: none; /* Initially hide on larger screens */
+  cursor: pointer;
+  
+  @media (max-width: 768px) {
+    display: flex; /* Show on smaller screens */
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Ensure the button appears above other content */
+  }
+`;
+
+const MobileMenuIcon = styled(IoMdMenu)`
+  color: ${({ isNavbar }) => (isNavbar ? 'white' : 'black')};
+  font-size: 24px;
+`;
+
+const MobileMenu = styled.div`
+  display: none; /* Initially hide on larger screens */
+  position: absolute; /* Ensure proper positioning */
+  top: 60px;
+  right: 0;
+  width: 100%;
+  padding: 20px;
+  z-index: 999; /* Ensure the menu appears above other content */
+  
+  @media (max-width: 768px) {
+    display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')}; /* Show when isOpen is true */
+    flex-direction: column;
+    background-color: ${({ isNavbar }) => (isNavbar ? 'rgba(26,41,189,1)' : 'white')};
+  }
+`;
+
 const useIsHomepage = () => {
   const location = useLocation();
   return location.pathname === '/';
 };
 
 const Navbar = () => {
-
   const isHomePage = useIsHomepage();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navigate = useNavigate();
 
   return (
-
     <Container isNavbar={isHomePage}>
       <Wrapper>
         <Left>
@@ -106,7 +144,6 @@ const Navbar = () => {
           <MenuItem>
             <StyledLink isHomePage={isHomePage} to="/jobs">Jobs</StyledLink>
           </MenuItem>
-      
           <MenuItem>
             <StyledLink isHomePage={isHomePage} to="/createJob">Create a Job</StyledLink>
           </MenuItem>
@@ -115,19 +152,30 @@ const Navbar = () => {
           <StyledLink isHomePage={isHomePage} to="/register">
             <MenuItem>Register</MenuItem>
           </StyledLink>
-
-          {/* <StyledLink to='/' ><MenuItem>Home</MenuItem></StyledLink>
-          <StyledLink to='/jobs'><MenuItem>Find Jobs</MenuItem> </StyledLink>
-          <StyledLink to='/createJob'><MenuItem>Create Job</MenuItem> </StyledLink>
-
-        
-        </Center>
-        <Right>
-          <StyledLink to='/register'><MenuItem>Register</MenuItem></StyledLink> */}
           <StyledLink isHomePage={isHomePage} to="/login">
             <MenuItem>Sign In</MenuItem>
           </StyledLink>
         </Right>
+        <MobileMenuButton onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          <MobileMenuIcon isNavbar={isHomePage} />
+        </MobileMenuButton>
+        <MobileMenu isOpen={isMobileMenuOpen} isNavbar={isHomePage}>
+          <MenuItem>
+            <StyledLink isHomePage={isHomePage} to="/">Home</StyledLink>
+          </MenuItem>
+          <MenuItem>
+            <StyledLink isHomePage={isHomePage} to="/jobs">Jobs</StyledLink>
+          </MenuItem>
+          <MenuItem>
+            <StyledLink isHomePage={isHomePage} to="/createJob">Create a Job</StyledLink>
+          </MenuItem>
+          <MenuItem>
+            <StyledLink isHomePage={isHomePage} to="/register">Register</StyledLink>
+          </MenuItem>
+          <MenuItem>
+            <StyledLink isHomePage={isHomePage} to="/login">Sign In</StyledLink>
+          </MenuItem>
+        </MobileMenu>
       </Wrapper>
     </Container>
   );

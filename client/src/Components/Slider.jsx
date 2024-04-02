@@ -17,7 +17,7 @@ background: linear-gradient(90deg, rgba(26,41,189,1) 24%, rgba(0,0,0,1) 100%, rg
 
   @media (max-width: 768px) {
     
-height: 80vh;
+    height: 80vh;
     justify-content: flex-start;
     align-items: flex-start;
     
@@ -44,7 +44,7 @@ margin: 0 auto;
   @media (max-width: 768px) {
     flex-direction: column;
     height: auto;
-    margin-top: 50px;
+    margin-top: 100px;
     
   }
 `;
@@ -55,9 +55,8 @@ const ImgContainer = styled.div`
   background: contain;
   display: flex;
   align-items: center;
-  @media (max-width: 480px) { /* Adjust styles for mobile */
-    display: none;
-    
+  @media (max-width: 768px) { 
+    display: none;   
   }
 `;
 
@@ -90,6 +89,10 @@ const Title = styled.h1`
   @media (max-width: 768px) {
     font-size: 40px;
   }
+
+  @media (max-width: 480px) {
+    font-size: 30px;
+  }
 `;
 
 const Desc = styled.p`
@@ -99,6 +102,12 @@ const Desc = styled.p`
   letter-spacing: 3px;
   @media (max-width: 768px) {
     font-size: 15px;
+    text-align: center;
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 15px;
+    font-size: 12px;
     text-align: center;
   }
 `;
@@ -121,6 +130,10 @@ const SearchInput = styled.input`
   width: 200px;
   font-size: 16px;
   outline: none;
+  @media (max-width: 480px) {
+    padding: 10px;
+    font-size: 12px;
+  }
 `;
 
 const Button = styled.button`
@@ -141,12 +154,11 @@ const Button = styled.button`
   }
     @media (max-width: 768px) {
     
-    padding: 0 10px;
+    padding: 8px;
     border: 0.5 solid white;
       font-size: 18px;
-    
-    
   }
+  
 `;
 
 const Button2 = styled.button`
@@ -162,6 +174,18 @@ color: white;
   &:hover {
      background-color: white;
     color: black;
+  }
+  
+  @media (max-width: 768px) {
+    margin-top: 5px;
+    padding: 5px;
+    font-size: 20px;
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 5px;
+    padding: 3px;
+    font-size: 15px;
   }
 `;
 
