@@ -6,12 +6,11 @@ import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 
 const Container = styled.div`
   background: rgb(215, 219, 255);
-
   overflow: hidden;
 `;
 
@@ -39,7 +38,19 @@ const Top = styled.div`
   justify-content: space-between;
   align-items: center;
   height: auto;
+
+  @media (max-width: 768px) {
+    padding-top: 10px;
+    margin: auto;
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
+
+// const ButtonsContainer = styled.div`
+//   display: flex;
+//   flex-wrap: wrap;
+// `;
 
 const LeftButtons = styled.div`
   display: flex;
@@ -48,9 +59,9 @@ const LeftButtons = styled.div`
 const LeftBtn = styled.button`
   color: black;
   margin-right: 10px;
+  margin-bottom: 10px;
   font-size: 12px;
   height: 30px;
-  width: 100px;
   padding: 5px 10px;
   background-color: white;
   border: 2px solid #1d59ff;
@@ -58,10 +69,16 @@ const LeftBtn = styled.button`
   &:hover {
     cursor: pointer;
   }
+  @media (max-width: 768px) {
+    font-size: 10px;
+  }
 `;
 
 const RightButtons = styled.div`
   display: flex;
+  @media (max-width: 768px) {
+    margin: auto;
+  }
 `;
 
 const Arrow = styled.img`
@@ -81,8 +98,12 @@ const Center = styled.div`
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap; /* Ensure cards wrap on smaller screens */
-  @media (max-width: 480px) { /* Adjust styles for mobile */
+  @media (max-width: 768px) { /* Adjust styles for tablets */
     gap: 20px;
+  }
+  @media (max-width: 480px) { /* Adjust styles for mobile */
+    flex-direction: column;
+    align-items: center;
   }
 `;
 
@@ -95,7 +116,7 @@ const Bottom = styled.div`
 
 const LowerButton = styled.button`
   color: white;
-  margin-right: 12px;
+  margin-left: 12px;
   font-size: 12px;
   padding: 5px 10px;
   background-color: #1d59ff;
@@ -109,40 +130,26 @@ const LowerButton = styled.button`
   }
 `;
 
-// const StyledLink = styled(Link)`
-// text-decoration: none;
-//   color: white;
-// `
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: white;
+`;
 
 const LatestJobs = () => {
-
   const navigate = useNavigate()
-
-
   const [jobs, setJobs] = useState([]);
-
-
   const Api_Url = "http://localhost:8080";
 
-
   useEffect(() => {
-
-
     const fetchJobs = async () => {
       try {
         const res = await axios.get(`${Api_Url}/jobs`);
         setJobs(res.data);
-
-
       } catch (error) {
         console.error("Error fetching job listings:", error);
       }
     };
-
-
     fetchJobs();
-
-
   }, []);
 
   return (

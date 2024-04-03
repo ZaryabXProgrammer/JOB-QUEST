@@ -22,6 +22,13 @@ const InputField = styled.input`
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box; /* Ensure padding and border are included in the width */
+  @media (max-width: 768px) {
+    width: 60%;
+  }
+  
+  @media (max-width: 480px) {
+    width: 80%;
+  }
 `;
 
 const SubmitButton = styled.button`
@@ -32,6 +39,13 @@ const SubmitButton = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  @media (max-width: 768px) {
+    width: 60%;
+  }
+  
+  @media (max-width: 480px) {
+    width: 80%;
+  }
 `;
 
 const Title = styled.h1`

@@ -126,14 +126,13 @@ const SearchButtonContainer = styled.div`
 
 const SearchInput = styled.input`
   padding: 13px;
-  font-size: 20px;
   border: 1px solid #ccc;
   border-radius: 5px 0 0 5px; /* Rounded left corners */
   width: 200px;
   font-size: 16px;
   outline: none;
   @media (max-width: 480px) {
-    padding: 10px;
+    padding: 13px;
     font-size: 12px;
   }
 `;
@@ -158,7 +157,7 @@ const Button = styled.button`
     
     padding: 8px;
     border: 0.5 solid white;
-      font-size: 18px;
+      font-size: 10px;
   }
   
 `;
