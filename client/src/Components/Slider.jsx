@@ -153,13 +153,11 @@ const Button = styled.button`
     background-color: white;
     color: black;
   }
-    @media (max-width: 768px) {
-    
+    @media (max-width: 768px) { 
     padding: 8px;
     border: 0.5 solid white;
       font-size: 10px;
   }
-  
 `;
 
 const Button2 = styled.button`
