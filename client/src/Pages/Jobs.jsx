@@ -3,7 +3,8 @@ import { useState, useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'
 
 import JobCard from '../Components/JobCard';
@@ -433,7 +434,7 @@ const Jobs = () => {
       setcountJobs(newJobs.length);
     }
 
-  
+
     console.log(jobs)
 
   }, []);
@@ -449,6 +450,9 @@ const Jobs = () => {
       setcountJobs(response.data.jobs.length)
     } catch (error) {
       console.error('Error fetching jobs:', error);
+      toast.error('OOPS! No Jobs Found', {
+        autoClose: 2500
+      });
     }
   }
 
@@ -463,6 +467,7 @@ const Jobs = () => {
     <div>
 
       <Wrapper>
+        <ToastContainer />
 
 
 

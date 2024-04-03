@@ -234,7 +234,7 @@ const Slider = () => {
         navigate('/jobs')
 
       } else {
-        toast.error('OOPS! No Job Found');
+        toast.error('OOPS! No Jobs Found');
       }
 
       console.log(response.data.matchingJobs);
@@ -252,9 +252,14 @@ const Slider = () => {
       setnewJobs(response.data.jobs);
       setPage1JobsActive(true);
       navigate('/jobs')
+      
 
     } catch (error) {
       console.error('Error fetching jobs:', error);
+      toast.error('OOPS! No Jobs Found', {
+        autoClose: 2500
+      });
+   
     }
   }
 

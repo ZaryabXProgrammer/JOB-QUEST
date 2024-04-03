@@ -5,7 +5,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-    import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 
 const Container = styled.div`
@@ -125,6 +125,7 @@ const JobApply = () => {
     //Redux
 
     const userId = useSelector((state) => (state.user.currentUser ? state.user.currentUser._id : null))
+    const accessToken = useSelector((state) => (state.user.currentUser ? state.user.currentUser.accessToken : null))
 
 
     useEffect(() => {
@@ -162,7 +163,13 @@ const JobApply = () => {
         const applyData = { userId: userId, jobId: id };
 
         try {
-            await axios.post(`${Api_Url}/applied`, applyData);
+            await axios.post(`${Api_Url}/applied`, applyData, {
+
+                headers: {
+                    token: accessToken
+                },
+
+            });
             toast.success('Congratulations! Your Job Application Was Successful!');
 
             setTimeout(() => {
@@ -171,7 +178,7 @@ const JobApply = () => {
 
         } catch (error) {
             console.log(error);
-            toast.error('Failed to submit your application. Please try again.');
+            toast.error(`Failed .${toast.error(error.response.data.message)}`);
         } finally {
             setIsApplying(false); // Reset isApplying to enable the button after submission or error
         }
@@ -200,7 +207,7 @@ const JobApply = () => {
                         </Skills>
 
                         <Button2 onClick={handleApply} disabled={isApplying}>
-                           Apply
+                            Apply
                         </Button2>
 
 
