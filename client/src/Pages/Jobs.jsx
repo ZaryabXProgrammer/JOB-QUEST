@@ -1,20 +1,29 @@
 
 import { useState, useEffect, useContext } from 'react'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
-
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'
-
 import JobCard from '../Components/JobCard';
 import { JobsContext } from '../Helpers/JobContext';
 
+
+
+
+const fadeInAnimation = keyframes`
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+`;
 const Wrapper = styled.div`
   display: flex; /* Make the wrapper a flex container */
   justify-content: space-between; /* Distribute space between child elements */
   background-color: #F8F9FD;
-
+animation: ${fadeInAnimation} 0.6s ease; /* Apply left-to-right animation */
   
 `;
 

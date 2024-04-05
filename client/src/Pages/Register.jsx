@@ -1,12 +1,21 @@
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import app from '../Firebase'
 import { useState } from 'react';
+
+const fadeInAnimation = keyframes`
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+`;
 
 const RegisterContainer = styled.div`
   display: flex;
@@ -16,6 +25,8 @@ const RegisterContainer = styled.div`
   justify-content: center;
   width: 30%;
   margin: 0 auto;
+    animation: ${fadeInAnimation} 0.6s ease;
+
 `;
 
 const InputField = styled.input`
@@ -26,6 +37,7 @@ const InputField = styled.input`
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box; /* Ensure padding and border are included in the width */
+  
 `;
 
 const SubmitButton = styled.button`
@@ -138,7 +150,7 @@ const RegisterPage = () => {
 
 
 
-         
+
 
         });
       }

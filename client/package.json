@@ -20,6 +20,8 @@
     "express": "^4.19.1",
     "firebase": "^10.9.0",
     "formik": "^2.4.5",
+    "framer-motion": "^11.0.24",
+    "lottie-react": "^2.4.0",
     "mui": "^0.0.1",
     "natural": "^6.12.0",
     "node-nlp": "^4.27.0",
