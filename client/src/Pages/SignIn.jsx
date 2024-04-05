@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,12 +7,23 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from "react-redux"
 import { loginFailture, loginStart, loginSuccess } from '../Redux/userSlice';
 
+
+const fadeInAnimation = keyframes`
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+`;
+
 const SignInContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
   justify-content: center;
+      animation: ${fadeInAnimation} 0.6s ease; /* Apply fade-in animation */
 `;
 
 const InputField = styled.input`
@@ -77,15 +88,15 @@ const SignIn = () => {
     try {
       const res = await axios.post(`${Api_Url}/auth/login`, { username, password })
       dispatch(loginSuccess(res.data));
-      toast.success(`${res.data.username} Logged In Successfully`,{
+      toast.success(`${res.data.username} Logged In Successfully`, {
         autoClose: 3000
-      });      
+      });
       setTimeout(() => {
         navigate('/');
       }, 3000); // Redirect after 5 seconds
 
-    
-  
+
+
     } catch (error) {
       console.log(error)
       dispatch(loginFailture());

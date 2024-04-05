@@ -1,13 +1,26 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { popularJobCategoriesData } from '../constants/index'
+import { motion } from 'framer-motion';
 
-const Container = styled.div`
+
+
+const fadeInAnimation = keyframes`
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+`;
+const Container = styled(motion.div)`
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
  /* background-color: #eaf0ff; */
     flex-direction: column;
+    animation: ${fadeInAnimation} 0.6s ease;   
+
 `;
 
 const Wrapper = styled.div`
@@ -102,7 +115,11 @@ const CardDescription = styled.p`
 
 const JobCategories = () => {
     return (
-        <Container>
+        <Container
+            initial={{ opacity: 0 }} // Initial animation state
+            animate={{ opacity: 1 }} // Animation on mount
+            transition={{ duration: 0.6 }} // Animation duration
+        >
             <Title>
                 Popular Job <Span>Categories</Span>
             </Title>

@@ -1,15 +1,46 @@
 import styled from "styled-components";
 import axios from "axios";
-import { useContext, useState } from "react";
-import HomeBanner from "../assets/homeVect.png";
+import { useContext, useEffect, useRef, useState } from "react";
 import { JobsContext } from '../Helpers/JobContext'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom'
+import Lottie from 'lottie-react';
+import AnimationData from '../assets/benefits/newLaptop.json'
+import Google from '../assets/Lottie Icons/google.json'
+import Instagram from '../assets/Lottie Icons/instagram.json'
+import LinkedIn from '../assets/Lottie Icons/linkedin.json'
+import Twitter from '../assets/Lottie Icons/twitter.json'
+import Whatsapp from '../assets/Lottie Icons/whatsapp.json'
+
+
+
+const SocialIconsContainer = styled.div`
+  position: absolute;
+  bottom: 4px; /* Adjust the distance from the bottom */
+  overflow: hidden;
+  width: 100%;
+`;
+
+const SocialIconsWrapper = styled.div`
+  display: flex;
+  position: relative;
+  white-space: nowrap; /* Ensure icons stay in one line */
+`;
+
+const SocialIcon = styled(Lottie)`
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-right: 90px; /* Adjust space between icons */
+`;
+
 const ParentContainer = styled.div`
+
+
   position: relative;
   color: white;
-  height: 96vh; /* Adjust the height as needed */
+  height: 91vh; /* Adjust the height as needed */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -52,9 +83,10 @@ margin: 0 auto;
 `;
 
 const ImgContainer = styled.div`
-  height: 90%;
+  height: 100%;
+  height: 100%;
   flex: 1;
-  background: contain;
+
   display: flex;
   align-items: center;
   @media (max-width: 1024px) { 
@@ -62,19 +94,19 @@ const ImgContainer = styled.div`
   }
 `;
 
-const Image = styled.img`
+// const Image = styled.img`
 
-    height: 90%;
-    width: 100%;
+//     height: 90%;
+//     width: 100%;
 
-`;
+// `;
 
 const InfoContainer = styled.div`
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 50px;
+  padding: 2px;
   flex-direction: column;
   
   @media (max-width: 768px) {
@@ -203,6 +235,47 @@ const InputField = styled.input`
 
 const Slider = () => {
 
+  const socialMediaIcons = [
+    { id: 1, src: Google },
+    { id: 2, src: Instagram },
+    { id: 3, src: LinkedIn },
+    { id: 4, src: Twitter },
+    { id: 5, src: Whatsapp },
+  ];
+
+  const containerRef = useRef(null);
+  const wrapperRef = useRef(null);
+
+  useEffect(() => {
+    const containerWidth = containerRef.current.offsetWidth;
+    const wrapperWidth = wrapperRef.current.offsetWidth;
+    let animationId;
+
+    const animateIcons = () => {
+      let position = containerWidth;
+
+      const animate = () => {
+        position--;
+        wrapperRef.current.style.transform = `translateX(${position}px)`;
+
+        if (position <= -wrapperWidth) {
+          position = containerWidth; // Reset position to start from the right
+        }
+
+        animationId = requestAnimationFrame(animate);
+      };
+
+      animate();
+
+      return () => cancelAnimationFrame(animationId);
+    };
+
+    animateIcons();
+
+    return () => cancelAnimationFrame(animationId);
+  }, []);
+
+
   const navigate = useNavigate();
 
   const [jobInput, setjobInput] = useState('')
@@ -251,14 +324,14 @@ const Slider = () => {
       setnewJobs(response.data.jobs);
       setPage1JobsActive(true);
       navigate('/jobs')
-      
+
 
     } catch (error) {
       console.error('Error fetching jobs:', error);
       toast.error('OOPS! No Jobs Found', {
         autoClose: 2500
       });
-   
+
     }
   }
 
@@ -267,8 +340,10 @@ const Slider = () => {
   return (
     <ParentContainer>
       <ToastContainer />
+
       <WaveSVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
         <path fill="white" fillOpacity="1.5" d="M0,224L60,224C120,224,240,224,360,213.3C480,203,600,181,720,197.3C840,213,960,267,1080,240C1200,213,1320,107,1380,53.3L1440,0L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
+
       </WaveSVG>
       <Container>
         <InfoContainer>
@@ -298,9 +373,27 @@ const Slider = () => {
           {click && <Button2 onClick={handleClick}>Search Now</Button2>}
         </InfoContainer>
         <ImgContainer>
-          <Image src={HomeBanner} />
+          <Lottie
+            animationData={AnimationData}
+
+          />
+
+          {/* <Image src={HomeBanner} /> */}
+
         </ImgContainer>
       </Container>
+
+      <SocialIconsContainer ref={containerRef}>
+        <SocialIconsWrapper ref={wrapperRef}>
+          {socialMediaIcons.map((icon) => (
+            <SocialIcon key={icon.id}
+              animationData={icon.src}
+
+              
+            />
+          ))}
+        </SocialIconsWrapper>
+      </SocialIconsContainer>
     </ParentContainer>
   );
 };

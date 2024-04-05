@@ -170,6 +170,7 @@ const LatestJobs = () => {
         <Center>
           {jobs && jobs.length > 0 && jobs.slice(0, 3).map((job) => (
             <JobCard
+              id={job._id}
               key={job._id}
               jobLogo={job.jobLogo}
               title={job.title}
