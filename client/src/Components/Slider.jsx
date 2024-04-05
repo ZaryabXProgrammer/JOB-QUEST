@@ -12,12 +12,15 @@ import Instagram from '../assets/Lottie Icons/instagram.json'
 import LinkedIn from '../assets/Lottie Icons/linkedin.json'
 import Twitter from '../assets/Lottie Icons/twitter.json'
 import Whatsapp from '../assets/Lottie Icons/whatsapp.json'
+import Apple from '../assets/Lottie Icons/apple.json'
+import Amazon from '../assets/Lottie Icons/amazon.json'
+import Mastercard from '../assets/Lottie Icons/mastercardNew.json'
 
 
 
 const SocialIconsContainer = styled.div`
   position: absolute;
-  bottom: 4px; /* Adjust the distance from the bottom */
+  bottom: 1px; /* Adjust the distance from the bottom */
   overflow: hidden;
   width: 100%;
 `;
@@ -29,8 +32,8 @@ const SocialIconsWrapper = styled.div`
 `;
 
 const SocialIcon = styled(Lottie)`
-  width: 150px;
-  height: 150px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
   margin-right: 90px; /* Adjust space between icons */
 `;
@@ -40,7 +43,7 @@ const ParentContainer = styled.div`
 
   position: relative;
   color: white;
-  height: 91vh; /* Adjust the height as needed */
+  height: 95vh; /* Adjust the height as needed */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,7 +53,7 @@ background: linear-gradient(90deg, rgba(26,41,189,1) 24%, rgba(0,0,0,1) 100%, rg
 
   @media (max-width: 768px) {
     
-height: 80vh;
+height: 60vh;
     justify-content: flex-start;
     align-items: flex-start;
     
@@ -192,6 +195,7 @@ color: white;
   font-weight: bold;
   cursor: pointer;
   transition: 0.3s ease;
+  margin-bottom: 10px;
   
   &:hover {
      background-color: white;
@@ -200,13 +204,26 @@ color: white;
 `;
 
 const InputField = styled.input`
-  width: 66%;
+outline: none;
+  width: 90%;
   padding: 10px;
   margin-bottom: 15px;
-  border: 1px solid #ccc;
+
   border-radius: 5px;
   box-sizing: border-box; /* Ensure padding and border are included in the width */
 `;
+
+const ResumeSearchBox = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+padding:2px 10px ;
+
+
+
+`
+
+
 
 
 
@@ -219,6 +236,13 @@ const Slider = () => {
     { id: 3, src: LinkedIn },
     { id: 4, src: Twitter },
     { id: 5, src: Whatsapp },
+    {
+      id: 6, src: Apple
+    },
+    {
+      id: 7, src: Mastercard
+    },
+    { id: 9, src: Amazon }
   ];
 
   const containerRef = useRef(null);
@@ -336,19 +360,32 @@ const Slider = () => {
               onChange={(e) => setjobInput(e.target.value)} />
             <Button onClick={handleJobSearch}>Find Now!</Button>
           </SearchButtonContainer>
+
           <Desc>OR SEARCH THROUGH YOUR <Span><u>RESUME </u></Span></Desc>
-          {click ? (
-            <InputField
-              id="resume"
-              type="file"
-              accept=".pdf,.doc,.docx"
-              placeholder="Attach Resume"
-              onChange={handleFileChange}
-            />
-          ) : (
-            <Button2 onClick={() => setClick(!click)}>Choose File!</Button2>
-          )}
-          {click && <Button2 onClick={handleClick}>Search Now</Button2>}
+
+          <ResumeSearchBox>
+
+            <div>
+              {click ? (
+                <InputField
+                  id="resume"
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  placeholder="Attach Resume"
+                  onChange={handleFileChange}
+                />
+              ) : (
+                <Button2 onClick={() => setClick(!click)}>Choose File!</Button2>
+              )}
+            </div>
+
+            <div>
+
+              {click && <Button2 onClick={handleClick}>Search Now</Button2>}
+            </div>
+
+
+          </ResumeSearchBox>
         </InfoContainer>
         <ImgContainer>
           <Lottie
@@ -367,7 +404,7 @@ const Slider = () => {
             <SocialIcon key={icon.id}
               animationData={icon.src}
 
-              
+
             />
           ))}
         </SocialIconsWrapper>
