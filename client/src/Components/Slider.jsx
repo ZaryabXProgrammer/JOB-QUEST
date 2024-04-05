@@ -57,7 +57,7 @@ const ImgContainer = styled.div`
   background: contain;
   display: flex;
   align-items: center;
-  @media (max-width: 768px) { 
+  @media (max-width: 1024px) { 
     display: none;   
   }
 `;
@@ -132,6 +132,7 @@ const SearchInput = styled.input`
   font-size: 16px;
   outline: none;
   @media (max-width: 480px) {
+    width: 200px;
     padding: 13px;
     font-size: 12px;
   }
@@ -153,10 +154,10 @@ const Button = styled.button`
     background-color: white;
     color: black;
   }
-    @media (max-width: 768px) { 
-    padding: 8px;
-    border: 0.5 solid white;
-      font-size: 10px;
+    @media (max-width: 480px) {
+      padding: 5.7px;
+      width:60px; 
+      font-size: 12px;
   }
 `;
 

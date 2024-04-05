@@ -1,10 +1,9 @@
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useState } from 'react';
-import { IoMdMenu } from 'react-icons/io';
-
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector, useDispatch } from "react-redux";
 import { signOut } from '../Redux/userSlice';
+
 const Container = styled.div`
   color: ${({ isNavbar }) => (isNavbar ? 'white' : 'black')};
   background: ${({ isNavbar }) =>
@@ -15,11 +14,14 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  position: relative; /* Ensure proper positioning for MobileMenu */
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 480px) {
+    padding: 10px;
+  }
 `;
 
 const Left = styled.div`
@@ -35,37 +37,46 @@ const SearchContainer = styled.div`
   padding: 5px;
 `;
 
+const Right = styled.div`
+  flex: 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  @media (max-width: 480px) {
+    display: none; /* Hide Center content on mobile */
+  }
+`;
+
 const Center = styled.div`
   flex: 1;
   text-align: center;
   display: flex;
   justify-content: center;
 
+  @media (max-width: 480px) {
+    display: none; /* Hide Center content on mobile */
+  }
 `;
 
 const Logo = styled.h1`
   cursor: pointer;
   font-weight: bold;
-  @media (max-width: 768px) {
-    font-size: 24px;
-  }
 `;
 
-const Right = styled.div`
+const HamburgerMenu = styled.div`
   flex: 2;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  @media (min-width: 768px) {
+    display: none; /* Hide Center content on mobile */
+  }
 `;
 
 const MenuItem = styled.div`
   font-size: 14px;
   cursor: pointer;
   margin-left: 25px;
-
-  @media (max-width: 768px) {
-    display: none; /* Hide on smaller screens */
-  }
 `;
 
 const StyledLink = styled(Link)`
@@ -83,52 +94,16 @@ const Span = styled.span`
   color: #1d59ff;
 `;
 
-const MobileMenuButton = styled.button`
-  background: transparent;
-  border: none;
-  display: none; /* Initially hide on larger screens */
-  cursor: pointer;
-  
-  @media (max-width: 768px) {
-    display: flex; /* Show on smaller screens */
-    align-items: center;
-    justify-content: center;
-    z-index: 1000; /* Ensure the button appears above other content */
-  }
-`;
-
-const MobileMenuIcon = styled(IoMdMenu)`
-  color: ${({ isNavbar }) => (isNavbar ? 'white' : 'black')};
-  font-size: 24px;
-`;
-
-const MobileMenu = styled.div`
-  display: none; /* Initially hide on larger screens */
-  position: absolute; /* Ensure proper positioning */
-  top: 60px;
-  right: 0;
-  width: 100%;
-  padding: 20px;
-  z-index: 999; /* Ensure the menu appears above other content */
-  
-  @media (max-width: 768px) {
-    display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')}; /* Show when isOpen is true */
-    flex-direction: column;
-    background-color: ${({ isNavbar }) => (isNavbar ? 'rgba(26,41,189,1)' : 'white')};
-  }
-`;
-
 const useIsHomepage = () => {
   const location = useLocation();
   return location.pathname === '/';
 };
 
 const Navbar = () => {
+  const [showMenu, setShowMenu] = useState(false); // State for controlling menu visibility
 
-  // const username = useSelector((state) => (state.user.currentUser ? state.user.currentUser.username : null))
+  const username = useSelector((state) => (state.user.currentUser ? state.user.currentUser.username : null));
   const isHomePage = useIsHomepage();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -159,15 +134,8 @@ const Navbar = () => {
           </MenuItem>
         </Center>
         <Right>
-           <StyledLink isHomePage={isHomePage} to="/register">
-             <MenuItem>Register</MenuItem>
-         </StyledLink>
-           <StyledLink isHomePage={isHomePage} to="/login">
-             <MenuItem>Sign In</MenuItem>
-          </StyledLink>
 
-
-          {/* {!username ?
+          {!username ?
             <>
               <StyledLink isHomePage={isHomePage} to="/register">
                 <MenuItem>Register</MenuItem>
@@ -188,34 +156,97 @@ const Navbar = () => {
                 <MenuItem >Sign Out</MenuItem>
               </StyledLink>
             </>
-
-
-          } */}
-
+          }
         </Right>
-        <MobileMenuButton onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-          <MobileMenuIcon isNavbar={isHomePage} />
-        </MobileMenuButton>
-        <MobileMenu isOpen={isMobileMenuOpen} isNavbar={isHomePage}>
-          <MenuItem>
-            <StyledLink isHomePage={isHomePage} to="/">Home</StyledLink>
-          </MenuItem>
-          <MenuItem>
-            <StyledLink isHomePage={isHomePage} to="/jobs">Jobs</StyledLink>
-          </MenuItem>
-          <MenuItem>
-            <StyledLink isHomePage={isHomePage} to="/createJob">Create a Job</StyledLink>
-          </MenuItem>
-          <MenuItem>
-            <StyledLink isHomePage={isHomePage} to="/register">Register</StyledLink>
-          </MenuItem>
-          <MenuItem>
-            <StyledLink isHomePage={isHomePage} to="/login">Sign In</StyledLink>
-          </MenuItem>
-        </MobileMenu>
+        <HamburgerMenu>
+          <MenuIcon onClick={() => setShowMenu(!showMenu)} isHomePage={isHomePage} showMenu={showMenu} />
+          <Menu showMenu={showMenu}>
+            {!username ? (
+              <>
+                <StyledLink isHomePage={isHomePage} to="/register">
+                  <MenuItem>Register</MenuItem>
+                </StyledLink>
+                <StyledLink isHomePage={isHomePage} to="/login">
+                  <MenuItem>Sign In</MenuItem>
+                </StyledLink>
+              </>
+            ) : (
+              <>
+                <StyledLink isHomePage={isHomePage}>
+                  <MenuItem>@{username}</MenuItem>
+                </StyledLink>
+                <StyledLink onClick={handleSignOut} isHomePage={isHomePage}>
+                  <MenuItem>Sign Out</MenuItem>
+                </StyledLink>
+              </>
+            )}
+            <MenuItem>
+              <StyledLink isHomePage={isHomePage} to="/">Home</StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink isHomePage={isHomePage} to="/jobs">Jobs</StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink isHomePage={isHomePage} to="/createJob">Create a Job</StyledLink>
+            </MenuItem>
+          </Menu>
+        </HamburgerMenu>
       </Wrapper>
-    </Container >
+    </Container>
   );
 };
+
+const MenuIcon = ({ onClick, isHomePage, showMenu }) => (
+  <StyledMenuIcon onClick={onClick} isHomePage={isHomePage} showMenu={showMenu}>
+    <div />
+    <div />
+    <div />
+  </StyledMenuIcon>
+);
+
+const StyledMenuIcon = styled.div`
+  cursor: pointer;
+  width: 30px;
+  height: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  @media (min-width: 481px) {
+    display: none;
+  }
+
+  div {
+    width: 100%;
+    height: 3px;
+    background-color: ${({ isHomePage }) => (isHomePage ? 'white' : 'black')};
+    transition: all 0.3s linear;
+    transform-origin: 1px;
+  }
+
+  div:first-child {
+    transform: ${({ showMenu }) => (showMenu ? 'rotate(45deg)' : 'rotate(0)')};
+  }
+
+  div:nth-child(2) {
+    opacity: ${({ showMenu }) => (showMenu ? '0' : '1')};
+  }
+
+  div:last-child {
+    transform: ${({ showMenu }) => (showMenu ? 'rotate(-45deg)' : 'rotate(0)')};
+  }
+`;
+
+const Menu = styled.div`
+  position: absolute;
+  z-index: 999;
+  top: 60px; /* Height of the navbar */
+  right: 20px;
+  // background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  display: ${({ showMenu }) => (showMenu ? 'block' : 'none')};
+`;
 
 export default Navbar;
