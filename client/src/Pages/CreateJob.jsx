@@ -1,11 +1,23 @@
 
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useState } from 'react';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import app from '../Firebase'
+
+
+const fadeInAnimation = keyframes`
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+`;
+
+
 const ParentContainer = styled.div`
   background-image: url('./newjobs.jpg'); /* Directly specify a placeholder image */
   background-size: cover;
@@ -14,6 +26,8 @@ const ParentContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  
 `;
 
 
@@ -24,6 +38,7 @@ const CreateJobContainer = styled.div`
   justify-content: center; /* Center the content vertically */
   padding: 20px;
   /* Do not repeat the background image */
+animation: ${fadeInAnimation} 0.6s ease;
 
   @media (min-width: 768px) {
     width: 70%;

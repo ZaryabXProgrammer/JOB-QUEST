@@ -9,14 +9,31 @@ import LatestJobs from "../Components/LatestJobs"
 import NewsLetter from "../Components/NewsLetter"
 import Reviews from "../Components/Reviews"
 import Slider from "../Components/Slider"
+import styled, { keyframes } from 'styled-components'
 
+
+const fadeInAnimation = keyframes`
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+`;
+
+const Container = styled.div`
+  
+  animation: ${fadeInAnimation} 0.3s ease;
+`
 
 const Home = () => {
   return (
-    <div>
 
 
-     
+    <Container>
+
+
+
       <Slider />
       <Features />
       <JobCategories />
@@ -24,11 +41,11 @@ const Home = () => {
       <LatestJobs />
       <Reviews />
       <NewsLetter />
-      <Footer/>
-     
-      
+      <Footer />
 
-    </div>
+
+
+    </Container>
 
 
   )

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom'
-import styled from 'styled-components'
+
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from 'react-redux'
-
+import styled, { keyframes } from 'styled-components';
 
 const Container = styled.div`
     min-height: 100vh;
@@ -24,23 +24,25 @@ const Wrapper = styled.div`
     height: 90vh;
 `;
 
+const fadeInAnimation = keyframes`
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+`;
+
 const CardContainer = styled.div`
     background-color: rgb(248, 248, 248);
     display: flex;
     flex-direction: column;
     width: 50vw; /* Adjust width as needed */
     height: 100%; /* Take full height */
-   
     align-items: center;
     margin: 20px;
     overflow: hidden;
-    transition: transform 0.3s ease, background-color 0.32s ease;
-
-      @media screen and (max-width: 480px) {
-    width: 100vw;
-     margin: 0px;
-  }
-
+    animation: ${fadeInAnimation} 1.5s ease; /* Apply fade-in animation */
 `;
 
 const ImageContainer = styled.div`
@@ -108,11 +110,39 @@ const Button2 = styled.button`
       background-color:  #1d59ff;
   color: white;
   }
+   &:disabled {
+        opacity: 0.7; /* Optionally reduce opacity for disabled button */
+        cursor: not-allowed;
+            background-color:  #1d59ff;
+  color: white;
+    }
 `;
+
+const DisbButton = styled.button`
+    padding: 6px;
+  font-size: 14px;
+ width: 30%;
+  padding: 15px 3px; /* Add padding to the button */
+  margin: 50px 10px 0 10px;
+  border: 1px solid #1d59ff;;
+  font-weight: bold;
+  cursor: pointer;
+
+  background-color:  #1d59ff;
+  color: white;
+
+     &:disabled {
+        opacity: 0.7; /* Optionally reduce opacity for disabled button */
+        cursor: not-allowed;
+            background-color:  #1d59ff;
+  color: white;
+    }
+
+`
 
 
 const JobApply = () => {
-
+   
     const Api_Url = "http://localhost:8080";
     const location = useLocation();
     const id = location.pathname.split('/')[2];
@@ -120,29 +150,79 @@ const JobApply = () => {
 
     const [job, setJob] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [isApplying, setIsApplying] = useState(false);
+
+    const [hasApplied, setHasApplied] = useState(false);
 
     //Redux
 
     const userId = useSelector((state) => (state.user.currentUser ? state.user.currentUser._id : null))
-    const accessToken = useSelector((state) => (state.user.currentUser ? state.user.currentUser.accessToken : null))
+    const accessToken = useSelector((state) => (state.user.currentUser ? state.user.currentUser.accessToken : null));
+
+    // const checkApplied = async () => {
+    //     try {
+    //         const res = await axios.get(`${Api_Url}/applied/find/${userId}/${id}`, {
+    //             headers: {
+    //                 token: accessToken
+    //             },
+    //             data: {
+    //                 userId
+    //             }
+    //         });
+
+    //         if (res.data.status === 'applied') {
+    //             setHasApplied(true);
+    //         } else {
+    //             setHasApplied(false); // Reset hasApplied if not applied
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
 
 
     useEffect(() => {
+
+
+
+        
         const getJob = async () => {
             try {
-                const response = await axios.get(`${Api_Url}/jobs/job/${id}`);
+                const response = await axios.get(`${Api_Url}/jobs/job/${id}`, {
+                    headers: {
+                        token: accessToken
+                    }
+                });
                 setJob(response.data);
-                // Set loading to false after data is fetched
-
                 setLoading(false);
+
+
+
+                try {
+                    const res = await axios.get(`${Api_Url}/applied/find/${userId}/${id}`, {
+                        headers: { token: accessToken }
+
+                    });
+
+                    if (res.data.status === 'applied') {
+                        setHasApplied(true);
+                    } else {
+                        setHasApplied(false);
+                    }
+                } catch (error) {
+                    console.error('Error checking applied status:', error);
+                }
+
+
             } catch (error) {
                 console.error('Error fetching job data:', error);
             }
-        }
+        };
 
         getJob();
-    }, [id]);
+
+    }, [id, userId, accessToken]);
+
+
 
     if (loading) {
         return <p>Loading...</p>; // Display a loading message while fetching data
@@ -155,10 +235,8 @@ const JobApply = () => {
 
 
 
-
     const handleApply = async () => {
-        if (isApplying) return; // Prevent multiple clicks while application is in progress
-        setIsApplying(true); // Set isApplying to true to disable the button
+
 
         const applyData = { userId: userId, jobId: id };
 
@@ -171,6 +249,7 @@ const JobApply = () => {
 
             });
             toast.success('Congratulations! Your Job Application Was Successful!');
+            setHasApplied(true)
 
             setTimeout(() => {
                 navigate('/jobs');
@@ -179,13 +258,11 @@ const JobApply = () => {
         } catch (error) {
             console.log(error);
             toast.error(`Failed .${toast.error(error.response.data.message)}`);
-        } finally {
-            setIsApplying(false); // Reset isApplying to enable the button after submission or error
         }
     };
 
     return (
-        <Container>
+        <Container >
             <ToastContainer />
             <Wrapper>
 
@@ -206,9 +283,10 @@ const JobApply = () => {
 
                         </Skills>
 
-                        <Button2 onClick={handleApply} disabled={isApplying}>
+                        {hasApplied ? <DisbButton disabled >Applied</DisbButton> : <Button2 onClick={handleApply} >
                             Apply
                         </Button2>
+                        }
 
 
 
