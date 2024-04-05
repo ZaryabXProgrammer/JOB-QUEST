@@ -1,11 +1,10 @@
-
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import styled, { keyframes } from 'styled-components'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import app from '../Firebase'
+import app from '../Firebase';
 import { useState } from 'react';
 
 const fadeInAnimation = keyframes`
@@ -27,21 +26,23 @@ const RegisterContainer = styled.div`
   margin: 0 auto;
     animation: ${fadeInAnimation} 0.6s ease;
 
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const InputField = styled.input`
   width: 100%;
-  flex-wrap: wrap;
   padding: 10px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box; /* Ensure padding and border are included in the width */
-  
 `;
 
 const SubmitButton = styled.button`
-  width: 30%;
+  width: 100%;
   padding: 10px;
   background-color: #3067ff;
   color: white;
@@ -69,23 +70,19 @@ const Agreement = styled.div`
 `;
 
 const Button2 = styled.button`
-    padding: 8px;
-   
-    font-size: 14px;
-    background-color: transparent;
-    border: 1px solid #ccc;
-    font-weight: bold;
-   
-cursor: pointer;
-transition: 0.3s ease;
- &:hover {
-    background-color:#2660ff;
-
-    color: white;
+  padding: 8px;
+  font-size: 14px;
+  background-color: transparent;
+  border: 1px solid #ccc;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
     
-  
+  &:hover {
+    background-color: #2660ff;
+    color: white;
   }
-`
+`;
 
 const validationSchema = Yup.object({
   username: Yup.string().required('Username is required'),
@@ -95,18 +92,13 @@ const validationSchema = Yup.object({
   resume: Yup.mixed().notRequired(),
 });
 
-
 const RegisterPage = () => {
-
-  const [file, setfile] = useState(null)
-
-  const [click, setclick] = useState(false)
+  const [file, setFile] = useState(null);
+  const [click, setClick] = useState(false);
   const Api_Url = "http://localhost:8080";
-
   const navigate = useNavigate();
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-
     const filename = new Date().getTime() + file.name;
     const storage = getStorage(app);
     const storageRef = ref(storage, filename);
@@ -118,56 +110,36 @@ const RegisterPage = () => {
       (snapshot) => {
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         console.log('Upload is ' + progress + '% done');
-        switch (snapshot.state) {
-          case 'paused':
-            console.log('Upload is paused');
-            break;
-          case 'running':
-            console.log('Upload is running');
-            break;
-          default:
-        }
       },
       (error) => {
-        // Handle unsuccessful uploads
         console.error('Error uploading file:', error);
       },
       () => {
-        // Handle successful uploads on complete
         getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
           console.log('File available at', downloadURL);
           try {
             const jobData = { ...values, resume: downloadURL };
-            await axios.post(`${Api_Url}/auth/register`, jobData).then((res) => {
-              alert(res.data.username + "Registered")
-              navigate('/')
-              setSubmitting(false);
-              resetForm();
-            })
+            const res = await axios.post(`${Api_Url}/auth/register`, jobData);
+            alert(res.data.username + "Registered");
+            navigate('/');
+            setSubmitting(false);
+            resetForm();
           } catch (error) {
-            console.log(error)
+            console.log(error);
           }
 
 
 
-
+         
 
         });
       }
     );
-
-
-
-
-
   };
-
 
   return (
     <RegisterContainer>
-      <Title>
-        <Span>Register </Span>Now
-      </Title>
+      <Title><Span>Register</Span> Now</Title>
       <Formik
         initialValues={{
           username: '',
@@ -187,20 +159,13 @@ const RegisterPage = () => {
           <Field name="password" type="password" placeholder="Password" as={InputField} />
           <ErrorMessage name="password" component="div" />
           <Field name="phone" type="tel" placeholder="Phone Number" as={InputField} />
-
           <ErrorMessage name="phone" component="div" />
           <Label htmlFor="resume">Attach Resume: <br /></Label>
-
           {click ? (
-
-            <input type="file" id="file" onChange={(e) => setfile(e.target.files[0])} />
+            <input type="file" id="file" onChange={(e) => setFile(e.target.files[0])} />
           ) : (
-            <Button2 onClick={() => setclick(!click)}>Choose File!</Button2>
+            <Button2 onClick={() => setClick(!click)}>Choose File!</Button2>
           )}
-
-
-
-
           <Agreement>
             By creating an account, I consent to the processing of my personal data in accordance with the{' '}
             <b>PRIVACY POLICY.</b>
