@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import app from '../Firebase';
 import { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const fadeInAnimation = keyframes`
     from {
@@ -119,11 +121,21 @@ const RegisterPage = () => {
           console.log('File available at', downloadURL);
           try {
             const jobData = { ...values, resume: downloadURL };
-            const res = await axios.post(`${Api_Url}/auth/register`, jobData);
-            alert(res.data.username + "Registered");
-            navigate('/');
-            setSubmitting(false);
-            resetForm();
+
+            await axios.post(`${Api_Url}/auth/register`, jobData).then((res) => {
+              alert(res.data.username + "Registered")
+              toast.success(`${res.data.username} Registered Successfully`, {
+                autoClose: 3000
+              });
+              setSubmitting(false);
+              resetForm();
+            })
+            setTimeout(() => {
+              navigate('/');
+            }, 3000); // Redirect after 5 seconds
+
+            
+
           } catch (error) {
             console.log(error);
           }
@@ -139,7 +151,14 @@ const RegisterPage = () => {
 
   return (
     <RegisterContainer>
-      <Title><Span>Register</Span> Now</Title>
+
+      <ToastContainer />
+      <Title>
+        <Span>Register </Span>Now
+      </Title>
+
+      
+
       <Formik
         initialValues={{
           username: '',
