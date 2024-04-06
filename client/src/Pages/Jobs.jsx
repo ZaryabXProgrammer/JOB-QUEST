@@ -38,7 +38,7 @@ const LeftContainer = styled.div`
   width: 100%;
 
   @media screen and (min-width: 768px) {
-    width: 15vw;
+    width: 25vw;
     margin: 10px 10px 10px 30px;
   }
 `;
@@ -50,6 +50,7 @@ const FilterHeading = styled.div`
  margin-bottom: 10px;
  align-items: center;
  margin-top: 10px;
+ 
 `
 
 const FilterTitle = styled.h1`
@@ -75,7 +76,7 @@ const SortBox = styled.div`
   margin: 12px 0;
 
   @media screen and (min-width: 768px) {
-    margin: 0; /* Adjust margin for larger screens */
+    margin: 10px 0; /* Adjust margin for larger screens */
   }
 `;
 
@@ -91,7 +92,7 @@ const SalaryBox = styled.div`
   margin-bottom: 12px; /* Adjust margin for mobile */
   
   @media screen and (min-width: 768px) {
-    margin-bottom: 0; /* Reset margin for larger screens */
+    margin: 10px 0;
   }
 `;
 
@@ -138,6 +139,10 @@ const SalarySlider = styled.input`
   &:hover::-webkit-slider-thumb {
     opacity: 1; /* Change thumb opacity on hover */
   }
+
+  @media screen and (min-width: 768px) {
+    margin: 10px 0;
+  }
 `;
 
 
@@ -147,7 +152,7 @@ const JobTypeBox = styled.div`
   margin-bottom: 12px; /* Adjust margin for mobile */
   
   @media screen and (min-width: 768px) {
-    margin-bottom: 0; /* Reset margin for larger screens */
+    margin: 10px 0;
   }
 `;
 
@@ -177,7 +182,7 @@ const ExperienceBox = styled.div`
   margin-bottom: 12px; /* Adjust margin for mobile */
   
   @media screen and (min-width: 768px) {
-    margin-bottom: 0; /* Reset margin for larger screens */
+      margin: 10px 0;
   }
 `;
 
@@ -278,7 +283,7 @@ const FindContainer = styled.div`
   margin: 10px 0; /* Adjust margin for mobile */
 
   @media screen and (min-width: 768px) {
-    height: 21%;
+    height: 10%;
     margin: 0;
   }
 `;
@@ -337,6 +342,7 @@ const Input = styled.input`
 
   @media screen and (min-width: 768px) {
     margin-right: 10px; /* Adjust margin for inputs on larger screens */
+    flex: 4;
   }
 `;
 
@@ -349,8 +355,15 @@ const Button = styled.button`
   border: none;
   border-radius: 8px;
 
-  @media screen and (max-width: 767px) {
+  @media screen and (max-width: 768px) {
     font-size: 14px; /* Adjust font size for smaller screens */
+    padding: 15px 25px;
+  }
+
+  @media screen and (min-width: 914px) {
+    padding: 15px 40px; /* Adjust padding for larger screens */
+    max-width: 250px; /* Limit maximum width for larger screens */
+    flex: none; /* Remove flex to prevent stretching on larger screens */
   }
 
   &:hover {
@@ -385,7 +398,7 @@ const ShowingJobsTitle = styled.h3`
   margin: 18px 0 0px 0; /* Adjust margin for mobile */
 
   @media screen and (min-width: 768px) {
-    margin: 18px 0 0px 4px; /* Reset margin for larger screens */
+    margin: 60px 0 0px 4px; /* Reset margin for larger screens */
   }
 `;
 

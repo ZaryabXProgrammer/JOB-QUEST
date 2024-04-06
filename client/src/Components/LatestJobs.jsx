@@ -6,25 +6,31 @@ import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 
 
 const Container = styled.div`
-  background: rgb(215, 219, 255);
+   background-color: #ced9ff;
   overflow: hidden;
 `;
 
 const Wrapper = styled.div`
   margin: 0 auto;
   width: 100%;
+  height: 80vh;
   max-width: 70%;
   display: flex;
   flex-direction: column;
+   @media (max-width: 768px) {
+  height: auto;
+  margin-bottom: 50px;
+     
+  }
 `;
 
 const Title = styled.h1`
   text-align: center;
-  margin-top: 20px;
+  margin-top: 90px;
   font-size: 40px;
 `;
 
@@ -44,6 +50,7 @@ const Top = styled.div`
     margin: auto;
     flex-direction: column;
     align-items: flex-start;
+     
   }
 `;
 
@@ -130,10 +137,10 @@ const LowerButton = styled.button`
   }
 `;
 
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: white;
-`;
+// const StyledLink = styled(Link)`
+//   text-decoration: none;
+//   color: white;
+// `;
 
 const LatestJobs = () => {
   const navigate = useNavigate()

@@ -20,6 +20,7 @@ const Container = styled(motion.div)`
  /* background-color: #eaf0ff; */
     flex-direction: column;
     animation: ${fadeInAnimation} 0.6s ease;   
+          margin-bottom: 20px;
 
 `;
 
@@ -34,6 +35,7 @@ const Title = styled.h2`
     margin-bottom: 20px;
     @media (max-width: 480px) {
         font-size: 30px;
+        margin-top: 40px;
     }
 `;
 
@@ -67,6 +69,7 @@ const CardContainer = styled.div`
         background-color: #3b70ff;
         color: white;
         cursor: pointer;
+  
     }
 
     @media (max-width: 768px) {
