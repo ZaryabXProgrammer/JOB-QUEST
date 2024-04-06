@@ -226,8 +226,6 @@ padding:2px 10px ;
 
 
 
-
-
 const Slider = () => {
 
   const socialMediaIcons = [
