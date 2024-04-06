@@ -1,7 +1,9 @@
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector, useDispatch } from "react-redux";
 import { signOut } from '../Redux/userSlice';
+
 const Container = styled.div`
   color: ${({ isNavbar }) => (isNavbar ? 'white' : 'black')};
   background: ${({ isNavbar }) =>
@@ -10,6 +12,7 @@ const Container = styled.div`
       : 'white'};
   height: ${({ isNavbar }) => (isNavbar ? '60px' : 'auto')};
 `;
+
 const Wrapper = styled.div`
   padding: 10px 20px;
   display: flex;
@@ -34,6 +37,16 @@ const SearchContainer = styled.div`
   padding: 5px;
 `;
 
+const Right = styled.div`
+  flex: 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  @media (max-width: 480px) {
+    display: none; /* Hide Center content on mobile */
+  }
+`;
+
 const Center = styled.div`
   flex: 1;
   text-align: center;
@@ -50,11 +63,14 @@ const Logo = styled.h1`
   font-weight: bold;
 `;
 
-const Right = styled.div`
+const HamburgerMenu = styled.div`
   flex: 2;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  @media (min-width: 768px) {
+    display: none; /* Hide Center content on mobile */
+  }
 `;
 
 const MenuItem = styled.div`
@@ -84,13 +100,10 @@ const useIsHomepage = () => {
 };
 
 const Navbar = () => {
+  const [showMenu, setShowMenu] = useState(false); // State for controlling menu visibility
 
-  
-
-  const username = useSelector((state) => (state.user.currentUser ? state.user.currentUser.username : null))
-
+  const username = useSelector((state) => (state.user.currentUser ? state.user.currentUser.username : null));
   const isHomePage = useIsHomepage();
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -100,7 +113,6 @@ const Navbar = () => {
   };
 
   return (
-
     <Container isNavbar={isHomePage}>
       <Wrapper>
         <Left>
@@ -117,7 +129,6 @@ const Navbar = () => {
           <MenuItem>
             <StyledLink isHomePage={isHomePage} to="/jobs">Jobs</StyledLink>
           </MenuItem>
-
           <MenuItem>
             <StyledLink isHomePage={isHomePage} to="/createJob">Create a Job</StyledLink>
           </MenuItem>
@@ -145,17 +156,97 @@ const Navbar = () => {
                 <MenuItem >Sign Out</MenuItem>
               </StyledLink>
             </>
-
-
           }
-
-
-
-
         </Right>
+        <HamburgerMenu>
+          <MenuIcon onClick={() => setShowMenu(!showMenu)} isHomePage={isHomePage} showMenu={showMenu} />
+          <Menu showMenu={showMenu}>
+            {!username ? (
+              <>
+                <StyledLink isHomePage={isHomePage} to="/register">
+                  <MenuItem>Register</MenuItem>
+                </StyledLink>
+                <StyledLink isHomePage={isHomePage} to="/login">
+                  <MenuItem>Sign In</MenuItem>
+                </StyledLink>
+              </>
+            ) : (
+              <>
+                <StyledLink isHomePage={isHomePage}>
+                  <MenuItem>@{username}</MenuItem>
+                </StyledLink>
+                <StyledLink onClick={handleSignOut} isHomePage={isHomePage}>
+                  <MenuItem>Sign Out</MenuItem>
+                </StyledLink>
+              </>
+            )}
+            <MenuItem>
+              <StyledLink isHomePage={isHomePage} to="/">Home</StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink isHomePage={isHomePage} to="/jobs">Jobs</StyledLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledLink isHomePage={isHomePage} to="/createJob">Create a Job</StyledLink>
+            </MenuItem>
+          </Menu>
+        </HamburgerMenu>
       </Wrapper>
-    </Container >
+    </Container>
   );
 };
+
+const MenuIcon = ({ onClick, isHomePage, showMenu }) => (
+  <StyledMenuIcon onClick={onClick} isHomePage={isHomePage} showMenu={showMenu}>
+    <div />
+    <div />
+    <div />
+  </StyledMenuIcon>
+);
+
+const StyledMenuIcon = styled.div`
+  cursor: pointer;
+  width: 30px;
+  height: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  @media (min-width: 481px) {
+    display: none;
+  }
+
+  div {
+    width: 100%;
+    height: 3px;
+    background-color: ${({ isHomePage }) => (isHomePage ? 'white' : 'black')};
+    transition: all 0.3s linear;
+    transform-origin: 1px;
+  }
+
+  div:first-child {
+    transform: ${({ showMenu }) => (showMenu ? 'rotate(45deg)' : 'rotate(0)')};
+  }
+
+  div:nth-child(2) {
+    opacity: ${({ showMenu }) => (showMenu ? '0' : '1')};
+  }
+
+  div:last-child {
+    transform: ${({ showMenu }) => (showMenu ? 'rotate(-45deg)' : 'rotate(0)')};
+  }
+`;
+
+const Menu = styled.div`
+  position: absolute;
+  z-index: 999;
+  top: 60px; /* Height of the navbar */
+  right: 20px;
+  // background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  display: ${({ showMenu }) => (showMenu ? 'block' : 'none')};
+`;
 
 export default Navbar;

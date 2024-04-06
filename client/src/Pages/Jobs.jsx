@@ -20,25 +20,29 @@ const fadeInAnimation = keyframes`
     }
 `;
 const Wrapper = styled.div`
-  display: flex; /* Make the wrapper a flex container */
-  justify-content: space-between; /* Distribute space between child elements */
+  display: flex;
+  flex-direction: column; /* Change to column layout for mobile */
   background-color: #F8F9FD;
-animation: ${fadeInAnimation} 0.6s ease; /* Apply left-to-right animation */
-  
+  animation: ${fadeInAnimation} 0.6s ease; /* Apply left-to-right animation */  padding: 10px;
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row; /* Revert to row layout for larger screens */
+  }
 `;
 
 const LeftContainer = styled.div`
   background-color: #FFFFFF;
-  width: 15vw;
-  flex: 1; /* Take up 1 part of the available space */
   padding: 8px;
-  margin: 10px 10px 10px 30px; /* Adjust margin as needed */
-  display: flex;
-  flex-direction: column;
-  height: 80%;
-  
+  margin: 10px 0; /* Adjust margin for mobile */
   border-radius: 8px;
+  width: 100%;
+
+  @media screen and (min-width: 768px) {
+    width: 15vw;
+    margin: 10px 10px 10px 30px;
+  }
 `;
+
 
 const FilterHeading = styled.div`
  display: flex;
@@ -66,12 +70,14 @@ margin-right: 2px;
 `
 
 const SortBox = styled.div`
-display: flex;
-flex-direction: column;
-margin: 12px 0;
-    
-    
-`
+  display: flex;
+  flex-direction: column;
+  margin: 12px 0;
+
+  @media screen and (min-width: 768px) {
+    margin: 0; /* Adjust margin for larger screens */
+  }
+`;
 
 const SortTitle = styled.h1`
 color: #015f01;
@@ -81,7 +87,12 @@ margin-bottom: 10px;
 
 const SalaryBox = styled.div`
   display: flex;
- flex-direction: column;
+  flex-direction: column;
+  margin-bottom: 12px; /* Adjust margin for mobile */
+  
+  @media screen and (min-width: 768px) {
+    margin-bottom: 0; /* Reset margin for larger screens */
+  }
 `;
 
 const SalaryTitle = styled.h1`
@@ -131,22 +142,29 @@ const SalarySlider = styled.input`
 
 
 const JobTypeBox = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-flex-direction: column;
-margin: 12px 0;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px; /* Adjust margin for mobile */
+  
+  @media screen and (min-width: 768px) {
+    margin-bottom: 0; /* Reset margin for larger screens */
+  }
+`;
 
-`
 const JobtypeTitle = styled.h1`
 color: #015f01;
 font-size: 18px;
 margin-bottom: 10px;
 `
 const WorkLocationBox = styled.div`
-    display: flex;
-flex-direction: column;margin: 12px 0;
-
-`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px; /* Adjust margin for mobile */
+  
+  @media screen and (min-width: 768px) {
+    margin-bottom: 0; /* Reset margin for larger screens */
+  }
+`;
 
 const WorkLocationTitle = styled.h1`
 color: #015f01;
@@ -155,10 +173,12 @@ margin-bottom: 10px;
 `
 const ExperienceBox = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: column; /* Items will be arranged in a column */
-  align-items: flex-start; /* Align items to the start of the column */
-  margin: 12px 0;
+  flex-direction: column;
+  margin-bottom: 12px; /* Adjust margin for mobile */
+  
+  @media screen and (min-width: 768px) {
+    margin-bottom: 0; /* Reset margin for larger screens */
+  }
 `;
 
 const ExperienceTitle = styled.h1`
@@ -239,23 +259,29 @@ const CheckMarkContainer = styled.label`
 
 
 const RightContainer = styled.div`
-  flex: 4;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 80vw;
-margin: 10px 50px 10px 16px; 
+  background-color: #FFFFFF;
+  padding: 8px;
+  margin: 10px 0; /* Adjust margin for mobile */
+  border-radius: 8px;
+  width: 100%;
 
-
+  @media screen and (min-width: 768px) {
+    width: 80vw;
+    margin: 10px 50px 10px 16px;
+  }
 `;
 
 const FindContainer = styled.div`
-    height: 21%;
-     background-color: #FFFFFF;
- padding: 8px;
+  background-color: #FFFFFF;
+  padding: 8px;
+  border-radius: 10px;
+  margin: 10px 0; /* Adjust margin for mobile */
 
-    border-radius: 10px;
-`
+  @media screen and (min-width: 768px) {
+    height: 21%;
+    margin: 0;
+  }
+`;
 
 const TitleBox = styled.h1`
 color: #015f01;
@@ -267,86 +293,101 @@ margin: 10px 0 10px 12px; //top right bottom left
 const Desc = styled.p`
 margin-left: 12px;
 `
-
 const SearchBox = styled.div`
-margin: 13px 0 4px 12px;
-display: flex;
+  display: flex;
+  flex-direction: column;
+  margin: 13px 0 4px 0; /* Adjust margin for mobile */
 
-align-items: center;
-justify-content: center;
-
-`
-
+  @media screen and (min-width: 768px) {
+    flex-direction: row; /* Change to row layout for larger screens */
+    margin: 0;
+  }
+`;
 const InputBox = styled.div`
-   display: flex;
-  align-items: center; /* Center items vertically */
- 
-  flex: 6;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-bottom: 10px; /* Adjust margin for mobile */
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+    margin-bottom: 0;
+  }
 `;
 
+
+
+
 const Input = styled.input`
-  flex: 1; /* Take up remaining space */
-/* Add spacing between inputs */
-  padding: 15px 10px; /* Add padding to the input field */
+  flex: 1;
+  padding: 15px 10px;
   border: 1px solid #DDDDDD;
   outline: none;
   border-radius: 3px;
 
-  /* Add placeholder styles */
   &::placeholder {
-    color: #999999; /* Placeholder text color */
+    color: #999999;
     display: flex;
-    align-items: center; /* Center content vertically */
+    align-items: center;
   }
 
-  /* Adjust padding for placeholder with icon */
   &::placeholder + svg {
-    margin-right: 8px; /* Add right margin to the icon */
+    margin-right: 8px;
   }
-  
+
+  @media screen and (min-width: 768px) {
+    margin-right: 10px; /* Adjust margin for inputs on larger screens */
+  }
 `;
 
 const Button = styled.button`
   flex: 1;
-  padding: 15px 1px; /* Add padding to the button */
+  padding: 15px 1px;
   margin: 0 10px 0 10px;
   color: white;
   background-color: #119856;
   border: none;
   border-radius: 8px;
-  &:hover{
+
+  @media screen and (max-width: 767px) {
+    font-size: 14px; /* Adjust font size for smaller screens */
+  }
+
+  &:hover {
     cursor: pointer;
   }
 `;
 
 
-
 const JobsContainer = styled.div`
-    margin-top: 20px;
-height: auto;
+  margin-top: 20px;
+  height: auto;
+  padding: 8px;
+  border-radius: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center job cards horizontally */
 
- padding: 8px;
-
-    border-radius: 10px;
-        display: flex;
-    flex-wrap: wrap;
-
-
-`
+  @media screen and (min-width: 768px) {
+    justify-content: flex-start; /* Align job cards to the left for larger screens */
+  }
+`;
 
 const Span = styled.span`
     
     color:  darkgreen;
 `
 
-
 const ShowingJobsTitle = styled.h3`
+  color: #656669;
+  font-weight: bold;
+  font-size: 17px;
+  margin: 18px 0 0px 0; /* Adjust margin for mobile */
 
-color: #656669;
-font-weight: bold;
-font-size: 17px;
-margin: 18px 0 0px 4px; //top right bottom left
-`
+  @media screen and (min-width: 768px) {
+    margin: 18px 0 0px 4px; /* Reset margin for larger screens */
+  }
+`;
 
 
 

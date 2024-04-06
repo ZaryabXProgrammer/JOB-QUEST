@@ -21,11 +21,11 @@ const Container = styled.div`
     // `}
 
     @media (max-width: 768px) { /* Adjust styles for tablet */
-       height: 50px;
-         font-size: 12px;
+        height: 25px;
+        font-size: 12px;
      }
      @media (max-width: 480px) { /* Adjust styles for mobile */
-         height: 70px;
+         height: 20px;
          font-size: 10px;
     }
     
