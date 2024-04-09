@@ -21,13 +21,18 @@ max-width: 60%; /* Set max-width to 70% */
   justify-content: center;
   align-items: center;
   object-fit: contain;
+
+  @media (max-width: 768px){
+    height: 60%;
+    width: 60%;
+  }
 `;
 
 
 const ImgContainer = styled.div`
 height: 80%;
     flex: 1;
-    @media (max-width: 480px) { /* Adjust styles for mobile */
+    @media (max-width: 768px){
     display: none;
   }
 `
@@ -49,7 +54,10 @@ const InfoContainer = styled.div`
 const Title = styled.h1`
     font-size: 50px;
     color: white;
-    
+    @media (max-width: 768px){
+    font-size: 40px;
+  }
+  
 `
 const Desc = styled.p`
     margin: 30px 0px;
