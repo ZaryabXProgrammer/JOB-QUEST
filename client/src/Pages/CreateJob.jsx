@@ -27,7 +27,11 @@ const ParentContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-  
+  @media (max-width: 768px) {
+    height: 100%;
+    width: 100%;
+  }
+
 `;
 
 
@@ -40,15 +44,18 @@ const CreateJobContainer = styled.div`
   /* Do not repeat the background image */
 animation: ${fadeInAnimation} 0.6s ease;
 
-  @media (min-width: 768px) {
-    width: 70%;
-    margin: 0 auto;
-  }
+  // @media (min-width: 768px) {
+  //   width: 70%;
+  //   margin: 0 auto;
+  // }
 `;
 
 const InputFieldContainer = styled.div`
   width: 100%; /* Fixed width for the input field container */
   max-width: 400px; /* Maximum width for better responsiveness */
+  @media (max-width: 768px) {
+    width: 90%; /* Adjust the width for mobile devices */
+  }
 `;
 
 const InputField = styled.input`

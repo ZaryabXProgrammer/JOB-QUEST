@@ -218,14 +218,14 @@ const StyledMenuIcon = styled.div`
 
   div {
     width: 100%;
-    height: 3px;
+    height: 5px;
     background-color: ${({ isHomePage }) => (isHomePage ? 'white' : 'black')};
-    transition: all 0.3s linear;
-    transform-origin: 1px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
   }
 
   div:first-child {
-    transform: ${({ showMenu }) => (showMenu ? 'rotate(45deg)' : 'rotate(0)')};
+    transform: ${({ showMenu }) => (showMenu ? 'rotate(45deg) translate(5px, 5px)' : 'rotate(0)')};
   }
 
   div:nth-child(2) {
@@ -233,20 +233,22 @@ const StyledMenuIcon = styled.div`
   }
 
   div:last-child {
-    transform: ${({ showMenu }) => (showMenu ? 'rotate(-45deg)' : 'rotate(0)')};
+    transform: ${({ showMenu }) => (showMenu ? 'rotate(-45deg) translate(5px, -5px)' : 'rotate(0)')};
   }
 `;
+
 
 const Menu = styled.div`
   position: absolute;
   z-index: 999;
   top: 60px; /* Height of the navbar */
   right: 20px;
-  // background-color: white;
+  // background-color: white; 
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   display: ${({ showMenu }) => (showMenu ? 'block' : 'none')};
 `;
+
 
 export default Navbar;

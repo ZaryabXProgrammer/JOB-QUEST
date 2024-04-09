@@ -32,6 +32,9 @@ const Title = styled.h1`
   text-align: center;
   margin-top: 90px;
   font-size: 40px;
+  @media (max-width: 768px) {
+    font-size: 30px;
+  }
 `;
 
 const Span = styled.span`
