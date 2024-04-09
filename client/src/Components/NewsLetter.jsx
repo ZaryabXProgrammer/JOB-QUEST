@@ -57,7 +57,6 @@ const Title = styled.h1`
     @media (max-width: 768px){
     font-size: 40px;
   }
-  
 `
 const Desc = styled.p`
     margin: 30px 0px;
