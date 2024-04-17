@@ -55,7 +55,7 @@ background: linear-gradient(90deg, rgba(26,41,189,1) 24%, rgba(0,0,0,1) 100%, rg
     
 
 height: 60vh;
-=======
+
 
     justify-content: flex-start;
     align-items: flex-start;
@@ -201,6 +201,7 @@ const Button = styled.button`
 
 const Button2 = styled.button`
 color: white;
+
   padding: 8px;
   font-size: 14px;
   background-color: transparent;
@@ -208,7 +209,7 @@ color: white;
   font-weight: bold;
   cursor: pointer;
   transition: 0.3s ease;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   
   &:hover {
      background-color: white;
