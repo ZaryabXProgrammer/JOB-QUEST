@@ -16,7 +16,16 @@ import Apple from '../assets/Lottie Icons/apple.json'
 import Amazon from '../assets/Lottie Icons/amazon.json'
 import Mastercard from '../assets/Lottie Icons/mastercardNew.json'
 
+const SocialIconsWrapper = styled.div`
+  display: flex;
+  position: relative;
+  white-space: nowrap; /* Ensure icons stay in one line */
 
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+`;
 
 const SocialIconsContainer = styled.div`
   position: absolute;
@@ -25,42 +34,45 @@ const SocialIconsContainer = styled.div`
   width: 100%;
 `;
 
-const SocialIconsWrapper = styled.div`
-  display: flex;
-  position: relative;
-  white-space: nowrap; /* Ensure icons stay in one line */
-`;
-
 const SocialIcon = styled(Lottie)`
   width: 180px;
   height: 180px;
   border-radius: 50%;
   margin-right: 90px; /* Adjust space between icons */
+
+  @media (max-width: 768px) {
+    width: 100px;
+    height: 100px;
+    margin-right: 40px; /* Adjust space between icons */
+  }
+
+  @media (max-width: 480px) {
+    width: 50px;
+    height: 50px;
+    margin-right: 40px; /* Adjust space between icons */
+  }
 `;
 
 const ParentContainer = styled.div`
-
-
   position: relative;
   color: white;
   height: 95vh; /* Adjust the height as needed */
   display: flex;
   justify-content: center;
   align-items: center;
-
-background: linear-gradient(90deg, rgba(26,41,189,1) 24%, rgba(0,0,0,1) 100%, rgba(9,9,133,1) 100%, rgba(0,212,255,1) 100%);/* Blue background color */
-
-
+  background: linear-gradient(90deg, rgba(26,41,189,1) 24%, rgba(0,0,0,1) 100%, rgba(9,9,133,1) 100%, rgba(0,212,255,1) 100%);/* Blue background color */
   @media (max-width: 768px) {
+
     
 
 height: 60vh;
-=======
+
+
+
+
 
     justify-content: flex-start;
     align-items: flex-start;
-    
-    
   }
 `;
 
@@ -83,7 +95,7 @@ margin: 0 auto;
   @media (max-width: 768px) {
     flex-direction: column;
     height: auto;
-    margin-top: 100px;
+    margin-top: 70px;
     
   }
 `;
@@ -95,7 +107,7 @@ const ImgContainer = styled.div`
 
   display: flex;
   align-items: center;
-  @media (max-width: 1024px) { 
+  @media (max-width: 1024px) {
     display: none;   
   }
 `;
@@ -201,6 +213,7 @@ const Button = styled.button`
 
 const Button2 = styled.button`
 color: white;
+
   padding: 8px;
   font-size: 14px;
   background-color: transparent;
@@ -208,7 +221,7 @@ color: white;
   font-weight: bold;
   cursor: pointer;
   transition: 0.3s ease;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   
   &:hover {
      background-color: white;

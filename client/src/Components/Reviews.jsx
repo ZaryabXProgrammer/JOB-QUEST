@@ -18,7 +18,10 @@ const Wrapper = styled.div`
 const Title = styled.h1`
 margin-top: 20px;
   text-align: center;
-  font-size: 40px; /* Decrease font size for smaller devices */
+  font-size: 40px;
+  @media (max-width: 768px) {
+    font-size: 30px;
+  }
 `;
 
 const Desc = styled.p`
