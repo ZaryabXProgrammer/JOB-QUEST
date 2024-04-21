@@ -43,6 +43,13 @@ const CardContainer = styled.div`
     margin: 20px;
     overflow: hidden;
     animation: ${fadeInAnimation} 1.5s ease; /* Apply fade-in animation */
+    @media screen and (max-width: 768px) {
+    
+        width: 100%;
+         margin: 0px;
+  
+     
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -142,7 +149,7 @@ const DisbButton = styled.button`
 
 
 const JobApply = () => {
-   
+
     const Api_Url = "http://localhost:8080";
     const location = useLocation();
     const id = location.pathname.split('/')[2];
@@ -184,7 +191,7 @@ const JobApply = () => {
 
 
 
-        
+
         const getJob = async () => {
             try {
                 const response = await axios.get(`${Api_Url}/jobs/job/${id}`, {

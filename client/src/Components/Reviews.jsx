@@ -3,7 +3,7 @@ import { jobSeekerReviews } from '../constants/index';
 import dots from '../assets/reviews/dots.png';
 
 const Container = styled.div`
-  background-color: #ebeffa;
+      background-color: #f3f6ff;
   overflow: hidden;
 `;
 

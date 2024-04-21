@@ -9,6 +9,7 @@ import SignIn from './Pages/SignIn'
 import CreateJob from './Pages/CreateJob'
 import { JobsProvider } from './Helpers/JobContext';
 import JobApply from './Pages/JobApply'
+import ResumeRater from './Pages/ResumeRater'
 
 
 
@@ -35,6 +36,7 @@ const App = () => {
             <Route path='/register' exact element={<Register />} />
             <Route path='/login' exact element={<SignIn />} />
 
+            <Route path='/rate' exact element={<ResumeRater/>}/>
 
           </Routes>
 

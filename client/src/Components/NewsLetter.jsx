@@ -3,8 +3,11 @@ import subscribe from '../assets/benefits/subscribe.jpg'
 
 const Container = styled.div`
 
-background: rgb(26,41,189);
-background: linear-gradient(90deg, rgba(26,41,189,1) 28%, rgba(0,0,0,1) 100%, rgba(0,0,0,1) 100%, rgba(9,9,133,1) 100%);
+
+background: #396afc;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #2948ff, #396afc);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #2948ff, #396afc); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 overflow: hidden;
   /* Center the container horizontally */
 `;
@@ -12,7 +15,7 @@ overflow: hidden;
 const Wrapper = styled.div`
 margin: 0 auto; 
 width: 100%;
-  height: 50vh;
+  height: 70vh;
 max-width: 60%; /* Set max-width to 70% */
   display: flex;
   justify-content: center;
