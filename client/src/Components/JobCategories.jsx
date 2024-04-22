@@ -91,7 +91,7 @@ const ImageContainer = styled.div`
     align-items: center;
     border-radius: 50%;
     background-color: white;
-    margin-top: 10px; /* Adjust margin */
+    margin-top: 10pX; /* Adjust margin */
 `;
 
 const CardImage = styled.img`

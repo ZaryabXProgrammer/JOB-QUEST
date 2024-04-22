@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
@@ -48,7 +48,7 @@ const Right = styled.div`
 `;
 
 const Center = styled.div`
-  flex: 1;
+  flex: 2;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -84,6 +84,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   transition: color 0.3s ease;
   font-weight: 590;
+  
 
   &:hover {
     color: ${({ isHomePage }) => (isHomePage ? 'white' : 'darkgray')};
@@ -131,6 +132,9 @@ const Navbar = () => {
           </MenuItem>
           <MenuItem>
             <StyledLink isHomePage={isHomePage} to="/createJob">Create a Job</StyledLink>
+          </MenuItem>
+          <MenuItem>
+            <StyledLink isHomePage={isHomePage} to="/rate">Rate CV</StyledLink>
           </MenuItem>
         </Center>
         <Right>

@@ -320,9 +320,6 @@ const InputBox = styled.div`
   }
 `;
 
-
-
-
 const Input = styled.input`
   flex: 1;
   padding: 15px 10px;
@@ -401,8 +398,6 @@ const ShowingJobsTitle = styled.h3`
     margin: 60px 0 0px 4px; /* Reset margin for larger screens */
   }
 `;
-
-
 
 
 const Jobs = () => {
