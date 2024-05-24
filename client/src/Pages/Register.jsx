@@ -8,6 +8,7 @@ import app from '../Firebase';
 import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import MyLoader from '../Utils/myLoader';
 
 const fadeInAnimation = keyframes`
     from {
@@ -86,6 +87,24 @@ const Button2 = styled.button`
   }
 `;
 
+const LoaderContainer = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  backdrop-filter: blur(8px);
+`;
+const spinAnimation = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+
+const StyledLoader = styled(MyLoader)`
+  animation: ${spinAnimation} 1s linear infinite;
+`;
+
+
 const validationSchema = Yup.object({
   username: Yup.string().required('Username is required'),
   email: Yup.string().email('Invalid email address').required('Email is required'),
@@ -95,6 +114,7 @@ const validationSchema = Yup.object({
 });
 
 const RegisterPage = () => {
+  const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
   const [click, setClick] = useState(false);
   const Api_Url = "http://localhost:8080";
@@ -104,6 +124,9 @@ const RegisterPage = () => {
     const filename = new Date().getTime() + file.name;
     const storage = getStorage(app);
     const storageRef = ref(storage, filename);
+
+    setLoading(true);
+
 
     const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -122,19 +145,28 @@ const RegisterPage = () => {
           try {
             const jobData = { ...values, resume: downloadURL };
 
-            await axios.post(`${Api_Url}/auth/register`, jobData).then((res) => {
-              alert(res.data.username + "Registered")
-              toast.success(`${res.data.username} Registered Successfully`, {
-                autoClose: 3000
-              });
-              setSubmitting(false);
-              resetForm();
-            })
+
+
+            await axios.post(`${Api_Url}/auth/register`, jobData)
+              .then((res) => {
+                // alert(res.data.username + "Registered")
+                toast.success(`${res.data.username} Registered Successfully`, {
+                  autoClose: 3000
+                });
+                setSubmitting(false);
+                resetForm();
+              })
+              .finally(
+                () => {
+                  setLoading(false)
+                }
+              );
+
             setTimeout(() => {
               navigate('/');
             }, 3000); // Redirect after 5 seconds
 
-            
+
 
           } catch (error) {
             console.log(error);
@@ -142,7 +174,7 @@ const RegisterPage = () => {
 
 
 
-         
+
 
         });
       }
@@ -150,49 +182,57 @@ const RegisterPage = () => {
   };
 
   return (
-    <RegisterContainer>
+    <>
+      {loading ? (
+        <LoaderContainer>
+          <StyledLoader color="#29b89b" size={150} />
+          <h1>Registering....</h1>
+        </LoaderContainer>
+      ) : (
+        <RegisterContainer>
+          <ToastContainer />
+          <Title>
+            <Span>Register </Span>Now
+          </Title>
 
-      <ToastContainer />
-      <Title>
-        <Span>Register </Span>Now
-      </Title>
-
-      
-
-      <Formik
-        initialValues={{
-          username: '',
-          email: '',
-          password: '',
-          phoneNumber: '',
-          resume: null,
-        }}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        <Form>
-          <Field name="username" type="text" placeholder="Username" as={InputField} />
-          <ErrorMessage name="username" component="div" />
-          <Field name="email" type="email" placeholder="Email" as={InputField} />
-          <ErrorMessage name="email" component="div" />
-          <Field name="password" type="password" placeholder="Password" as={InputField} />
-          <ErrorMessage name="password" component="div" />
-          <Field name="phone" type="tel" placeholder="Phone Number" as={InputField} />
-          <ErrorMessage name="phone" component="div" />
-          <Label htmlFor="resume">Attach Resume: <br /></Label>
-          {click ? (
-            <input type="file" id="file" onChange={(e) => setFile(e.target.files[0])} />
-          ) : (
-            <Button2 onClick={() => setClick(!click)}>Choose File!</Button2>
-          )}
-          <Agreement>
-            By creating an account, I consent to the processing of my personal data in accordance with the{' '}
-            <b>PRIVACY POLICY.</b>
-          </Agreement>
-          <SubmitButton type="submit">Register</SubmitButton>
-        </Form>
-      </Formik>
-    </RegisterContainer>
+          <Formik
+            initialValues={{
+              username: '',
+              email: '',
+              password: '',
+              phoneNumber: '',
+              resume: null,
+            }}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            <Form>
+              <Field name="username" type="text" placeholder="Username" as={InputField} />
+              <ErrorMessage name="username" component="div" />
+              <Field name="email" type="email" placeholder="Email" as={InputField} />
+              <ErrorMessage name="email" component="div" />
+              <Field name="password" type="password" placeholder="Password" as={InputField} />
+              <ErrorMessage name="password" component="div" />
+              <Field name="phone" type="tel" placeholder="Phone Number" as={InputField} />
+              <ErrorMessage name="phone" component="div" />
+              <Label htmlFor="resume">
+                Attach Resume: <br />
+              </Label>
+              {click ? (
+                <input type="file" id="file" onChange={(e) => setFile(e.target.files[0])} />
+              ) : (
+                <Button2 onClick={() => setClick(!click)}>Choose File!</Button2>
+              )}
+              <Agreement>
+                By creating an account, I consent to the processing of my personal data in accordance with the{' '}
+                <b>PRIVACY POLICY.</b>
+              </Agreement>
+              <SubmitButton disabled={loading} type="submit">Register</SubmitButton>
+            </Form>
+          </Formik>
+        </RegisterContainer>
+      )}
+    </>
   );
 };
 
