@@ -417,7 +417,7 @@ const Slider = () => {
 
             <div>
 
-              {click && <Button2 onClick={handleClick}>Search Now</Button2>}
+              {file && <Button2 onClick={handleClick}>Search Now</Button2>}
             </div>
 
 
