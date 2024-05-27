@@ -14,31 +14,16 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
 `;
 
 const InputContainer = styled.div`
   margin-bottom: 20px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-    justify-content: center;
-  }
 `;
 
 const StyledInput = styled.input`
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-
-  @media (min-width: 768px) {
-    margin-bottom: 0;
-    margin-right: 10px;
-  }
 `;
 
 const Button = styled.button`
@@ -48,10 +33,6 @@ const Button = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  @media (max-width: 768px) {
-    margin-top: 10px;
-    padding: 10px 10px;
-  }
 `;
 
 const fadeIn = keyframes`
@@ -73,13 +54,8 @@ const ResultsContainer = styled.div`
   animation: ${fadeIn} 0.5s ease-in-out;
   width: 100%;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   text-align: center;
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-    justify-content: space-between;
-  }
 
   &:hover {
     transform: translateY(-2px);
@@ -93,65 +69,57 @@ const ResultsContainer = styled.div`
 `;
 
 const Left = styled.div`
-  flex: 1;
-  font-size: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+
+flex: 1;
+height: 100vw;
+font-size: 15px;
+
+
+`
 
 const Right = styled.div`
   flex: 1;
+  height: 100vh;
   padding: 10px;
-`;
+  
+
+
+`
 
 const GradeText = styled.h2`
   color: #333;
-  font-size: 400px;
+font-size: 400px;
   font-weight: bold;
 
-  color: ${({ grade }) => {
+color: ${({ grade }) => {
     switch (grade) {
       case 'A':
         return 'green';
       case 'B':
-        return 'blue';
+        return "Blue"
       case 'B+':
-        return 'darkgreen';
+        return "darkgreen"
       case 'C':
-        return 'darkred';
+        return "darkred"
       case 'F':
-        return 'red';
+        return "red"
       default:
-        return 'darkblue';
+        return 'darkblue'
     }
   }};
 
-  @media (max-width: 768px) {
-    font-size: 100px;
-  }
 `;
 
 const RemarksText = styled.p`
   color: #555;
-  font-size: 20px;
+  font-size: 21px;
   margin-top: 40px;
-
-  @media (max-width: 768px) {
-    font-size: 18px;
-    margin-top: 20px;
-  }
 `;
 
 const TipsText = styled.p`
   color: #777;
-  font-size: 16px;
+  font-size: 19px;
   margin-top: 30px;
-
-  @media (max-width: 768px) {
-    font-size: 14px;
-    margin-top: 20px;
-  }
 `;
 
 // Loader styling
@@ -165,28 +133,57 @@ const LoaderContainer = styled.div`
 `;
 
 const Headline = styled.div`
+  
   background-color: #007bff;
   padding: 20px 30px;
   color: white;
   font-size: 30px;
-  text-align: center;
-
-  @media (max-width: 768px) {
-    font-size: 24px;
-    padding: 10px 15px;
-  }
-`;
+`
 
 const StyledLoader = styled(MyLoader)`
   animation: ${spinAnimation} 1s linear infinite;
 `;
 
+const StatsBox = styled.div`
+  height: auto;
+  width: 100%;
+  background-color: #eeeeee;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  box-sizing: border-box;
+  margin: 20px 0;
+`;
+
+const Stat = styled.div`
+  color: black;
+  padding: 7px 20px;
+  margin: 0 8px;
+  font-size: 19px;
+  width: auto;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+
+  & > span {
+    margin-left: 5px;
+    font-weight: bold;
+  }
+`;
+
+
 const ResumeRater = () => {
   const [resumeFile, setResumeFile] = useState(null);
-  const [grade, setGrade] = useState(null);
-  const [headlineValue, setHeadlineValue] = useState(null);
-  const [remarksValue, setRemarksValue] = useState(null);
-  const [tips, setTips] = useState(null);
+  const [result, setResult] = useState({
+    grade: null,
+    headline: null,
+    remarks: null,
+    tips: null,
+    percentile: null,
+    wordcount: null,
+    impact_score: null,
+    brevity_score: null
+  });
   const [loading, setLoading] = useState(false);
 
   const handleFileChange = (e) => {
@@ -208,13 +205,24 @@ const ResumeRater = () => {
       },
     })
       .then(response => {
+        console.log(response.data)
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(response.data, 'text/xml');
+
         const gradeNode = xmlDoc.getElementsByTagName('grade')[0];
         const gradeValue = gradeNode.textContent;
 
         const headlineNode = xmlDoc.getElementsByTagName('grade_headline')[0];
         const headlineValue = headlineNode.textContent;
+
+        const percentile = xmlDoc.getElementsByTagName('percentile')[0].textContent;
+
+        const wordcount = xmlDoc.getElementsByTagName('wordcount')[0].textContent;
+        const impact_score = xmlDoc.getElementsByTagName('impact_score')[0].textContent;
+        const brevity_score = xmlDoc.getElementsByTagName('brevity_score')[0].textContent;
+
+
+
 
         const remarksNode = xmlDoc.getElementsByTagName('grade_blurb')[0];
         const remarksValue = remarksNode.textContent;
@@ -222,10 +230,16 @@ const ResumeRater = () => {
         const tipNode = xmlDoc.getElementsByTagName('tip')[0].getElementsByTagName('long')[0];
         const tipValue = tipNode.textContent;
 
-        setGrade(gradeValue);
-        setHeadlineValue(headlineValue);
-        setRemarksValue(remarksValue);
-        setTips(tipValue);
+        setResult({
+          grade: gradeValue,
+          headline: headlineValue,
+          remarks: remarksValue,
+          tips: tipValue,
+          percentile,
+          wordcount,
+          impact_score,
+          brevity_score
+        });
       })
       .catch(error => {
         console.error('Error:', error);
@@ -246,16 +260,29 @@ const ResumeRater = () => {
           <StyledLoader color="#36D7B7" size={150} />
         </LoaderContainer>
       ) : (
-        grade && (
+        result.grade && (
           <ResultsContainer>
             <Left>
-              <GradeText grade={grade}>{grade}</GradeText>
+              <GradeText grade={result.grade}>{result.grade}</GradeText>
             </Left>
             <Right>
               <Headline>Result</Headline>
-              <p style={{ fontSize: '30px', marginTop: '14px' }}>{headlineValue}</p>
-              <RemarksText>Remarks: {remarksValue}</RemarksText>
-              <TipsText>Follow These Tips: {tips}</TipsText>
+
+
+
+              <p style={{ fontSize: '30px', marginTop: '14px' }}>{result.headline}</p>
+              <h3 style={{ fontSize: '60px', color: '#36D7B7', marginTop: '11px' }} >{result.percentile}%</h3>
+              <RemarksText>Remarks: {result.remarks}</RemarksText>
+
+                <StatsBox>
+                  <Stat>Total Word Count: <span>{result.wordcount}</span></Stat>
+                  <Stat>Impact Score: <span>{result.impact_score}</span></Stat>
+                  <Stat>Brevity Score: <span>{result.brevity_score}</span></Stat>
+                </StatsBox>
+
+                <TipsText><i><b>Follow These Tips: </b>{result.tips}</i></TipsText>
+
+
             </Right>
           </ResultsContainer>
         )
@@ -265,4 +292,3 @@ const ResumeRater = () => {
 };
 
 export default ResumeRater;
-
