@@ -14,16 +14,31 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 20px;
 `;
 
 const InputContainer = styled.div`
   margin-bottom: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: center;
+  }
 `;
 
 const StyledInput = styled.input`
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+
+  @media (min-width: 768px) {
+    margin-bottom: 0;
+    margin-right: 10px;
+  }
 `;
 
 const Button = styled.button`
@@ -33,6 +48,10 @@ const Button = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  @media (max-width: 768px) {
+    margin-top: 10px;
+    padding: 10px 10px;
+  }
 `;
 
 const fadeIn = keyframes`
@@ -54,8 +73,13 @@ const ResultsContainer = styled.div`
   animation: ${fadeIn} 0.5s ease-in-out;
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   text-align: center;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 
   &:hover {
     transform: translateY(-2px);
@@ -69,57 +93,65 @@ const ResultsContainer = styled.div`
 `;
 
 const Left = styled.div`
-
-flex: 1;
-height: 100vw;
-font-size: 15px;
-
-
-`
+  flex: 1;
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Right = styled.div`
   flex: 1;
-  height: 100vh;
   padding: 10px;
-  
-
-
-`
+`;
 
 const GradeText = styled.h2`
   color: #333;
-font-size: 400px;
+  font-size: 400px;
   font-weight: bold;
 
-color: ${({ grade }) => {
+  color: ${({ grade }) => {
     switch (grade) {
       case 'A':
         return 'green';
       case 'B':
-        return "Blue"
+        return 'blue';
       case 'B+':
-        return "darkgreen"
+        return 'darkgreen';
       case 'C':
-        return "darkred"
+        return 'darkred';
       case 'F':
-        return "red"
+        return 'red';
       default:
-        return 'darkblue'
+        return 'darkblue';
     }
   }};
 
+  @media (max-width: 768px) {
+    font-size: 100px;
+  }
 `;
 
 const RemarksText = styled.p`
   color: #555;
-  font-size: 25px;
+  font-size: 20px;
   margin-top: 40px;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+    margin-top: 20px;
+  }
 `;
 
 const TipsText = styled.p`
   color: #777;
-  font-size: 19px;
+  font-size: 16px;
   margin-top: 30px;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+    margin-top: 20px;
+  }
 `;
 
 // Loader styling
@@ -133,12 +165,17 @@ const LoaderContainer = styled.div`
 `;
 
 const Headline = styled.div`
-  
   background-color: #007bff;
   padding: 20px 30px;
   color: white;
   font-size: 30px;
-`
+  text-align: center;
+
+  @media (max-width: 768px) {
+    font-size: 24px;
+    padding: 10px 15px;
+  }
+`;
 
 const StyledLoader = styled(MyLoader)`
   animation: ${spinAnimation} 1s linear infinite;
@@ -211,33 +248,21 @@ const ResumeRater = () => {
       ) : (
         grade && (
           <ResultsContainer>
-
-
             <Left>
               <GradeText grade={grade}>{grade}</GradeText>
             </Left>
-
             <Right>
-
-
               <Headline>Result</Headline>
-                <p style={{fontSize: '30px', marginTop: '14px'}}>{headlineValue}</p>
-                
+              <p style={{ fontSize: '30px', marginTop: '14px' }}>{headlineValue}</p>
               <RemarksText>Remarks: {remarksValue}</RemarksText>
               <TipsText>Follow These Tips: {tips}</TipsText>
-
-
             </Right>
-
-
-
-
-          </ResultsContainer>)
-
-
+          </ResultsContainer>
+        )
       )}
     </Wrapper>
   );
 };
 
 export default ResumeRater;
+
