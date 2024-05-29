@@ -1,5 +1,9 @@
-import styled, {keyframes} from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { cardsData } from '../constants/index'
+
+import ScrollAnimation from "react-animate-on-scroll";
+
+
 
 const fadeInAnimation = keyframes`
     from {
@@ -96,11 +100,17 @@ const CardDescription = styled.p`
 `;
 
 const Features = () => {
+
+
   return (
     <Container>
       <Title>
-        Just 3 Easy Steps to New <br /> <Span> Capabilities</Span>
+        <ScrollAnimation animateIn="fadeIn"> Just 3 Easy Steps to New <br /> <Span> Capabilities</Span>
+        </ScrollAnimation>
       </Title>
+      );
+
+
       <CardList>
         {cardsData.map((card) => (
           <CardContainer key={card.id}>
@@ -114,6 +124,8 @@ const Features = () => {
           </CardContainer>
         ))}
       </CardList>
+
+
     </Container>
   );
 };

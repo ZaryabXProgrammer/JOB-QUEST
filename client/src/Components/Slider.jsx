@@ -61,19 +61,29 @@ const ParentContainer = styled.div`
   justify-content: center;
   align-items: center;
   background: linear-gradient(90deg, rgba(26,41,189,1) 24%, rgba(0,0,0,1) 100%, rgba(9,9,133,1) 100%, rgba(0,212,255,1) 100%);/* Blue background color */
+
+  
   @media (max-width: 768px) {
 
-    
-
-height: 60vh;
-
-
-
+  
+height: 59vh;
 
 
     justify-content: flex-start;
     align-items: flex-start;
   }
+
+  @media screen and (max-width: 400px) {
+    min-height: 73vh;
+  }
+  @media screen and (max-width: 415px) {
+
+  }
+  @media screen and (max-width: 391px) {
+min-height: 50vh;
+}
+ 
+
 `;
 
 const WaveSVG = styled.svg`
@@ -134,7 +144,7 @@ const InfoContainer = styled.div`
 
 const Title = styled.h1`
 
-  font-size: 65px;
+  font-size: 60px;
   text-align: center;
   margin-bottom: 20px;
   
@@ -148,7 +158,7 @@ const Title = styled.h1`
 `;
 
 const Desc = styled.p`
-  margin: 10px 0px;
+  margin: 12px 0px;
   font-size: 18px;
   font-weight: 500;
   letter-spacing: 3px;
@@ -285,8 +295,10 @@ const Slider = () => {
   const wrapperRef = useRef(null);
 
   useEffect(() => {
+
     const containerWidth = containerRef.current.offsetWidth;
     const wrapperWidth = wrapperRef.current.offsetWidth;
+    
     let animationId;
 
     const animateIcons = () => {
@@ -386,9 +398,10 @@ const Slider = () => {
       <Container>
         <InfoContainer>
           <Title>
-            Find <Span>Remote</Span> <br /> Job in <Span>Worldwide</Span>{" "}
+            
+           Navigate Worldwide Opportunities {" "}
           </Title>
-          <Desc>Find Perfect Job Now</Desc>
+          <Desc>Transform Your Career Landscape with TalentLink</Desc>
           <SearchButtonContainer>
             <SearchInput
               type="text"

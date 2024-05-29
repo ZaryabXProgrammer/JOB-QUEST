@@ -5,6 +5,7 @@ import dots from '../assets/reviews/dots.png';
 const Container = styled.div`
       background-color: #f3f6ff;
   overflow: hidden;
+
 `;
 
 const Wrapper = styled.div`
@@ -13,6 +14,7 @@ const Wrapper = styled.div`
   max-width: 70%;
   display: flex;
   flex-direction: column;
+    margin-top: 30px;
 `;
 
 const Title = styled.h1`

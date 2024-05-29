@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 
 
 const Container = styled.div`
-   background-color: #ced9ff;
+   background-color: #ebf0ff;
   overflow: hidden;
 `;
 
