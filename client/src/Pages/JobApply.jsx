@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom'
 
 import axios from 'axios'
@@ -7,6 +7,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from 'react-redux'
 import styled, { keyframes } from 'styled-components';
+
+import { JobsContext } from '../Helpers/JobContext';
 
 const Container = styled.div`
     min-height: 100vh;
@@ -21,7 +23,7 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: center;
 
-    height: 90vh;
+    height: 100vh;
 `;
 
 const fadeInAnimation = keyframes`
@@ -34,7 +36,7 @@ const fadeInAnimation = keyframes`
 `;
 
 const CardContainer = styled.div`
-    background-color: rgb(248, 248, 248);
+    background-color: rgb(248, 248, 249);
     display: flex;
     flex-direction: column;
     width: 50vw; /* Adjust width as needed */
@@ -147,8 +149,42 @@ const DisbButton = styled.button`
 
 `
 
+const glow = keyframes`
+  0% {
+    box-shadow: 0 0 10px #1d59ff, 0 0 20px #1d59ff, 0 0 30px #1d59ff, 0 0 20px #1d59ff;
+  }
+  50% {
+    box-shadow: 0 0 20px #1d59ff, 0 0 40px #1d59ff, 0 0 30px #1d59ff, 0 0 30px #1d59ff;
+  }
+  100% {
+    box-shadow: 0 0 10px #1d59ff, 0 0 20px #1d59ff, 0 0 30px #1d59ff, 0 0 10px #1d59ff;
+  }
+`;
+
+const SkillsGap = styled.button`
+
+  padding: 20px 30px;
+margin-top: 30px;
+  color: white;
+  background-color: #1d59ff;
+  border-radius: 3px;
+  outline: none;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  animation: ${glow} 3s infinite ease-in-out;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+
+
 
 const JobApply = () => {
+
+    const { setjobDescription, setjobDetails } = useContext(JobsContext)
 
     const Api_Url = "http://localhost:8080";
     const location = useLocation();
@@ -159,6 +195,11 @@ const JobApply = () => {
     const [loading, setLoading] = useState(true);
 
     const [hasApplied, setHasApplied] = useState(false);
+
+
+    //contex
+
+
 
     //Redux
 
@@ -268,6 +309,18 @@ const JobApply = () => {
         }
     };
 
+    const handleSkillGapClick = () => {
+        navigate('/skillsGap');
+        const jobDetailsString = `${job.skills.join(', ')} - ${job.description}`;
+        setjobDescription(jobDetailsString);
+
+
+        setjobDetails({
+            company: job.company,
+            jobTitle: job.title
+        })
+    };
+
     return (
         <Container >
             <ToastContainer />
@@ -296,8 +349,12 @@ const JobApply = () => {
                         }
 
 
-
                     </CardContent>
+
+                    <SkillsGap onClick={() => handleSkillGapClick()}>Identify Skills Gap Now</SkillsGap>
+
+
+
                 </CardContainer>
             </Wrapper>
         </Container>

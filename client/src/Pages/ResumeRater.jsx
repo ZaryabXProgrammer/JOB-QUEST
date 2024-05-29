@@ -274,6 +274,7 @@ const ResumeRater = () => {
       },
     })
       .then(response => {
+        console.log(response.data)
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(response.data, 'text/xml');
 
