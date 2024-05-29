@@ -36,7 +36,7 @@ const fadeInAnimation = keyframes`
 `;
 
 const CardContainer = styled.div`
-    background-color: rgb(248, 248, 248);
+    background-color: rgb(248, 248, 249);
     display: flex;
     flex-direction: column;
     width: 50vw; /* Adjust width as needed */
