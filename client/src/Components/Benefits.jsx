@@ -1,16 +1,16 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import benefit from '../assets/categories/benefit.png';
 import { companiesData } from '../constants/index';
 
 const Container = styled.div`
-      background-color: #f3f6ff;
+      background-color: #f9fafe;
   overflow: hidden;
 `;
 
 const Wrapper = styled.div`
   margin: 0 auto;
   width: 100%;
-  height: 80vh; /* Change height to auto */
+  height: 70vh; /* Change height to auto */
   max-width: 70%;
   display: flex;
   justify-content: center;
@@ -29,11 +29,25 @@ const ImgContainer = styled.div`
   flex: 1;
 `;
 
+const move = keyframes`
+  from{
+    transform: translateY(-15px);
+  }
+  to{
+transform: translateY(0px) scale(1.03);
+
+  }
+
+
+`
+
 const Image = styled.img`
   height: auto; /* Change height to auto */
   width: 75%;
   margin-top: 30px; /* Add width to occupy full width of the container */
+  animation: ${move} 3s ease infinite alternate;
 `;
+
 
 const InfoContainer = styled.div`
   padding: 20px; /* Adjust padding for smaller devices */
@@ -59,6 +73,11 @@ const Desc = styled.p`
   font-weight: 500;
   letter-spacing: 1px; /* Decrease letter spacing for smaller devices */
   text-align: center; /* Center align text */
+   @media screen and (max-width: 768px) {
+     font-size: 14px;
+     margin: 2px 0;
+
+   }
 `;
 
 const Span = styled.span`
@@ -79,12 +98,24 @@ const CompanyContainer = styled.div`
   margin: 10px; /* Adjust margin for smaller devices */
   display: flex;
   align-items: center;
+ 
+  @media screen and (max-width: 414px){
+   margin: 30px 10px;
+   
+  }
 `;
 
 const Logo = styled.img`
-  width: 40px; /* Decrease width for smaller devices */
-  height: 40px; /* Decrease height for smaller devices */
-  margin-right: 4px;
+  width: 70px; /* Decrease width for smaller devices */
+  height: 70px; /* Decrease height for smaller devices */
+  margin-right: 10px;
+
+  @media screen and (max-width: 414px){
+    width: 40px;
+    height: 40px;
+   
+  }
+  
 `;
 
 const CompanyTitle = styled.p`

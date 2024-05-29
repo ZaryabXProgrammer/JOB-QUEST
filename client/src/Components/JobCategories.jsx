@@ -1,6 +1,7 @@
-import styled, { keyframes } from 'styled-components'
+import styled, { keyframes, css } from 'styled-components'
 import { popularJobCategoriesData } from '../constants/index'
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 
 
@@ -49,6 +50,14 @@ const CardList = styled.div`
     justify-content: center;
 `;
 
+const hoverEffect = css`
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  background-color: #3b70ff;
+  color: white;
+  cursor: pointer;
+`;
+
 const CardContainer = styled.div`
     background-color: rgb(248, 248, 248);
     position: relative;
@@ -63,15 +72,7 @@ const CardContainer = styled.div`
     overflow: hidden;
     transition: transform 0.3s ease, background-color 0.32s ease;
 
-    &:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        background-color: #3b70ff;
-        color: white;
-        cursor: pointer;
-  
-    }
-
+    ${({ isActive }) => isActive && hoverEffect}
     @media (max-width: 768px) {
         width: calc(50% - 20px); /* Two cards per row on tablet devices */
     }
@@ -117,6 +118,18 @@ const CardDescription = styled.p`
 `;
 
 const JobCategories = () => {
+
+    const [activeCard, setActiveCard] = useState(0);
+
+
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setActiveCard((prevActiveCard) => (prevActiveCard + 1) % popularJobCategoriesData.length);
+        }, 3000); // Change card every 1 second
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <Container
             initial={{ opacity: 0 }} // Initial animation state
@@ -128,8 +141,8 @@ const JobCategories = () => {
             </Title>
             <Wrapper>
                 <CardList>
-                    {popularJobCategoriesData.map((card) => (
-                        <CardContainer key={card.id}>
+                    {popularJobCategoriesData.map((card, index) => (
+                        <CardContainer key={card.id} isActive={index === activeCard}>
                             <ImageContainer>
                                 <CardImage src={card.image} alt={card.title} />
                             </ImageContainer>

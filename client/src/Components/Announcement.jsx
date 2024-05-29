@@ -34,7 +34,7 @@ const Container = styled.div`
 const Announcement = () => {
     return (
         <Container>
-            JOB QUEST - YOUR ULTIMATE JOB SEARCH PLATFORM
+           TalentLink - YOUR ULTIMATE JOB SEARCH PLATFORM
         </Container>
     );
 };

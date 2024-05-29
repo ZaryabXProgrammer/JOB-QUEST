@@ -92,7 +92,8 @@ const StyledLink = styled(Link)`
 `;
 
 const Span = styled.span`
-  color: #1d59ff;
+  color: #2a63ff;
+  font-weight: bold;
 `;
 
 const useIsHomepage = () => {
@@ -119,7 +120,7 @@ const Navbar = () => {
         <Left>
           <SearchContainer>
             <Logo onClick={() => navigate('/')}>
-              Job<Span>Quest</Span>
+              Talent<Span>Link</Span>
             </Logo>
           </SearchContainer>
         </Left>
@@ -135,6 +136,9 @@ const Navbar = () => {
           </MenuItem>
           <MenuItem>
             <StyledLink isHomePage={isHomePage} to="/rate">Rate CV</StyledLink>
+          </MenuItem>
+          <MenuItem>
+            <StyledLink isHomePage={isHomePage} to="/jobGraph">Job Insights</StyledLink>
           </MenuItem>
         </Center>
         <Right>

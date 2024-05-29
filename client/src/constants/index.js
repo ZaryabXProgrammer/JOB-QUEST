@@ -194,15 +194,15 @@ export const cardsData = [
   {
     id: 1,
     image: man,
-    title: "Account Management",
-    description: "Manage your profile and account settings easily.",
+    title: "Automated Resume Parsing",
+    description: "Easily search for jobs based on the content provided inyour resume",
     link: "/account-management",
   },
   {
     id: 2,
     image: book,
-    title: "CV/Resume Builder",
-    description: "Create and customize your CV or resume for job applications.",
+    title: "Resume Score",
+    description: "Enhanced and Seamless resume rating feature - Check your percentile score on ATS",
     link: "/cv-resume-builder",
   },
   {
@@ -216,9 +216,9 @@ export const cardsData = [
   {
     id: 4,
     image: running,
-    title: "Job Alerts",
+    title: "Personalised Jobs",
     description:
-      "Get notified about new job opportunities that match your preferences.",
+      "Set your own filters to find your dream job.",
     link: "/job-alerts",
   },
 ];
