@@ -11,6 +11,7 @@ import { JobsProvider } from './Helpers/JobContext';
 import JobApply from './Pages/JobApply'
 import ResumeRater from './Pages/ResumeRater'
 import JobGraph from './Pages/JobGraph'
+import SkillsGap from './Pages/SkillsGap'
 
 
 
@@ -39,6 +40,7 @@ const App = () => {
 
             <Route path='/rate' exact element={<ResumeRater />} />
             <Route path='/jobGraph' exact element={<JobGraph />} />
+            <Route path='/skillsGap' exact element={<SkillsGap />} />
 
           </Routes>
 

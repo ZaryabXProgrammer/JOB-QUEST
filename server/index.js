@@ -8,6 +8,7 @@ const authRouter = require("./routes/Auth");
 const jobsRouter = require("./routes/Jobs");
 const resumeRouter = require("./routes/Resume");
 const appliedJobRouter = require("./routes/AppliedJobs");
+const skillGapRouter = require("./routes/SkillGap.js");
 
 app.use(
   express.urlencoded({
@@ -31,6 +32,8 @@ app.use("/jobs", jobsRouter);
 app.use("/api", resumeRouter);
 
 app.use("/applied", appliedJobRouter);
+
+app.use("/skillgap", skillGapRouter);
 
 const PORT = process.env.PORT;
 
