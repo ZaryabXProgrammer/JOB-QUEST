@@ -12,6 +12,7 @@ import JobApply from './Pages/JobApply'
 import ResumeRater from './Pages/ResumeRater'
 import JobGraph from './Pages/JobGraph'
 import SkillsGap from './Pages/SkillsGap'
+import RoadMap from './Pages/RoadMap'
 
 
 
@@ -41,6 +42,7 @@ const App = () => {
             <Route path='/rate' exact element={<ResumeRater />} />
             <Route path='/jobGraph' exact element={<JobGraph />} />
             <Route path='/skillsGap' exact element={<SkillsGap />} />
+            <Route path='/roadMap' exact element={<RoadMap/>} />
 
           </Routes>
 

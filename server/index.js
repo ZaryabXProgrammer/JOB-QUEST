@@ -9,6 +9,7 @@ const jobsRouter = require("./routes/Jobs");
 const resumeRouter = require("./routes/Resume");
 const appliedJobRouter = require("./routes/AppliedJobs");
 const skillGapRouter = require("./routes/SkillGap.js");
+const roadMapRouter = require("./routes/RoadMap.js");
 
 app.use(
   express.urlencoded({
@@ -34,6 +35,8 @@ app.use("/api", resumeRouter);
 app.use("/applied", appliedJobRouter);
 
 app.use("/skillgap", skillGapRouter);
+
+app.use("/roadMap", roadMapRouter);
 
 const PORT = process.env.PORT;
 
