@@ -8,6 +8,10 @@ height: 100vh;
 display: flex;
 flex-direction: column;
 background-color: #f3f2ff;
+
+@media(max-width: 768px){
+  padding: 30px;
+}
 `
 
 const Header = styled.h1`
@@ -15,6 +19,10 @@ margin: 10px 0;
 align-self: center;
 font-size: 40px;
 color: #007bff;
+
+@media(max-width: 768px){
+  font-size: 35px;
+}
 
 `
 
