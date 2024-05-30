@@ -321,6 +321,18 @@ const JobApply = () => {
         })
     };
 
+    const getRoadmap = () => {
+        navigate('/roadMap');
+        const jobDetailsString = `${job.skills.join(', ')} - ${job.description}`;
+        setjobDescription(jobDetailsString);
+
+
+        setjobDetails({
+            company: job.company,
+            jobTitle: job.title
+        })
+    };
+
     return (
         <Container >
             <ToastContainer />
@@ -352,6 +364,8 @@ const JobApply = () => {
                     </CardContent>
 
                     <SkillsGap onClick={() => handleSkillGapClick()}>Identify Skills Gap Now</SkillsGap>
+
+                    <SkillsGap onClick={() => getRoadmap()}>Generate a 3-Week Learning Roadmap</SkillsGap>
 
 
 

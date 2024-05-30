@@ -12,18 +12,18 @@ const openai = new OpenAI({
   },
 });
 
-const analyzeSkillGaps = async (jobDescription, resume) => {
+const generateLearningRoadmap = async (role, currentSkills) => {
   const completion = await openai.chat.completions.create({
     model: "openai/gpt-3.5-turbo",
     messages: [
       {
         role: "system",
         content:
-          "You are an AI assistant that helps users identify missing skills and keywords in resumes based on job descriptions.",
+          "You are an AI assistant that helps users generate personalized learning roadmaps.",
       },
       {
         role: "user",
-        content: `Analyze the following job description: ${jobDescription} and the following resume: ${resume}. Identify the missing skills and keywords or missing fields in the resume that are required for the job. Give Response in numbered bullets points concise`,
+        content: `Generate a 3-week learning roadmap for the role of ${role} with the following current skills: ${currentSkills}. Give response week wise new week new line`,
       },
     ],
   });
@@ -31,16 +31,14 @@ const analyzeSkillGaps = async (jobDescription, resume) => {
   return completion.choices[0].message.content;
 };
 
-router.post("/analyzeSkillGaps", async (req, res) => {
+router.post("/generateLearningRoadmap", async (req, res) => {
   try {
-    const { jobDescription, resume } = req.body;
-    const missingSkills = await analyzeSkillGaps(jobDescription, resume);
-    res.json({ missingSkills });
+    const { role, currentSkills } = req.body;
+    const roadmap = await generateLearningRoadmap(role, currentSkills);
+    res.json({ roadmap });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
-
-
 
 module.exports = router;

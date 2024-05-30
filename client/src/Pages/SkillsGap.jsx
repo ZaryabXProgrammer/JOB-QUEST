@@ -6,6 +6,8 @@ import { useContext, useState } from "react";
 import MyLoader from '../Utils/myLoader';
 import axios from "axios";
 import { JobsContext } from "../Helpers/JobContext";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Container = styled.div`
     
@@ -62,7 +64,7 @@ const SocialIcon = styled(Lottie)`
   height: 410px;
   margin-top: 20px;
   border-radius: 50%;
-  margin-right: 90px; /* Adjust space between icons */
+/* Adjust space between icons */
 
   @media (max-width: 768px) {
     width: 100px;
@@ -123,6 +125,35 @@ const StyledInput = styled.input`
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  outline: none; /* Remove outline on focus */
+  transition: all 0.3s ease; /* Add smooth transition */
+
+  /* Hover effect */
+  &:hover {
+    box-shadow: 0 0 5px rgba(243, 243, 243, 0.1);
+  }
+
+  /* Focus effect */
+  &:focus {
+    border-color: #007bff; /* Change border color on focus */
+  }
+
+  /* Additional styles */
+  &::file-selector-button {
+    background-color: white;
+    color: black;
+    padding: 6px 12px;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: black; /* Darker shade on hover */
+      color: white;
+    
+    }
+  }
 `;
 
 const Button = styled.button`
@@ -149,6 +180,9 @@ const MissingSkillText = styled.p`
   font-size: 19px;
   font-weight: 600;
   line-height: 2.5; /* Add line spacing */
+  padding: 20px;
+  border-radius: 20px;
+  background-color: #f5faff;
 `;
 const getRandomColor = () => {
     const colors = ['#003366', '#006633', '#CC0000'];
@@ -232,7 +266,8 @@ const SkillsGap = () => {
             })
             .finally(() => {
                 setLoading(false); // Stop loader after API response
-                alert('Resume Uploaded')
+            
+                toast("Resume Uploaded Successfully")
             });
 
     };
@@ -268,6 +303,7 @@ const SkillsGap = () => {
 
     return (
         <Container>
+            <ToastContainer />
 
             <Header>Discovering Missing Competencies for: {jobDetails.jobTitle} @ {jobDetails.company}</Header>
 
@@ -308,27 +344,26 @@ const SkillsGap = () => {
 
                                 </ButtonContainer>
 
-
-                                <ResultBox>
-
-                                    {loadingMissingSkills ?
-                                        (
-                                            <SocialIcon2
-                                                animationData={loadingScreen}
-                                            />
+                                  
+                                    <ResultBox>
+                                        {loadingMissingSkills ? (
+                                            <SocialIcon2 animationData={loadingScreen} />
                                         ) : (
-                                            <MissingSkillText>
-                                                {missingSkills?.split(' ').map((word, index) => (
-                                                    <span key={index} style={{ color: getRandomColor() }}>
-                                                        {word}{' '}
-                                                    </span>
-                                                ))}
-                                            </MissingSkillText>)
-                                    }
+                                            missingSkills && (
+                                                <MissingSkillText>
+                                                    {missingSkills.split(' ').map((word, index) => (
+                                                        <span key={index} style={{ color: getRandomColor() }}>
+                                                            {word}{' '}
+                                                        </span>
+                                                    ))}
+                                                </MissingSkillText>
+                                            )
+                                        )}
+                                    </ResultBox>
 
+                             
 
-
-                                </ResultBox>
+                              
 
 
 
