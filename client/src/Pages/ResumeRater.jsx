@@ -4,9 +4,6 @@ import axios from 'axios';
 import MyLoader from '../Utils/myLoader';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
-
-
-
 // Define keyframe animation for loader spin
 const spinAnimation = keyframes`
   0% { transform: rotate(0deg); }
@@ -18,21 +15,28 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100vh;
+  background-color: #fcfcff;
+  padding: 20px;
 
-height: 100vh;
-background-color: #fcfcff;
-
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 `;
 
 const InputContainer = styled.div`
   margin-bottom: 20px;
-  
 `;
 
 const StyledInput = styled.input`
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    width: calc(100% - 20px);
+  }
 `;
 
 const Button = styled.button`
@@ -42,8 +46,14 @@ const Button = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  &:disabled{
+  margin-top: 10px;
+  width: 100%;
+
+  &:disabled {
     cursor: not-allowed;
+  }
+  @media (max-width: 768px) {
+    width: calc(100% - 20px);
   }
 `;
 
@@ -66,8 +76,13 @@ const ResultsContainer = styled.div`
   animation: ${fadeIn} 0.5s ease-in-out;
   width: 100%;
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   text-align: center;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 
   &:hover {
     transform: translateY(-2px);
@@ -81,57 +96,70 @@ const ResultsContainer = styled.div`
 `;
 
 const Left = styled.div`
+  flex: 1;
+  font-size: 15px;
 
-flex: 1;
-height: 100vw;
-font-size: 15px;
-
-
-`
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+`;
 
 const Right = styled.div`
   flex: 1;
-  height: 100vh;
   padding: 10px;
-  
 
-
-`
+  @media (max-width: 768px) {
+    padding: 5px;
+  }
+`;
 
 const GradeText = styled.h2`
   color: #333;
-font-size: 400px;
+  font-size: 400px;
   font-weight: bold;
 
-color: ${({ grade }) => {
+  color: ${({ grade }) => {
     switch (grade) {
       case 'A':
         return 'green';
       case 'B':
-        return "Blue"
+        return 'blue';
       case 'B+':
-        return "darkgreen"
+        return 'darkgreen';
       case 'C':
-        return "darkred"
+        return 'darkred';
       case 'F':
-        return "red"
+        return 'red';
       default:
-        return 'darkblue'
+        return 'darkblue';
     }
   }};
 
+  @media (max-width: 768px) {
+    font-size: 150px;
+  }
 `;
 
 const RemarksText = styled.p`
   color: #555;
   font-size: 21px;
   margin-top: 40px;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+    margin-top: 20px;
+  }
 `;
 
 const TipsText = styled.p`
   color: #777;
   font-size: 19px;
   margin-top: 30px;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+    margin-top: 15px;
+  }
 `;
 
 // Loader styling
@@ -145,12 +173,15 @@ const LoaderContainer = styled.div`
 `;
 
 const Headline = styled.div`
-  
   background-color: #007bff;
   padding: 20px 30px;
   color: white;
   font-size: 30px;
-`
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+`;
 
 const StyledLoader = styled(MyLoader)`
   animation: ${spinAnimation} 1s linear infinite;
@@ -165,6 +196,10 @@ const StatsBox = styled.div`
   padding: 10px;
   box-sizing: border-box;
   margin: 20px 0;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const Stat = styled.div`
@@ -181,27 +216,39 @@ const Stat = styled.div`
     margin-left: 5px;
     font-weight: bold;
   }
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+    padding: 5px;
+    margin: 5px 0;
+  }
 `;
 
 const HeroContainer = styled.div`
   width: 100vw;
   height: 40vw;
   display: flex;
-  justify-content: center; /* Center horizontally */
-
-  font-size:6.2em;
+  justify-content: center;
+  font-size: 6.2em;
   overflow: hidden;
   margin-top: 20px;
   font-weight: bold;
- 
+
+  @media (max-width: 768px) {
+    font-size: 2.5em;
+    height: 20vw;
+  }
 `;
 
 const HeroText = styled.p`
-  white-space: nowrap; /* Prevents text from wrapping to the next line */
-  background: linear-gradient(to bottom, #007bff , #63aeff );
+  white-space: nowrap;
+  background: linear-gradient(to bottom, #007bff, #63aeff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   
+  @media (max-width: 768px) {
+    font-size: 0.80em; 
+  }
 `;
 
 const GlobalStyle = createGlobalStyle`
@@ -228,20 +275,15 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const messages = ["Get Insights On Your Resume", "Powerful Resume Scanner", "More Accurate Results", "Get Your Percentile Result"];
-
+const messages = [
+  'Get Insights On Your Resume',
+  'Powerful Resume Scanner',
+  'More Accurate Results',
+  'Get Your Percentile Result'
+];
 
 const ResumeRater = () => {
-
   const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prevIndex) => (prevIndex + 1) % messages.length);
-    }, 3000); // Change text every 3 seconds
-    return () => clearInterval(interval);
-  }, []);
-
   const [resumeFile, setResumeFile] = useState(null);
   const [result, setResult] = useState({
     grade: null,
@@ -254,6 +296,13 @@ const ResumeRater = () => {
     brevity_score: null
   });
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prevIndex) => (prevIndex + 1) % messages.length);
+    }, 3000); // Change text every 3 seconds
+    return () => clearInterval(interval);
+  }, []);
 
   const handleFileChange = (e) => {
     setResumeFile(e.target.files[0]);
@@ -268,13 +317,14 @@ const ResumeRater = () => {
     const formData = new FormData();
     formData.append('resume', resumeFile);
 
-    axios.post(apiUrl, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-      .then(response => {
-        console.log(response.data)
+    axios
+      .post(apiUrl, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then((response) => {
+        console.log(response.data);
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(response.data, 'text/xml');
 
@@ -289,9 +339,6 @@ const ResumeRater = () => {
         const wordcount = xmlDoc.getElementsByTagName('wordcount')[0].textContent;
         const impact_score = xmlDoc.getElementsByTagName('impact_score')[0].textContent;
         const brevity_score = xmlDoc.getElementsByTagName('brevity_score')[0].textContent;
-
-
-
 
         const remarksNode = xmlDoc.getElementsByTagName('grade_blurb')[0];
         const remarksValue = remarksNode.textContent;
@@ -310,7 +357,7 @@ const ResumeRater = () => {
           brevity_score
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error:', error);
       })
       .finally(() => {
@@ -319,71 +366,66 @@ const ResumeRater = () => {
   };
 
   return (
+    <Wrapper>
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <InputContainer>
+          <StyledInput type="file" accept=".pdf, .docx" onChange={handleFileChange} />
+          <Button disabled={!resumeFile} onClick={handleGradeResume}>
+            Grade Resume
+          </Button>
+        </InputContainer>
 
-
-      <Wrapper>
-
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }} >
-
-          <InputContainer>
-            <StyledInput type="file" accept=".pdf, .docx" onChange={handleFileChange} />
-            <Button disabled={!resumeFile} onClick={handleGradeResume}>Grade Resume</Button>
-
-
-          </InputContainer>
-
-          {!result.grade && !loading && (
-            <HeroContainer>
-              <GlobalStyle />
-              <TransitionGroup>
-                <CSSTransition
-                  key={index}
-                  timeout={1000}
-                  classNames="fade"
-                >
-                  <HeroText>{messages[index]}</HeroText>
-                </CSSTransition>
-              </TransitionGroup>
-            </HeroContainer>
-          )}
-        </div>
-
-
-
-        {loading ? (
-          <LoaderContainer>
-            <StyledLoader color="#36D7B7" size={150} />
-          </LoaderContainer>
-        ) : (
-          result.grade && (
-            <ResultsContainer>
-              <Left>
-                <GradeText grade={result.grade}>{result.grade}</GradeText>
-              </Left>
-              <Right>
-                <Headline>Result</Headline>
-
-
-
-                <p style={{ fontSize: '30px', marginTop: '14px' }}>{result.headline}</p>
-                <h3 style={{ fontSize: '60px', color: '#36D7B7', marginTop: '11px' }} >{result.percentile}%</h3>
-                <RemarksText>Remarks: {result.remarks}</RemarksText>
-
-                <StatsBox>
-                  <Stat>Total Word Count: <span>{result.wordcount}</span></Stat>
-                  <Stat>Impact Score: <span>{result.impact_score}</span></Stat>
-                  <Stat>Brevity Score: <span>{result.brevity_score}</span></Stat>
-                </StatsBox>
-
-                <TipsText><i><b>Follow These Tips: </b>{result.tips}</i></TipsText>
-
-
-              </Right>
-            </ResultsContainer>
-          )
+        {!result.grade && !loading && (
+          <HeroContainer>
+            <GlobalStyle />
+            <TransitionGroup>
+              <CSSTransition key={index} timeout={1000} classNames="fade">
+                <HeroText>{messages[index]}</HeroText>
+              </CSSTransition>
+            </TransitionGroup>
+          </HeroContainer>
         )}
-      </Wrapper>
- 
+      </div>
+
+      {loading ? (
+        <LoaderContainer>
+          <StyledLoader color="#36D7B7" size={150} />
+        </LoaderContainer>
+      ) : (
+        result.grade && (
+          <ResultsContainer>
+            <Left>
+              <GradeText grade={result.grade}>{result.grade}</GradeText>
+            </Left>
+            <Right>
+              <Headline>Result</Headline>
+              <p style={{ fontSize: '30px', marginTop: '14px' }}>{result.headline}</p>
+              <h3 style={{ fontSize: '60px', color: '#36D7B7', marginTop: '11px' }}>{result.percentile}%</h3>
+              <RemarksText>Remarks: {result.remarks}</RemarksText>
+
+              <StatsBox>
+                <Stat>
+                  Total Word Count: <span>{result.wordcount}</span>
+                </Stat>
+                <Stat>
+                  Impact Score: <span>{result.impact_score}</span>
+                </Stat>
+                <Stat>
+                  Brevity Score: <span>{result.brevity_score}</span>
+                </Stat>
+              </StatsBox>
+
+              <TipsText>
+                <i>
+                  <b>Follow These Tips: </b>
+                  {result.tips}
+                </i>
+              </TipsText>
+            </Right>
+          </ResultsContainer>
+        )
+      )}
+    </Wrapper>
   );
 };
 
