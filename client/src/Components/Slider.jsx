@@ -64,11 +64,7 @@ const ParentContainer = styled.div`
 
   
   @media (max-width: 768px) {
-
-  
-height: 59vh;
-
-
+    height: 59vh;
     justify-content: flex-start;
     align-items: flex-start;
   }
@@ -76,13 +72,6 @@ height: 59vh;
   @media screen and (max-width: 400px) {
     min-height: 73vh;
   }
-  @media screen and (max-width: 415px) {
-
-  }
-  @media screen and (max-width: 391px) {
-min-height: 50vh;
-}
- 
 
 `;
 
