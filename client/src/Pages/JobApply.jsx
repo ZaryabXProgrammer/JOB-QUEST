@@ -16,6 +16,7 @@ const Container = styled.div`
     align-items: center;
 
     flex-direction: column;
+
 `;
 
 const Wrapper = styled.div`
@@ -23,7 +24,7 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: center;
 
-    height: 100vh;
+    height: 120vh;
 `;
 
 const fadeInAnimation = keyframes`

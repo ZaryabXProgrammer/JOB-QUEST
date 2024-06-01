@@ -42,6 +42,7 @@ router.post("/login", async (req, res) => {
       user.password,
       process.env.PASS_SEC
     ).toString(CryptoJS.enc.Utf8);
+    
     if (password === decryptedPassword)
     {
       const accessToken = jwt.sign(
