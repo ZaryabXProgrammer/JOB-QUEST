@@ -399,105 +399,147 @@ const ShowingJobsTitle = styled.h3`
   }
 `;
 
-
 const Jobs = () => {
-
-  const [salary, setSalary] = useState(100); // Initial salary value
-  const [filters, setFilters] = useState('');
-
-
-
-  const handleSalaryChange = (event) => {
-    const value = parseInt(event.target.value, 10); // Parse the value to an integer
-    setSalary(value);
-  };
-
-  const CheckMark = ({ label, onChange }) => {
-    const [checked, setChecked] = useState(false);
-
-    const handleCheckChange = (event) => {
-      const isChecked = event.target.checked;
-
-      setFilters(isChecked ? label : ''); // Update filters based on checkbox state
-      setChecked(isChecked);
-      console.log(filters)
-      onChange(label, isChecked); // Call the onChange handler with label and checked value
-    };
-    return (
-      <CheckMarkContainer>
-        <StyledInput type="checkbox" checked={checked} onChange={handleCheckChange} />
-        <CheckMarkIcon checked={checked}>
-          {checked && <CheckOutlinedIcon style={{ color: 'darkgreen' }} />}
-        </CheckMarkIcon>
-        <CheckMarkLabel>{label}</CheckMarkLabel>
-      </CheckMarkContainer>
-    );
-  };
-
-
-
-  //from contextApi
-
+  const [salary, setSalary] = useState(100); 
+  const [filters, setFilters] = useState({
+    jobType: [],
+    workLocation: [],
+    experience: []
+  });
+  const [jobs, setJobs] = useState([]);
+  const [filteredJobs, setFilteredJobs] = useState([]);
   const { newJobs, page1JobsActive } = useContext(JobsContext);
-
-  const [jobInput, setjobInput] = useState('')
-
-  const [countJobs, setcountJobs] = useState(0)
-
+  const [jobInput, setJobInput] = useState('');
+  const [countJobs, setCountJobs] = useState(0);
   const Api_Url = "http://localhost:8080";
 
-  const [jobs, setJobs] = useState([]);
+  const SORT_OPTIONS = {
+    RECENTLY: "Recently",
+    TOP_SALARY: "Top Salary",
+    RATING: "Rating",
+    A_Z: "A-Z"
+  };
+  const handleSalaryChange = (event) => {
+    const value = parseInt(event.target.value, 10); 
+    setSalary(value);
+  };
+  const applySorting = (sortingOption) => {
+    let sortedJobs = [...jobs]; 
+    
+    switch (sortingOption) {
+      case SORT_OPTIONS.RECENTLY:
+       
+        sortedJobs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        break;
+      case SORT_OPTIONS.TOP_SALARY:
+       
+        sortedJobs.sort((a, b) => b.salary - a.salary);
+        break;
+      case SORT_OPTIONS.RATING:
+       
+        sortedJobs.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+        break;
+      case SORT_OPTIONS.A_Z:
+     
+        sortedJobs.sort((a, b) => a.title.localeCompare(b.title));
+        console.log(sortedJobs)
+        break;
+      default:
+        break;
+    }
+    
+    setFilteredJobs(sortedJobs); 
+  };
+ 
 
+  const CheckMark = ({ label, filterType }) => {
+  const isSelected = filters[filterType] === label;
+  const isSorted = filters.sort === label;
 
-  const Filters = async () => {
-    try {
-      const res = await axios.post(`${Api_Url}/jobs/filter`,
-        {
-          filters: filters, salary: salary
-        });
-      setJobs(res.data);
-      setcountJobs(res.data.length);
-
-    } catch (error) {
-      console.error("Error fetching job listings:", error);
+  const handleCheckChange = () => {
+    if (isSelected) {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        [filterType]: "",
+      }));
+    } else {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        [filterType]: label,
+      }));
+      if (isSorted) {
+        applySorting(label);
+      }
     }
   };
 
-
+  return (
+    <CheckMarkContainer>
+      <StyledInput
+        type="checkbox"
+        checked={isSelected}
+        onChange={handleCheckChange}
+      />
+      <CheckMarkIcon checked={isSelected}>
+        {isSelected && <CheckOutlinedIcon style={{ color: "darkgreen" }} />}
+      </CheckMarkIcon>
+      <CheckMarkLabel>{label}</CheckMarkLabel>
+    </CheckMarkContainer>
+  );
+};
+  const applyFilters = () => {
+    let filtered = jobs;
+  
+    
+    if (SORT_OPTIONS.TOP_SALARY === filters.sort) {
+      filtered = [...jobs].sort((a, b) => b.salary - a.salary);
+    } else if (SORT_OPTIONS.RECENTLY === filters.sort) {
+      filtered = [...jobs].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    } else if (SORT_OPTIONS.RATING === filters.sort) {
+      filtered = [...jobs].sort((a, b) => (b.rating || 0) - (a.rating || 0));
+    } else if (SORT_OPTIONS.A_Z === filters.sort) {
+      filtered = [...jobs].sort((a, b) => a.title.localeCompare(b.title));
+    }
+  
+    
+    if (filters.jobType.length > 0) {
+      filtered = filtered.filter(job => filters.jobType.includes(job.jobType));
+    }
+  
+    if (filters.workLocation.length > 0) {
+      filtered = filtered.filter(job => filters.workLocation.includes(job.workLocation));
+    }
+  
+    if (filters.experience.length > 0) {
+      filtered = filtered.filter(job => filters.experience.includes(job.experience));
+    }
+  
+    filtered = filtered.filter(job => job.salary >= salary);
+  
+    setFilteredJobs(filtered);
+    setCountJobs(filtered.length);
+  };
 
   useEffect(() => {
-
-
     const fetchJobs = async () => {
       try {
         const res = await axios.get(`${Api_Url}/jobs`);
         setJobs(res.data);
-        setcountJobs(res.data.length);
-
+        setFilteredJobs(res.data);
+        setCountJobs(res.data.length);
       } catch (error) {
         console.error("Error fetching job listings:", error);
       }
     };
 
-
     if (!page1JobsActive) {
       fetchJobs();
-
+    } else {
+      setJobs(newJobs);
+      setFilteredJobs(newJobs);
+      setCountJobs(newJobs.length);
     }
-    else if (filters) {
-      Filters();
-    }
-    else {
-      setJobs(newJobs)
-      setcountJobs(newJobs.length);
-    }
-
-
-    console.log(jobs)
-
-  }, []);
-
-  //sending Search input to the databse to fetch jobs
+  }, [page1JobsActive, newJobs]);
 
   const handleJobSearch = async () => {
     try {
@@ -505,134 +547,95 @@ const Jobs = () => {
         params: { title: jobInput }
       });
       setJobs(response.data.jobs);
-      setcountJobs(response.data.jobs.length)
+      setFilteredJobs(response.data.jobs);
+      setCountJobs(response.data.jobs.length);
     } catch (error) {
       console.error('Error fetching jobs:', error);
       toast.error('OOPS! No Jobs Found', {
         autoClose: 2500
       });
     }
-  }
-
-
-
-  //filtered job search:
-
-
+  };
 
   return (
-
     <div>
-
       <Wrapper>
         <ToastContainer />
 
-
-
-
         <LeftContainer>
-
-
-
           <FilterHeading>
-
             <FilterTitle>Filter</FilterTitle>
-            <Reset>Reset </Reset>
-
-
+            <Reset onClick={() => setFilters({ jobType: [], workLocation: [], experience: [] })}>Reset</Reset>
           </FilterHeading>
-
           <hr />
-
           <SortBox>
             <SortTitle>Sort By</SortTitle>
             <CheckMarkContainer>
-              <CheckMark label="Recently" />
-              <CheckMark label="Top Salary" />
-              <CheckMark label="Rating" />
-              <CheckMark label="A-Z" />
+            <CheckMark label="Recently" filterType="sort" />
+<CheckMark label="Top Salary" filterType="sort" />
+<CheckMark label="Rating" filterType="sort" />
+<CheckMark label="A-Z" filterType="sort" />
             </CheckMarkContainer>
           </SortBox>
-
           <SalaryBox>
             <SalaryTitle>Salary Range</SalaryTitle>
             <SalarySlider
               type="range"
-              min={500} // Minimum salary value
-              max={100000} // Maximum salary value
-              step={1000} // Incremental step
+              min={500}
+              max={100000} 
+              step={1000} 
               value={salary}
               onChange={handleSalaryChange}
-
             />
-            <p>{`$${salary}`}</p> {/* Display the current salary value */}
-
+            <p>{`$${salary}`}</p> 
           </SalaryBox>
-
           <JobTypeBox>
             <JobtypeTitle>Job Type</JobtypeTitle>
             <CheckMarkContainer>
-              <CheckMark label="Full-Time" />
-              <CheckMark label="Part-Time" />
-              <CheckMark label="Freelance" />
-              <CheckMark label="Contractual" />
-              <CheckMark label="Internship" />
+              <CheckMark label="Full-Time" filterType="jobType" />
+              <CheckMark label="Part-Time" filterType="jobType" />
+              <CheckMark label="Freelance" filterType="jobType" />
+              <CheckMark label="Contractual" filterType="jobType" />
+              <CheckMark label="Internship" filterType="jobType" />
             </CheckMarkContainer>
           </JobTypeBox>
-
           <WorkLocationBox>
             <WorkLocationTitle>Work Location</WorkLocationTitle>
             <CheckMarkContainer>
-              <CheckMark label="On-site" />
-              <CheckMark label="Remote" />
-              <CheckMark label="Hybrid" />
+              <CheckMark label="On-site" filterType="workLocation" />
+              <CheckMark label="Remote" filterType="workLocation" />
+              <CheckMark label="Hybrid" filterType="workLocation" />
             </CheckMarkContainer>
           </WorkLocationBox>
-
           <ExperienceBox>
             <ExperienceTitle>Experience</ExperienceTitle>
             <CheckMarkContainer>
-              <CheckMark label="Fresher" />
-              <CheckMark label="Beginner" />
-              <CheckMark label="Intermediate" />
-
+              <CheckMark label="Fresher" filterType="experience" />
+              <CheckMark label="Beginner" filterType="experience" />
+              <CheckMark label="Intermediate" filterType="experience" />
             </CheckMarkContainer>
           </ExperienceBox>
-
-          <Button onClick={Filters}>Apply Filters </Button>
-
+          <Button onClick={applyFilters}>Apply Filters</Button>
         </LeftContainer>
-
         <RightContainer>
-
           <FindContainer>
-
             <TitleBox>Find your Dream Job here! </TitleBox>
             <Desc>Explore our newest job opportunities to discover and apply for the top positions available today!</Desc>
-
             <SearchBox>
-
-
               <InputBox>
                 <Input
                   placeholder="&#x1F50E;&#xFE0E; Search job title or company here"
-                  onChange={(e) => setjobInput(e.target.value)}
+                  onChange={(e) => setJobInput(e.target.value)}
                   value={jobInput}
                 />
-
                 <Input placeholder="🖈 Search country or city here" />
               </InputBox>
-
-
-              <Button onClick={handleJobSearch} >Search</Button>
-
+              <Button onClick={handleJobSearch}>Search</Button>
             </SearchBox>
-
           </FindContainer>
-          <ShowingJobsTitle>Showing <Span>{countJobs}</Span>  Available Jobs</ShowingJobsTitle>
+          <ShowingJobsTitle>Showing <Span>{countJobs}</Span> Available Jobs</ShowingJobsTitle>
           <JobsContainer>
-
-            {jobs && jobs.length > 0 && jobs.map((job) => (
+            {filteredJobs && filteredJobs.length > 0 && filteredJobs.map((job) => (
               <JobCard
                 id={job._id}
                 key={job._id}
@@ -648,18 +651,11 @@ const Jobs = () => {
                 createdAt={job.createdAt}
               />
             ))}
-
-
-
           </JobsContainer>
-
         </RightContainer>
-
-
       </Wrapper>
     </div>
+  );
+};
 
-  )
-}
-
-export default Jobs
+export default Jobs;
