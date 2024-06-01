@@ -76,7 +76,7 @@ const HamburgerMenu = styled.div`
 `;
 
 const MenuItem = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   cursor: pointer;
   margin-left: 15px;
   color: ${({ isHomePage }) => (isHomePage ? 'white' : '#333')};
