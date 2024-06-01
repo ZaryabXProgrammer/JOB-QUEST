@@ -11,6 +11,10 @@ const Container = styled.div`
       ? 'linear-gradient(90deg, rgba(26,41,189,1) 24%, rgba(0,0,0,1) 100%, rgba(9,9,133,1) 100%, rgba(0,212,255,1) 100%)'
       : 'white'};
   height: ${({ isNavbar }) => (isNavbar ? '60px' : 'auto')};
+  position: relative;
+  z-index: 1000;
+  box-shadow: ${({ isNavbar }) => (isNavbar ? '0 2px 10px rgba(0, 0, 0, 0.1)' : 'none')};
+  transition: background 0.3s ease, height 0.3s ease;
 `;
 
 const Wrapper = styled.div`
@@ -25,25 +29,19 @@ const Wrapper = styled.div`
 `;
 
 const Left = styled.div`
-  flex: 2;
+  flex: 1;
   display: flex;
   align-items: center;
-`;
-
-const SearchContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: 25px;
-  padding: 5px;
 `;
 
 const Right = styled.div`
-  flex: 2;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  @media (max-width: 480px) {
-    display: none; /* Hide Center content on mobile */
+
+  @media (max-width: 768px) {
+    display: none;
   }
 `;
 
@@ -53,42 +51,46 @@ const Center = styled.div`
   display: flex;
   justify-content: center;
 
-  @media (max-width: 480px) {
-    display: none; /* Hide Center content on mobile */
+  @media (max-width: 768px) {
+    display: none;
   }
 `;
 
 const Logo = styled.h1`
   cursor: pointer;
   font-weight: bold;
+  font-size: 24px;
+  color: ${({ isHomePage }) => (isHomePage ? 'white' : '#2a63ff')};
+  transition: color 0.3s ease;
 `;
 
 const HamburgerMenu = styled.div`
-  flex: 2;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  @media (min-width: 768px) {
-    display: none; /* Hide Center content on mobile */
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    cursor: pointer;
   }
 `;
 
 const MenuItem = styled.div`
   font-size: 14px;
   cursor: pointer;
-  margin-left: 25px;
+  margin-left: 15px;
+  color: ${({ isHomePage }) => (isHomePage ? 'white' : '#333')};
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: ${({ isHomePage }) => (isHomePage ? 'lightgray' : '#2a63ff')};
+  }
 `;
 
 const StyledLink = styled(Link)`
-  color: ${({ isHomePage }) => (isHomePage ? 'white' : 'black')};
+  color: inherit;
   text-decoration: none;
   transition: color 0.3s ease;
-  font-weight: 590;
-  
-
-  &:hover {
-    color: ${({ isHomePage }) => (isHomePage ? 'white' : 'darkgray')};
-  }
 `;
 
 const Span = styled.span`
@@ -112,102 +114,106 @@ const Navbar = () => {
   const handleSignOut = () => {
     dispatch(signOut());
     navigate('/'); // Replace '/' with the route you want to navigate to after signing out
+    setShowMenu(false); // Close menu after sign out
+  };
+
+  const handleMenuClick = (path) => {
+    navigate(path);
+    setShowMenu(false); // Close menu on navigation
   };
 
   return (
     <Container isNavbar={isHomePage}>
       <Wrapper>
         <Left>
-          <SearchContainer>
-            <Logo onClick={() => navigate('/')}>
-              Talent<Span>Link</Span>
-            </Logo>
-          </SearchContainer>
+          <Logo isHomePage={isHomePage} onClick={() => handleMenuClick('/')}>
+            Talent<Span>Link</Span>
+          </Logo>
         </Left>
         <Center>
-          <MenuItem>
-            <StyledLink isHomePage={isHomePage} to="/">Home</StyledLink>
+          <MenuItem isHomePage={isHomePage}>
+            <StyledLink to="/">Home</StyledLink>
           </MenuItem>
-          <MenuItem>
-            <StyledLink isHomePage={isHomePage} to="/jobs">Jobs</StyledLink>
+          <MenuItem isHomePage={isHomePage}>
+            <StyledLink to="/jobs">Jobs</StyledLink>
           </MenuItem>
-          <MenuItem>
-            <StyledLink isHomePage={isHomePage} to="/createJob">Create a Job</StyledLink>
+          <MenuItem isHomePage={isHomePage}>
+            <StyledLink to="/createJob">Create a Job</StyledLink>
           </MenuItem>
-          <MenuItem>
-            <StyledLink isHomePage={isHomePage} to="/rate">Rate CV</StyledLink>
+          <MenuItem isHomePage={isHomePage}>
+            <StyledLink to="/rate">Rate CV</StyledLink>
           </MenuItem>
-          <MenuItem>
-            <StyledLink isHomePage={isHomePage} to="/jobGraph">Job Insights</StyledLink>
+          <MenuItem isHomePage={isHomePage}>
+            <StyledLink to="/jobGraph">Job Insights</StyledLink>
           </MenuItem>
-          
-        
         </Center>
         <Right>
-
           {!username ?
             <>
-              <StyledLink isHomePage={isHomePage} to="/register">
-                <MenuItem>Register</MenuItem>
+              <StyledLink to="/register">
+                <MenuItem isHomePage={isHomePage}>Register</MenuItem>
               </StyledLink>
-
-              <StyledLink isHomePage={isHomePage} to="/login">
-                <MenuItem>Sign In</MenuItem>
+              <StyledLink to="/login">
+                <MenuItem isHomePage={isHomePage}>Sign In</MenuItem>
               </StyledLink>
-
             </>
             :
             <>
-              <StyledLink isHomePage={isHomePage} >
-                <MenuItem>@{username}</MenuItem>
+              <StyledLink to="#">
+                <MenuItem isHomePage={isHomePage}>@{username}</MenuItem>
               </StyledLink>
-
-              <StyledLink onClick={handleSignOut} isHomePage={isHomePage}>
-                <MenuItem >Sign Out</MenuItem>
-              </StyledLink>
+              <MenuItem isHomePage={isHomePage} onClick={handleSignOut}>
+                Sign Out
+              </MenuItem>
             </>
           }
         </Right>
-        <HamburgerMenu>
-          <MenuIcon onClick={() => setShowMenu(!showMenu)} isHomePage={isHomePage} showMenu={showMenu} />
-          <Menu showMenu={showMenu}>
-            {!username ? (
-              <>
-                <StyledLink isHomePage={isHomePage} to="/register">
-                  <MenuItem>Register</MenuItem>
-                </StyledLink>
-                <StyledLink isHomePage={isHomePage} to="/login">
-                  <MenuItem>Sign In</MenuItem>
-                </StyledLink>
-              </>
-            ) : (
-              <>
-                <StyledLink isHomePage={isHomePage}>
-                  <MenuItem>@{username}</MenuItem>
-                </StyledLink>
-                <StyledLink onClick={handleSignOut} isHomePage={isHomePage}>
-                  <MenuItem>Sign Out</MenuItem>
-                </StyledLink>
-              </>
-            )}
-            <MenuItem>
-              <StyledLink isHomePage={isHomePage} to="/">Home</StyledLink>
-            </MenuItem>
-            <MenuItem>
-              <StyledLink isHomePage={isHomePage} to="/jobs">Jobs</StyledLink>
-            </MenuItem>
-            <MenuItem>
-              <StyledLink isHomePage={isHomePage} to="/createJob">Create a Job</StyledLink>
-            </MenuItem>
-          </Menu>
+        <HamburgerMenu onClick={() => setShowMenu(!showMenu)}>
+          <MenuIcon isHomePage={isHomePage} showMenu={showMenu} />
         </HamburgerMenu>
       </Wrapper>
+      <DropdownMenu showMenu={showMenu}>
+        {!username ? (
+          <>
+            <DropdownMenuItem>
+              <StyledLink to="/register" onClick={() => handleMenuClick('/register')}>Register</StyledLink>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <StyledLink to="/login" onClick={() => handleMenuClick('/login')}>Sign In</StyledLink>
+            </DropdownMenuItem>
+          </>
+        ) : (
+          <>
+            <DropdownMenuItem>
+              <StyledLink to="#">@{username}</StyledLink>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleSignOut}>
+              <StyledLink to="#">Sign Out</StyledLink>
+            </DropdownMenuItem>
+          </>
+        )}
+        <DropdownMenuItem>
+          <StyledLink to="/" onClick={() => handleMenuClick('/')}>Home</StyledLink>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <StyledLink to="/jobs" onClick={() => handleMenuClick('/jobs')}>Jobs</StyledLink>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <StyledLink to="/createJob" onClick={() => handleMenuClick('/createJob')}>Create a Job</StyledLink>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <StyledLink to="/rate" onClick={() => handleMenuClick('/rate')}>Rate CV</StyledLink>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <StyledLink to="/jobGraph" onClick={() => handleMenuClick('/jobGraph')}>Job Insights</StyledLink>
+        </DropdownMenuItem>
+      </DropdownMenu>
     </Container>
   );
 };
 
-const MenuIcon = ({ onClick, isHomePage, showMenu }) => (
-  <StyledMenuIcon onClick={onClick} isHomePage={isHomePage} showMenu={showMenu}>
+const MenuIcon = ({ isHomePage, showMenu }) => (
+  <StyledMenuIcon isHomePage={isHomePage} showMenu={showMenu}>
     <div />
     <div />
     <div />
@@ -215,20 +221,15 @@ const MenuIcon = ({ onClick, isHomePage, showMenu }) => (
 );
 
 const StyledMenuIcon = styled.div`
-  cursor: pointer;
   width: 30px;
   height: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
-  @media (min-width: 481px) {
-    display: none;
-  }
-
   div {
     width: 100%;
-    height: 5px;
+    height: 3px;
     background-color: ${({ isHomePage }) => (isHomePage ? 'white' : 'black')};
     border-radius: 4px;
     transition: all 0.3s ease;
@@ -247,18 +248,47 @@ const StyledMenuIcon = styled.div`
   }
 `;
 
-
-const Menu = styled.div`
+const DropdownMenu = styled.div`
   position: absolute;
+  top: ${({ showMenu }) => (showMenu ? '60px' : '-100%')}; /* Height of the navbar */
+  right: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  padding: ${({ showMenu }) => (showMenu ? '10px 0' : '0')};
+  border-top: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: ${({ showMenu }) => (showMenu ? '0px 4px 8px rgba(0, 0, 0, 0.1)' : 'none')};
   z-index: 999;
-  top: 60px; /* Height of the navbar */
-  right: 20px;
-  // background-color: white; 
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  display: ${({ showMenu }) => (showMenu ? 'block' : 'none')};
+  transition: all 0.3s ease;
+  overflow: hidden;
+  max-height: ${({ showMenu }) => (showMenu ? '500px' : '0')}; /* Adjust as needed */
 `;
 
+const DropdownMenuItem = styled.div`
+  width: 100%;
+  text-align: center;
+  padding: 15px 0;
+  transition: padding 0.3s ease;
+  border-bottom: 1px solid #f0f0f0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: block;
+    width: 100%;
+
+    &:hover {
+      color: #2a63ff;
+    }
+  }
+`;
 
 export default Navbar;
