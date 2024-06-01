@@ -35,7 +35,7 @@ const StyledInput = styled.input`
   width: 100%;
 
   @media (max-width: 768px) {
-    width: calc(100% - 20px);
+    width: calc(100% - 10px);
   }
 `;
 
@@ -53,7 +53,7 @@ const Button = styled.button`
     cursor: not-allowed;
   }
   @media (max-width: 768px) {
-    width: calc(100% - 20px);
+    width: calc(100% - 10px);
   }
 `;
 
@@ -247,7 +247,7 @@ const HeroText = styled.p`
   -webkit-text-fill-color: transparent;
   
   @media (max-width: 768px) {
-    font-size: 0.80em; 
+    font-size: 25px;
   }
 `;
 
