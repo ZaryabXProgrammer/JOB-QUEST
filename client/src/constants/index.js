@@ -195,33 +195,35 @@ export const cardsData = [
     id: 1,
     image: man,
     title: "Automated Resume Parsing",
-    description: "Easily search for jobs based on the content provided inyour resume",
+    description:
+      "Easily search for jobs based on the content provided in your resume",
     link: "/account-management",
   },
   {
     id: 2,
     image: book,
     title: "Resume Score",
-    description: "Enhanced and Seamless resume rating feature - Check your percentile score on ATS",
+    description:
+      "Enhanced and seamless resume rating feature - Check your percentile score on ATS",
     link: "/cv-resume-builder",
   },
   {
     id: 3,
     image: resume,
-    title: "Quick Job Apply",
+    title: "Identify Gaps In Your Resume",
     description:
-      "Apply to jobs quickly and efficiently with just a few clicks.",
+      "Find missing skills and keywords required for a particular job",
     link: "/quick-job-apply",
   },
   {
     id: 4,
     image: running,
-    title: "Personalised Jobs",
-    description:
-      "Set your own filters to find your dream job.",
+    title: "Generate 3-Week Learning Roadmap",
+    description: "Outline a 3-week learning roadmap to compete for that job",
     link: "/job-alerts",
   },
 ];
+
 
 export const popularJobCategoriesData = [
   {

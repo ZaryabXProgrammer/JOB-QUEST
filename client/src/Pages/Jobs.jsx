@@ -66,6 +66,7 @@ const Reset = styled.p`
 color: #00a000;
 font-size: 14px;
 margin-right: 2px;
+cursor: pointer;
 
 
 `
@@ -613,6 +614,7 @@ const Jobs = () => {
               <CheckMark label="Fresher" filterType="experience" />
               <CheckMark label="Beginner" filterType="experience" />
               <CheckMark label="Intermediate" filterType="experience" />
+              <CheckMark label="Expert" filterType="experience" />
             </CheckMarkContainer>
           </ExperienceBox>
           <Button onClick={applyFilters}>Apply Filters</Button>
@@ -624,11 +626,11 @@ const Jobs = () => {
             <SearchBox>
               <InputBox>
                 <Input
-                  placeholder="&#x1F50E;&#xFE0E; Search job title or company here"
+                  placeholder="&#x1F50E;&#xFE0E; Search by Job Title"
                   onChange={(e) => setJobInput(e.target.value)}
                   value={jobInput}
                 />
-                <Input placeholder="🖈 Search country or city here" />
+                {/* <Input placeholder="🖈 Search country or city here" /> */}
               </InputBox>
               <Button onClick={handleJobSearch}>Search</Button>
             </SearchBox>

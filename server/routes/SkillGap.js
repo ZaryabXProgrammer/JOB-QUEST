@@ -41,6 +41,4 @@ router.post("/analyzeSkillGaps", async (req, res) => {
   }
 });
 
-
-
 module.exports = router;
