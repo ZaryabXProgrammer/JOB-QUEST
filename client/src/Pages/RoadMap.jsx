@@ -63,8 +63,8 @@ const SocialIcon = styled(Lottie)`
     margin-right: 40px;
   }
   @media (max-width: 480px) {
-    width: 125px;
-    height: 125px;
+    width: 150px;
+    height: 150px;
     margin-right: 20px;
   }
 `;
@@ -78,14 +78,12 @@ const SocialIcon2 = styled(Lottie)`
   @media (max-width: 768px) {
     width: 200px;
     height: 200px;
-    margin-right: 40px;
-    margin-left: 0;
+   margin: 0 auto;
   }
   @media (max-width: 480px) {
-    width: 100px;
-    height: 100px;
-    margin-right: 20px;
-    margin-left: 0;
+    width: 130px;
+    height: 130px;
+  margin: 0 auto;
   }
 `;
 
@@ -138,7 +136,9 @@ const RoadMap = () => {
     const { jobDescription, jobDetails } = useContext(JobsContext);
 
     const [roadmapData, setRoadmapData] = useState(null);
-    const [loadingRoadmap, setLoadingRoadmap] = useState(false);
+  const [loadingRoadmap, setLoadingRoadmap] = useState(false);
+  
+
 
     useEffect(() => {
         const handleGetRoadmap = async () => {
@@ -149,7 +149,7 @@ const RoadMap = () => {
                     currentSkills: jobDescription,
                     role: jobDetails.jobTitle,
                 });
-                console.log(response.data.roadmap);
+               
 
                 const formattedRoadmap = response.data.roadmap.replace(/week/g, 'week\n\n');
                 setRoadmapData(formattedRoadmap);
