@@ -248,7 +248,7 @@ const JobCard = ({ id, jobLogo, title, description, company, applicants, jobType
             ) : workLocation && workLocation.toLowerCase() === 'remote' ? (
               <JobType textColor="#1b5e20" bgColor="#dcedc8">Remote</JobType>
             ) : (
-              <JobType textColor="#ff6d00" bgColor="#ffd9c4">Location</JobType>
+                  <JobType textColor="#ff6d00" bgColor="#ffd9c4">Hybrid</JobType>
             )}
           </JobTypeContainer>
 
