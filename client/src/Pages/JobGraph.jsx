@@ -12,7 +12,6 @@ const Container = styled.div`
   flex-direction: column;
   background-color: #f3f2ff;
   padding: 30px;
-
   @media(max-width: 768px) {
     padding: 5px;
     height: 90vh;  /* Reduced height for mobile */
