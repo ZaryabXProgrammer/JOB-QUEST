@@ -108,12 +108,13 @@ const SocialIcon2 = styled(Lottie)`
   @media (max-width: 768px) {
     width: 200px;
     height: 200px;
-    margin-right: 0;
+    margin: 0 auto;
   }
 
   @media (max-width: 480px) {
-    width: 150px;
-    height: 150px;
+    width: 190px;
+    height: 190px;
+    margin: 0 auto;
   }
 `;
 
@@ -295,8 +296,7 @@ const SkillsGap = () => {
         resume: result.resumeText,
         jobDescription: newJobDesc
       });
-      console.log(response.data);
-
+    
       const missingSkillsText = `${response.data.missingSkills}`;
       const formattedMissingSkills = missingSkillsText.replace(/(?:^|\n)([\w\s.-]+)(?=\n|$)/g, '\n• $1');
       setmissingSkills(formattedMissingSkills);

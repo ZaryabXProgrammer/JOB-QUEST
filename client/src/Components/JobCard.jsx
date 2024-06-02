@@ -235,10 +235,12 @@ const JobCard = ({ id, jobLogo, title, description, company, applicants, jobType
               <JobType textColor="#4a148c" bgColor='#ffc4ff'>Full-Time</JobType>
             ) : jobType && (jobType.toLowerCase() === 'parttime' || jobType.toLowerCase() === 'part-time') ? (
               <JobType textColor="#0d47a1" bgColor="#c4e3ff">Part-Time</JobType>
+            ) : jobType && (jobType.toLowerCase() === 'freelance') ? (
+              <JobType textColor="#e65100" bgColor="#ffcc80">Freelance</JobType>
+            ) : jobType && (jobType.toLowerCase() === 'contractual') ? (
+              <JobType textColor="#4e342e" bgColor="#ccb5ad">Contractual</JobType>
             ) : (
-              <JobType textColor="#ffffff" bgColor="#34495e">Contract</JobType>
-
-
+              <JobType textColor="#ffffff" bgColor="#007c42">Internship</JobType>
             )}
 
             {workLocation && (workLocation.toLowerCase() === 'onsite' || workLocation.toLowerCase() === 'on-site') ? (
@@ -246,11 +248,9 @@ const JobCard = ({ id, jobLogo, title, description, company, applicants, jobType
             ) : workLocation && workLocation.toLowerCase() === 'remote' ? (
               <JobType textColor="#1b5e20" bgColor="#dcedc8">Remote</JobType>
             ) : (
-              <JobType textColor="#ff6d00" bgColor="#ffd9c4">Location</JobType>
+                  <JobType textColor="#ff6d00" bgColor="#ffd9c4">Hybrid</JobType>
             )}
           </JobTypeContainer>
-
-
 
 
           <JobDesc>{description}</JobDesc>
