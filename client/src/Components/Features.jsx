@@ -108,7 +108,7 @@ const Features = () => {
         <ScrollAnimation animateIn="fadeIn"> Just 3 Easy Steps to New <br /> <Span> Capabilities</Span>
         </ScrollAnimation>
       </Title>
-      );
+      
 
 
       <CardList>

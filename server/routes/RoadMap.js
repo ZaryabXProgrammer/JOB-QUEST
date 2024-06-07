@@ -23,7 +23,7 @@ const generateLearningRoadmap = async (role, currentSkills) => {
       },
       {
         role: "user",
-        content: `Generate a 3-week learning roadmap for the role of ${role} with the following current skills: ${currentSkills}. Give response week wise new week new line`,
+        content: `Generate a 3-week learning roadmap for the role of ${role} with the following current skills: ${currentSkills}. Give response week wise new week new line, Moreover for week#1 give some name of coursera coursera and udemy popular courses along with their links`,
       },
     ],
   });

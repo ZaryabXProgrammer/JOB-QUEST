@@ -232,10 +232,13 @@ const ButtonContainer = styled.div`
 `;
 
 const SkillsGap = () => {
+  
   const baseUrl = import.meta.env.VITE_baseUrl;
 
   const [missingSkills, setmissingSkills] = useState(null);
+
   const { jobDescription, jobDetails } = useContext(JobsContext);
+
   const [newJobDesc, setnewJobDesc] = useState(jobDescription);
   const [resumeFile, setResumeFile] = useState(null);
   const [loading, setLoading] = useState(false);

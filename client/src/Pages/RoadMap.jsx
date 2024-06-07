@@ -127,71 +127,71 @@ const GenText = styled.p`
 `;
 
 const getRandomColor = () => {
-    const colors = ['#2C3E50', '#34495E', '#1ABC9C', '#27AE60', '#2980B9'];
-    return colors[Math.floor(Math.random() * colors.length)];
+  const colors = ['#2C3E50', '#34495E', '#1ABC9C', '#27AE60', '#2980B9'];
+  return colors[Math.floor(Math.random() * colors.length)];
 };
 
 const RoadMap = () => {
-    const baseUrl = import.meta.env.VITE_baseUrl;
-    const { jobDescription, jobDetails } = useContext(JobsContext);
+  const baseUrl = import.meta.env.VITE_baseUrl;
+  const { jobDescription, jobDetails } = useContext(JobsContext);
 
-    const [roadmapData, setRoadmapData] = useState(null);
+  const [roadmapData, setRoadmapData] = useState(null);
   const [loadingRoadmap, setLoadingRoadmap] = useState(false);
-  
 
 
-    useEffect(() => {
-        const handleGetRoadmap = async () => {
-            setLoadingRoadmap(true);
 
-            try {
-                const response = await axios.post(`${baseUrl}/roadMap/generateLearningRoadmap`, {
-                    currentSkills: jobDescription,
-                    role: jobDetails.jobTitle,
-                });
-               
+  useEffect(() => {
+    const handleGetRoadmap = async () => {
+      setLoadingRoadmap(true);
 
-                const formattedRoadmap = response.data.roadmap.replace(/week/g, 'week\n\n');
-                setRoadmapData(formattedRoadmap);
+      try {
+        const response = await axios.post(`${baseUrl}/roadMap/generateLearningRoadmap`, {
+          currentSkills: jobDescription,
+          role: jobDetails.jobTitle,
+        });
 
-            } catch (error) {
-                console.log(error);
-            } finally {
-                setLoadingRoadmap(false);
-            }
-        };
 
-        handleGetRoadmap();
-    }, [baseUrl, jobDescription, jobDetails]);
+        const formattedRoadmap = response.data.roadmap.replace(/week/g, 'week\n\n');
+        setRoadmapData(formattedRoadmap);
 
-    return (
-        <Container>
-            <Wrapper>
-                <Left>
-                    <LeftTitle>Generate a 3-Week Learning Roadmap</LeftTitle>
-                    <SocialIcon animationData={map} />
-                </Left>
-                <Right>
-                    <ResultBox>
-                        {loadingRoadmap ? (
-                            <>
-                                <SocialIcon2 animationData={roadmap} />
-                                <GenText><i>Generating Roadmap...</i></GenText>
-                            </>
-                        ) : (
-                            <MissingSkillText>
-                                {roadmapData?.split(' ').map((word, index) => (
-                                    <span key={index} style={{ color: getRandomColor() }}>
-                                        {word}{' '}
-                                    </span>
-                                ))}
-                            </MissingSkillText>
-                        )}
-                    </ResultBox>
-                </Right>
-            </Wrapper>
-        </Container>
-    );
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoadingRoadmap(false);
+      }
+    };
+
+    handleGetRoadmap();
+  }, [baseUrl, jobDescription, jobDetails]);
+
+  return (
+    <Container>
+      <Wrapper>
+        <Left>
+          <LeftTitle>Generate a 3-Week Learning Roadmap</LeftTitle>
+          <SocialIcon animationData={map} />
+        </Left>
+        <Right>
+          <ResultBox>
+            {loadingRoadmap ? (
+              <>
+                <SocialIcon2 animationData={roadmap} />
+                <GenText><i>Generating Roadmap...</i></GenText>
+              </>
+            ) : (
+              <MissingSkillText>
+                {roadmapData?.split(' ').map((word, index) => (
+                  <span key={index} style={{ color: getRandomColor() }}>
+                    {word}{' '}
+                  </span>
+                ))}
+              </MissingSkillText>
+            )}
+          </ResultBox>
+        </Right>
+      </Wrapper>
+    </Container>
+  );
 };
 
 export default RoadMap;

@@ -23,7 +23,7 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: center;
 
-    height: 100vh;
+    height: 120vh;
 `;
 
 const fadeInAnimation = keyframes`
@@ -192,6 +192,7 @@ const JobApply = () => {
     const navigate = useNavigate();
 
     const [job, setJob] = useState(null);
+
     const [loading, setLoading] = useState(true);
 
     const [hasApplied, setHasApplied] = useState(false);
@@ -286,7 +287,7 @@ const JobApply = () => {
     const handleApply = async () => {
 
 
-        const applyData = { userId: userId, jobId: id };
+        const applyData = { userId: userId, jobId: id, title: job.title, company: job.company };
 
         try {
             await axios.post(`${Api_Url}/applied`, applyData, {
