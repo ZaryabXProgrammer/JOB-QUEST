@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema(
-  {
+const userSchema = new mongoose.Schema({
     username: {
       type: String,
       required: true,
@@ -21,10 +20,60 @@ const userSchema = new mongoose.Schema(
     },
     resume: {
       type: String,
-      default: 'No Resume Found', // Default value for resume URL is null
+      default: 'No Resume Found',
     },
-  },
-  { timestamps: true } // will generate the timestamps
+    linkedIn: {
+      type: String,
+      default: '',
+    },
+    gitHub: {
+      type: String,
+      default: '',
+    },
+    gender: {
+      type: String,
+      enum: ['Male', 'Female', 'Other'],
+      default: 'Other',
+    },
+    address: {
+      type: String,
+      default: '',
+    },
+    workExperience: [{
+      jobTitle: {
+        type: String,
+        default: ''
+      },
+      company: {
+        type: String,
+        default: ''
+      },
+      tenure: {
+        type: String,
+        default: ''
+      },
+    }, ],
+    education: [{
+      institutionName: {
+        type: String,
+        default: ''
+      },
+      university: {
+        type: String,
+        default: ''
+      },
+      degree: {
+        type: String,
+        default: ''
+      },
+    }, ],
+    skills: {
+      type: [String],
+      default: [],
+    },
+  }, {
+    timestamps: true
+  } // will generate the timestamps
 );
 
 module.exports = mongoose.model("User", userSchema);
