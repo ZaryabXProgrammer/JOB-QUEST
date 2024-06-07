@@ -12,6 +12,16 @@ const appliedJobsSchema = new mongoose.Schema(
 
       required: true,
     },
+    title: {
+      type: String,
+
+      required: true,
+    },
+    company: {
+      type: String,
+
+      required: true,
+    },
     status: {
       type: String,
       enum: ["applied", "shortlisted", "rejected", "hired"],

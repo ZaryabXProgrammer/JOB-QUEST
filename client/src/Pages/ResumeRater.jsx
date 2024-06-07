@@ -4,6 +4,7 @@ import axios from 'axios';
 import MyLoader from '../Utils/myLoader';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
+
 // Define keyframe animation for loader spin
 const spinAnimation = keyframes`
   0% { transform: rotate(0deg); }
@@ -283,6 +284,12 @@ const messages = [
 ];
 
 const ResumeRater = () => {
+
+
+  
+  
+
+
   const [index, setIndex] = useState(0);
   const [resumeFile, setResumeFile] = useState(null);
   const [result, setResult] = useState({

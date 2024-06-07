@@ -7,7 +7,10 @@ const {
   verifyToken,
 } = require("../middleware/verifyToken");
 
-router.get("/find/:userId/:jobId", verifyTokenandAuthorization, async (req, res) => {
+router.get(
+  "/find/:userId/:jobId",
+  verifyTokenandAuthorization,
+  async (req, res) => {
     try {
       const { userId, jobId } = req.params;
 
@@ -21,7 +24,21 @@ router.get("/find/:userId/:jobId", verifyTokenandAuthorization, async (req, res)
   }
 );
 
-router.post("/", verifyTokenandAuthorization, async (req, res) => {
+//get all applied jobs of particular user
+
+router.get("/find/:userId", async (req, res) => {
+  const { userId } = req.params;
+  try {
+     const appliedJobs = await AppliedJobs.find({ userId: userId });
+
+    res.json(appliedJobs);
+  } catch (error) {
+    console.error("Error getting all jobs for this user", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+router.post("/", async (req, res) => {
   try {
     const appliedJob = new AppliedJobs(req.body);
 

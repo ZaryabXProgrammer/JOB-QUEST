@@ -107,6 +107,7 @@ const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false); // State for controlling menu visibility
 
   const username = useSelector((state) => (state.user.currentUser ? state.user.currentUser.username : null));
+  
   const isHomePage = useIsHomepage();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -159,7 +160,7 @@ const Navbar = () => {
             </>
             :
             <>
-              <StyledLink to="#">
+              <StyledLink to='/profile'>
                 <MenuItem isHomePage={isHomePage}>@{username}</MenuItem>
               </StyledLink>
               <MenuItem isHomePage={isHomePage} onClick={handleSignOut}>

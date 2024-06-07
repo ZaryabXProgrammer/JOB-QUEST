@@ -64,6 +64,7 @@ router.post("/parse-resume", uploadResume, async (req, res) => {
 
     // Respond with the extracted skill and matching jobs
     res.json({ matchingJobs, mySkill: resumeSkill[0] });
+   
   } catch (error) {
     console.error("Error parsing resume:", error);
     res.status(500).json({ error: "Error parsing resume" });
