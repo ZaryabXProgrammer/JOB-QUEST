@@ -11,6 +11,7 @@ const appliedJobRouter = require("./routes/AppliedJobs");
 const skillGapRouter = require("./routes/SkillGap.js");
 const roadMapRouter = require("./routes/RoadMap.js");
 const jobMatchingRouter = require("./routes/JobMatching.js");
+const coverLetterRouter = require("./routes/CoverLetter.js");
 
 app.use(
   express.urlencoded({
@@ -40,6 +41,8 @@ app.use("/skillgap", skillGapRouter);
 app.use("/roadMap", roadMapRouter);
 
 app.use("/jobMatching", jobMatchingRouter);
+
+app.use("/coverLetter", coverLetterRouter);
 
 const PORT = process.env.PORT;
 

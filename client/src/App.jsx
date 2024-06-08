@@ -15,6 +15,7 @@ import SkillsGap from './Pages/SkillsGap'
 import RoadMap from './Pages/RoadMap'
 import UserProfile from './Components/UserProfile'
 import PostedJobs from './Pages/PostedJobs'
+import CoverLetterGenerator from './Components/CoverLetterGenerator'
 
 
 
@@ -44,11 +45,12 @@ const App = () => {
             <Route path='/rate' exact element={<ResumeRater />} />
             <Route path='/jobGraph' exact element={<JobGraph />} />
             <Route path='/skillsGap' exact element={<SkillsGap />} />
-            <Route path='/roadMap' exact element={<RoadMap/>} />
+            <Route path='/roadMap' exact element={<RoadMap />} />
 
-            <Route path='/profile' exact element={<UserProfile/>} />
+            <Route path='/profile' exact element={<UserProfile />} />
             <Route path='/postedJobs' exact element={<PostedJobs />} />
-            
+            <Route path='/coverletter' exact element={<CoverLetterGenerator />} />
+
           </Routes>
 
         </JobsProvider>

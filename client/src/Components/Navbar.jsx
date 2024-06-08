@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { signOut } from '../Redux/userSlice';
+import { JobsContext } from '../Helpers/JobContext';
 
 const Container = styled.div`
   color: ${({ isNavbar }) => (isNavbar ? 'white' : 'black')};
@@ -107,6 +108,8 @@ const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false); // State for controlling menu visibility
 
   const username = useSelector((state) => (state.user.currentUser ? state.user.currentUser.username : null));
+
+  const { setresumeTextContent, setglobalResume } = useContext(JobsContext)
   
   const isHomePage = useIsHomepage();
   const navigate = useNavigate();
@@ -116,6 +119,9 @@ const Navbar = () => {
     dispatch(signOut());
     navigate('/'); // Replace '/' with the route you want to navigate to after signing out
     setShowMenu(false); // Close menu after sign out
+    setresumeTextContent(null)
+    setglobalResume(null)
+
   };
 
   const handleMenuClick = (path) => {

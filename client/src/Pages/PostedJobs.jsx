@@ -323,8 +323,8 @@ const PostedJobs = () => {
                                     <StyledLink to={`/apply/${job.jobId}`}>
                                         {job.title} @ {job.company}
                                     </StyledLink>
-                                        <MoreHorizIcon style={{ color: '#1d59ff', marginLeft: '4px' }} />
-                                   
+                                    <MoreHorizIcon style={{ color: '#1d59ff', marginLeft: '4px' }} />
+
                                 </AppliedJob>
 
                                 <LastInterview>
