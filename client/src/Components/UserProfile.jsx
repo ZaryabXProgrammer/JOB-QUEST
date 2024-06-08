@@ -17,6 +17,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux'
 
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
 
@@ -285,7 +286,35 @@ width: 80%;
 margin: 30px 0;
 border: 1px solid #979797;
 `
+const StyledLink = styled(Link)`
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
 
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #0090f8;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+
+  &:hover {
+    color: #0090f8;
+  }
+`;
 
 
 
@@ -293,6 +322,7 @@ const UserProfile = () => {
 
 
     const userId = useSelector((state) => (state.user.currentUser ? state.user.currentUser._id : null))
+    const accessToken = useSelector((state) => (state.user.currentUser ? state.user.currentUser.accessToken : null))
 
     const baseUrl = import.meta.env.VITE_baseUrl
 
@@ -306,7 +336,11 @@ const UserProfile = () => {
             try {
 
                 // eslint-disable-next-line no-undef
-                const response = await axios.get(`${baseUrl}/applied/find/${userId}`)
+                const response = await axios.get(`${baseUrl}/applied/find/${userId}`, {
+                    headers: {
+                        token: accessToken
+                    }
+                })
 
                 setgetAppliedJob(response.data)
                 console.log(response.data)
@@ -459,9 +493,10 @@ const UserProfile = () => {
                                 const formattedDate = new Date(job.createdAt).toLocaleDateString();
                                 return (
                                     <AppliedBox key={job._id}>
+                                        
                                         <DateComponent>{formattedDate}</DateComponent>
                                         <Applied>{job.status.toUpperCase()}</Applied>
-                                        <JobApplied>{job.title} @ {job.company}</JobApplied>
+                                        <JobApplied><StyledLink style={{textDecoration: 'none', color: 'black'}} to={`/apply/${job.jobId}`} >{job.title} @ {job.company}</StyledLink></JobApplied>
                                     </AppliedBox>
                                 );
                             })

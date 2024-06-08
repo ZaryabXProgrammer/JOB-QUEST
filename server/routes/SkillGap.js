@@ -35,6 +35,7 @@ router.post("/analyzeSkillGaps", async (req, res) => {
   try {
     const { jobDescription, resume } = req.body;
     const missingSkills = await analyzeSkillGaps(jobDescription, resume);
+    
     res.json({ missingSkills });
   } catch (error) {
     res.status(500).json({ error: error.message });

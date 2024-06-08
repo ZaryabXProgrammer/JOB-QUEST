@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { type } = require("os");
 
 const appliedJobsSchema = new mongoose.Schema(
   {
@@ -12,6 +13,17 @@ const appliedJobsSchema = new mongoose.Schema(
 
       required: true,
     },
+
+    creatorId: {
+      type: String,
+      required: true,
+    },
+
+    candidateName: {
+      type: String,
+      required: true,
+    },
+
     title: {
       type: String,
 
@@ -26,6 +38,10 @@ const appliedJobsSchema = new mongoose.Schema(
       type: String,
       enum: ["applied", "shortlisted", "rejected", "hired"],
       default: "applied",
+    },
+    matchScore: {
+      type: String,
+      required: true,
     },
   },
   { timestamps: true }

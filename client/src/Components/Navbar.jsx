@@ -147,6 +147,9 @@ const Navbar = () => {
           <MenuItem isHomePage={isHomePage}>
             <StyledLink to="/jobGraph">Job Insights</StyledLink>
           </MenuItem>
+          <MenuItem isHomePage={isHomePage}>
+            <StyledLink to="/postedJobs">Jobs Posted</StyledLink>
+          </MenuItem>
         </Center>
         <Right>
           {!username ?

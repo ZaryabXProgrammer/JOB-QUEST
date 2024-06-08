@@ -2,7 +2,7 @@ import styled from "styled-components"
 import Lottie from 'lottie-react';
 import jobOffer from '../assets/Lottie Icons/jobOffer.json'
 import loadingScreen from '../assets/Lottie Icons/loadingScreen.json'
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import MyLoader from '../Utils/myLoader';
 import axios from "axios";
 import { JobsContext } from "../Helpers/JobContext";
@@ -219,25 +219,25 @@ const getRandomColor = () => {
   return colors[Math.floor(Math.random() * colors.length)];
 };
 
-const ButtonContainer = styled.div`
-  height: auto;
-  display: flex;
-  align-items: center;
-  padding: 20px;
+// const ButtonContainer = styled.div`
+//   height: auto;
+//   display: flex;
+//   align-items: center;
+//   padding: 20px;
 
-  @media (max-width: 768px) {
-    // flex-direction: column;
-    padding: 10px;
-  }
-`;
+//   @media (max-width: 768px) {
+//     // flex-direction: column;
+//     padding: 10px;
+//   }
+// `;
 
 const SkillsGap = () => {
-  
+
   const baseUrl = import.meta.env.VITE_baseUrl;
 
   const [missingSkills, setmissingSkills] = useState(null);
 
-  const { jobDescription, jobDetails } = useContext(JobsContext);
+  const { jobDescription, jobDetails, resumeTextContent } = useContext(JobsContext);
 
   const [newJobDesc, setnewJobDesc] = useState(jobDescription);
   const [resumeFile, setResumeFile] = useState(null);
@@ -249,66 +249,86 @@ const SkillsGap = () => {
     setResumeFile(e.target.files[0]);
   };
 
-  const handleGradeResume = () => {
-    setLoading(true);
+  // const handleGradeResume = () => {
+  //   setLoading(true);
 
-    const apiHash = 'your_api_hash_here';
-    const apiUrl = `http://rezscore.com/a/${apiHash}/grade`;
+  //   const apiHash = 'your_api_hash_here';
+  //   const apiUrl = `http://rezscore.com/a/${apiHash}/grade`;
 
-    const formData = new FormData();
-    formData.append('resume', resumeFile);
+  //   const formData = new FormData();
+  //   formData.append('resume', resumeFile);
 
-    axios.post(apiUrl, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-      .then(response => {
-        console.log(response.data);
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(response.data, 'text/xml');
-        const txtLink = xmlDoc.getElementsByTagName('txtlink')[0].textContent;
+  //   axios.post(apiUrl, formData, {
+  //     headers: {
+  //       'Content-Type': 'multipart/form-data',
+  //     },
+  //   })
+  //     .then(response => {
+  //       console.log(response.data);
+  //       const parser = new DOMParser();
+  //       const xmlDoc = parser.parseFromString(response.data, 'text/xml');
+  //       const txtLink = xmlDoc.getElementsByTagName('txtlink')[0].textContent;
 
-        return fetch(txtLink);
-      })
-      .then(fetchResponse => {
-        if (!fetchResponse.ok) {
-          throw new Error(`HTTP error! status: ${fetchResponse.status}`);
-        }
-        return fetchResponse.text();
-      })
-      .then(textContent => {
-        console.log('Text content:', textContent);
+  //       return fetch(txtLink);
+  //     })
+  //     .then(fetchResponse => {
+  //       if (!fetchResponse.ok) {
+  //         throw new Error(`HTTP error! status: ${fetchResponse.status}`);
+  //       }
+  //       return fetchResponse.text();
+  //     })
+  //     .then(textContent => {
+  //       console.log('Text content:', textContent);
 
-        setResult({ resumeText: textContent });
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      })
-      .finally(() => {
-        setLoading(false);
-        toast("Resume Uploaded Successfully");
-      });
-  };
+  //       setResult({ resumeText: textContent });
+  //     })
+  //     .catch(error => {
+  //       console.error('Error:', error);
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //       toast("Resume Uploaded Successfully");
+  //     });
+  // };
 
-  const handleGetSkillGap = async () => {
-    setloadingMissingSkills(true);
 
-    try {
-      const response = await axios.post(`${baseUrl}/skillgap/analyzeSkillGaps`, {
-        resume: result.resumeText,
-        jobDescription: newJobDesc
-      });
-    
-      const missingSkillsText = `${response.data.missingSkills}`;
-      const formattedMissingSkills = missingSkillsText.replace(/(?:^|\n)([\w\s.-]+)(?=\n|$)/g, '\n• $1');
-      setmissingSkills(formattedMissingSkills);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setloadingMissingSkills(false);
+  useEffect(() => {
+    const handleGetSkillGap = async () => {
+      setloadingMissingSkills(true);
+
+      try {
+        const response = await axios.post(`${baseUrl}/skillgap/analyzeSkillGaps`, {
+          resume: resumeTextContent.resumeText,
+          jobDescription: newJobDesc
+        });
+
+        
+
+
+      
+
+
+        const missingSkillsText = `${response.data.missingSkills}`;
+        const formattedMissingSkills = missingSkillsText.replace(/(?:^|\n)([\w\s.-]+)(?=\n|$)/g, '\n• $1');
+        setmissingSkills(formattedMissingSkills);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setloadingMissingSkills(false);
+      }
+    };
+
+    if (!resumeTextContent) {
+      console.log("No Resume Text");
+      
+    } else {
+     
+      handleGetSkillGap();
     }
-  };
+
+  }, [resumeTextContent, newJobDesc])
+
+
 
   return (
     <Container>
@@ -331,11 +351,11 @@ const SkillsGap = () => {
             </>
           ) : (
             <>
-              <InputContainer>
+              {/* <InputContainer>
                 <StyledInput type="file" accept=".pdf, .docx" onChange={handleFileChange} />
-              </InputContainer>
+              </InputContainer> */}
 
-              <ButtonContainer>
+              {/* <ButtonContainer>
                 <Button disabled={!resumeFile} onClick={handleGradeResume}>Upload Resume</Button>
                 <Button
                   style={{ backgroundColor: '#fff', color: '#007bff', border: '1px solid #007bff' }}
@@ -344,7 +364,7 @@ const SkillsGap = () => {
                 >
                   Extract
                 </Button>
-              </ButtonContainer>
+              </ButtonContainer> */}
 
               <ResultBox>
                 {loadingMissingSkills ? (

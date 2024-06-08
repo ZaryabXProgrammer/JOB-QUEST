@@ -8,10 +8,11 @@ const JobsProvider = ({ children }) => {
   const [page1JobsActive, setPage1JobsActive] = useState(false);
   const [jobDescription, setjobDescription] = useState(null)
   const [jobDetails, setjobDetails] = useState({})
-  
+  const [globalResume, setglobalResume] = useState(null);
+  const [resumeTextContent, setresumeTextContent] = useState(null)
 
   return (
-    <JobsContext.Provider value={{ newJobs, setnewJobs, page1JobsActive, setPage1JobsActive, setjobDescription, jobDescription, setjobDetails, jobDetails }}>
+    <JobsContext.Provider value={{ newJobs, setnewJobs, page1JobsActive, setPage1JobsActive, setjobDescription, jobDescription, setjobDetails, jobDetails, setglobalResume, globalResume, setresumeTextContent, resumeTextContent }}>
       {children}
     </JobsContext.Provider>
   );

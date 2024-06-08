@@ -2,12 +2,10 @@ const express = require("express");
 const router = express.Router();
 const Jobs = require("../models/Jobs");
 
-
 router.use(function logger(req, res, next) {
   console.log(req.method, req.url);
   next();
 });
-
 
 router.get("/", async (req, res) => {
   try {
@@ -16,22 +14,41 @@ router.get("/", async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: "Internal server error"
+      message: "Internal server error",
     });
   }
 });
+
+//get single job
 
 router.get("/job/:id", async (req, res) => {
   const jobId = req.params.id;
 
   try {
     const job = await Jobs.findOne({
-      _id: jobId
+      _id: jobId,
     });
     res.json(job);
   } catch (error) {
     res.status(400).json({
-      message: "Job not found"
+      message: "Job not found",
+    });
+  }
+});
+
+//Get all Jobs Created by the user
+
+router.get("/job/createdJobs/:id", async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const jobs = await Jobs.find({ userId: userId });
+
+    res.json(jobs)
+
+  } catch (error) {
+    res.status(400).json({
+      message: "Jobs not found",
     });
   }
 });
@@ -42,27 +59,26 @@ router.get("/search", async (req, res) => {
   try {
     const jobs = await Jobs.find({
       title: {
-        $regex: new RegExp(titleQuery, "i")
+        $regex: new RegExp(titleQuery, "i"),
       },
     });
 
     if (jobs.length > 0) {
       res.status(200).json({
-        jobs
+        jobs,
       });
     } else {
       res.status(404).json({
-        message: "Jobs Not Found"
+        message: "Jobs Not Found",
       });
     }
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      message: "Internal server error"
+      message: "Internal server error",
     });
   }
 });
-
 
 router.post("/", async (req, res) => {
   try {
@@ -72,11 +88,10 @@ router.post("/", async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: "Internal server error"
+      message: "Internal server error",
     });
   }
 });
-
 
 router.put("/:id", async (req, res) => {
   try {
@@ -86,21 +101,20 @@ router.put("/:id", async (req, res) => {
     res.json(updatedJob);
   } catch (err) {
     res.status(400).json({
-      message: err.message
+      message: err.message,
     });
   }
 });
-
 
 router.delete("/:id", async (req, res) => {
   try {
     await Jobs.findByIdAndDelete(req.params.id);
     res.json({
-      message: "Job listing deleted"
+      message: "Job listing deleted",
     });
   } catch (err) {
     res.status(500).json({
-      message: err.message
+      message: err.message,
     });
   }
 });
