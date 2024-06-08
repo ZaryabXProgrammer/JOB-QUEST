@@ -54,15 +54,16 @@ const userSchema = new mongoose.Schema({
       },
     }, ],
     education: [{
-      institutionName: {
-        type: String,
-        default: ''
-      },
+
       university: {
         type: String,
         default: ''
       },
       degree: {
+        type: String,
+        default: ''
+      },
+      batch: {
         type: String,
         default: ''
       },
