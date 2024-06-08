@@ -9,7 +9,8 @@ const JobsProvider = ({ children }) => {
   const [jobDescription, setjobDescription] = useState(null)
   const [jobDetails, setjobDetails] = useState({})
   const [globalResume, setglobalResume] = useState(null);
-  const [resumeTextContent, setresumeTextContent] = useState(null)
+  const [resumeTextContent, setresumeTextContent] = useState(null);
+  
 
   return (
     <JobsContext.Provider value={{ newJobs, setnewJobs, page1JobsActive, setPage1JobsActive, setjobDescription, jobDescription, setjobDetails, jobDetails, setglobalResume, globalResume, setresumeTextContent, resumeTextContent }}>

@@ -319,7 +319,7 @@ color: black;
 
 const JobApply = () => {
 
-    const { setjobDescription, setjobDetails, setresumeTextContent } = useContext(JobsContext)
+    const { setjobDescription, setjobDetails, setresumeTextContent, resumeTextContent, setglobalResume, globalResume } = useContext(JobsContext)
 
     const [resumeFile, setResumeFile] = useState(null);
 
@@ -339,7 +339,7 @@ const JobApply = () => {
 
 
 
-    const [result, setResult] = useState({ resumeText: null });
+    const [result, setResult] = useState({ resumeText: resumeTextContent });
 
     const [loading, setLoading] = useState(false);
 
@@ -354,6 +354,7 @@ const JobApply = () => {
 
     const handleFileChange = (e) => {
         setResumeFile(e.target.files[0]);
+        setglobalResume(e.target.files[0])
     };
 
     useEffect(() => {
@@ -537,6 +538,24 @@ const JobApply = () => {
         })
     };
 
+    const generateCoverLetter = () => {
+        
+        const jobDetailsString = `${job.skills.join(', ')} - ${job.description}`;
+        setjobDescription(jobDetailsString);
+        navigate('/coverletter');
+        setjobDetails({
+            company: job.company,
+            jobTitle: job.title
+        })
+
+    }
+
+    const ResetResume = () => {
+        setglobalResume(null);
+        setresumeTextContent(null);
+
+    }
+
     return (
         <Container>
             {loading ? (
@@ -567,12 +586,12 @@ const JobApply = () => {
                                 </Skills>
                             </CardContent>
 
-                            {resumeFile && result ? (
+                            {resumeTextContent ? (
                                 <ResumeBox>
                                     <PictureAsPdfIcon style={{ color: 'red', marginRight: '5px' }} />
-                                    <span style={{ fontSize: '11px' }}>{resumeFile.name}</span>
+                                    <span style={{ fontSize: '11px' }}>{globalResume?.name}</span>
                                     <span style={{ marginLeft: '5px', cursor: 'pointer' }}>
-                                        <CancelIcon onClick={() => setResumeFile(null)} style={{ fontSize: '18px' }} />
+                                        <CancelIcon onClick={ResetResume} style={{ fontSize: '18px' }} />
                                     </span>
                                 </ResumeBox>
                             ) : (
@@ -587,25 +606,33 @@ const JobApply = () => {
 
                                 )
                             )}
+
                             {!hasApplied && (<UploadBtn onClick={handleGradeResume} disabled={!resumeFile}>Upload</UploadBtn>)}
+
+
 
 
 
                             {hasApplied ? (
                                 <DisbButton disabled>Applied</DisbButton>
                             ) : (
-                                <Button2 onClick={handleApply} disabled={!result.resumeText}>
+                                <Button2 onClick={handleApply} disabled={!resumeTextContent}>
                                     Apply
                                 </Button2>
                             )}
 
-                            <SkillsGap disabled={!result.resumeText} onClick={handleSkillGapClick}>
+                            <SkillsGap disabled={!resumeTextContent} onClick={handleSkillGapClick}>
                                 Identify Skills Gap Now
                             </SkillsGap>
 
                             <SkillsGap onClick={getRoadmap}>
                                 Generate a 3-Week Learning Roadmap
                             </SkillsGap>
+
+                            <SkillsGap onClick={generateCoverLetter} disabled={!resumeTextContent}>
+                                Generate Cover Letter
+                            </SkillsGap>
+
                         </CardContainer>
                     </Wrapper>
                 </>
