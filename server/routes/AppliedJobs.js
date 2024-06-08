@@ -17,7 +17,6 @@ router.get(
       const appliedJob = await AppliedJobs.findOne({ userId, jobId });
 
       res.json(appliedJob);
-      
     } catch (error) {
       console.error("Error checking applied status:", error);
       res.status(500).json({ message: "Internal server error" });
@@ -25,12 +24,23 @@ router.get(
   }
 );
 
+router.get("/find/:userId", verifyToken, async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const appliedJobs = await AppliedJobs.find({ userId });
+    res.json(appliedJobs);
+  } catch (error) {
+    console.error("Error getting all applied jobs for user:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 //get all applied jobs of particular user
 
 router.get("/findall/:userId", async (req, res) => {
   const { userId } = req.params;
   try {
-     const appliedJobs = await AppliedJobs.find({ creatorId: userId });
+    const appliedJobs = await AppliedJobs.find({ creatorId: userId });
 
     res.json(appliedJobs);
   } catch (error) {
@@ -46,9 +56,6 @@ router.post("/", async (req, res) => {
     const newAppliedJob = await appliedJob.save();
 
     res.status(201).json(newAppliedJob);
-
-
-
   } catch (error) {
     res.status(404).json(error);
   }
