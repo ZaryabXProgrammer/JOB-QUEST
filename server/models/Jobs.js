@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { type } = require("os");
 
 const jobSchema = new mongoose.Schema(
   {
@@ -11,6 +12,11 @@ const jobSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    userId: {
+      type: String,
+      required: true,
+    },
+    
     description: {
       type: String,
       required: true,

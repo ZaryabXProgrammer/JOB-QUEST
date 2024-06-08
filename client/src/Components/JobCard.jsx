@@ -253,7 +253,7 @@ const JobCard = ({ id, jobLogo, title, description, company, applicants, jobType
           </JobTypeContainer>
 
 
-          <JobDesc>{description}</JobDesc>
+          <JobDesc>{description.slice(0,100)}</JobDesc>
           {/* Update Location */}
 
 

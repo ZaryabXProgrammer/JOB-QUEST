@@ -440,6 +440,7 @@ const Slider = () => {
         <SocialIconsWrapper ref={wrapperRef}>
           {socialMediaIcons.map((icon) => (
             <SocialIcon key={icon.id}
+              
               animationData={icon.src}
 
 

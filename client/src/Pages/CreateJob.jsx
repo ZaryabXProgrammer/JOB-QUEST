@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import app from '../Firebase'
+import { useSelector } from 'react-redux'
 
 
 const fadeInAnimation = keyframes`
@@ -120,6 +121,8 @@ const CreateJob = () => {
 
   const [mySkills, setmySkills] = useState([])
 
+  const userId = useSelector((state) => state.user.currentUser ? state.user.currentUser._id : null)
+
 
 
 
@@ -127,7 +130,7 @@ const CreateJob = () => {
 
   const validationSchema = Yup.object({
     title: Yup.string().min(5).max(30).required('Job Title is required'),
-    description: Yup.string().min(5).max(100).required('Job Description is required'),
+    description: Yup.string().min(5).max(500).required('Job Description is required'),
     company: Yup.string().required('Company name is required'),
     applicants: Yup.number().min(0),
     jobType: Yup.string().required('Job type is required'),
@@ -172,7 +175,7 @@ const CreateJob = () => {
         getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
           console.log('File available at', downloadURL);
           try {
-            const jobData = { ...values, jobLogo: downloadURL, skills: mySkills };
+            const jobData = { ...values, jobLogo: downloadURL, skills: mySkills, userId: userId };
             await axios.post(`${Api_Url}/jobs`, jobData)
             alert("Job Created");
             resetForm(); // Reset form fields after successful upload
