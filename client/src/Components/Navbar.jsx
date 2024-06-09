@@ -217,6 +217,9 @@ const Navbar = () => {
         <DropdownMenuItem>
           <StyledLink to="/jobGraph" onClick={() => handleMenuClick('/jobGraph')}>Job Insights</StyledLink>
         </DropdownMenuItem>
+        <DropdownMenuItem>
+          <StyledLink to="/PostedJobs" onClick={() => handleMenuClick('/PostedJobs')}>Job Posted</StyledLink>
+        </DropdownMenuItem>
       </DropdownMenu>
     </Container>
   );

@@ -16,7 +16,9 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
 
-    
+    @media (max-width: 768px) {
+        margin: 10px;
+    }
 `;
 
 const Wrapper = styled.div`
@@ -27,59 +29,98 @@ const Wrapper = styled.div`
     width: 100vw;
     margin: 10px;
     padding: 10px;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        height: auto;
+        width: 100%;
+        padding: 5px;
+        margin: 5px;
+    }
 `;
 
 const Left = styled.div`
-width: 100%;
     flex: 1;
     padding: 20px;
-   
+    width: 100%;
+
+    @media (max-width: 768px) {
+        padding: 10px;
+    }
 `;
 
 const Right = styled.div`
     flex: 1;
     padding: 20px;
-`
+    width: 100%;
+
+    @media (max-width: 768px) {
+        padding: 10px;
+    }
+`;
 
 const Form = styled.form`
     display: flex;
     flex-direction: column;
     width: 100%;
     max-width: 600px;
-    margin: 0 auto; /* Center the form horizontally */
+    margin: 0 auto; 
+
+    @media (max-width: 768px) {
+        max-width: 100%;
+        margin: 0;
+    }
 `;
 
 const Label = styled.label`
-    margin-bottom: 5px; /* Adjust margin to create space below the label */
+    margin-bottom: 5px; 
     font-weight: bold;
     margin-right: 1px;
     flex: 1;
     text-align: center;
+
+    @media (max-width: 768px) {
+        text-align: left;
+    }
 `;
 
 const Input = styled.input`
     padding: 10px;
-    margin-bottom: 15px; /* Increase bottom margin for spacing between fields */
+    margin-bottom: 15px; 
     border: 2px solid #007bff;
     border-radius: 5px;
     font-size: 16px;
     flex: 2;
+
     &:focus {
         outline: none;
         border-color: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 14px;
     }
 `;
 
 const InputBox = styled.div`
     display: flex;
     align-items: center;
-    margin-bottom: 15px; /* Add bottom margin for spacing between input boxes */
+    margin-bottom: 15px; 
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 `;
 
 const MessageBox = styled.div`
     display: flex;
     align-items: flex-start;
-    margin-bottom: 15px; /* Add bottom margin for spacing between input boxes */
+    margin-bottom: 15px; 
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
 `;
 
 const Textarea = styled.textarea`
@@ -87,12 +128,18 @@ const Textarea = styled.textarea`
     border: 2px solid #007bff;
     border-radius: 5px;
     font-size: 16px;
-    resize: vertical; /* Allow vertical resizing of textarea */
-    min-height: 200px; /* Set a minimum height for the textarea */
+    resize: vertical; 
+    min-height: 200px; 
     flex: 2;
+
     &:focus {
         outline: none;
         border-color: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 14px;
+        min-height: 150px;
     }
 `;
 
@@ -105,10 +152,16 @@ const Button = styled.button`
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
+
     &:hover {
         background-color: #0056b3;
     }
+
+    @media (max-width: 768px) {
+        font-size: 14px;
+    }
 `;
+
 const coverLetterAnimation = keyframes`
     from { opacity: 0; }
     to { opacity: 1; }
@@ -121,74 +174,60 @@ const CoverLetterPreview = styled.div`
     margin: 1px auto;
     font-family: Arial, sans-serif;
     animation: ${coverLetterAnimation} 2s ease-in-out;
+
+    @media (max-width: 768px) {
+        padding: 10px;
+        max-width: 100%;
+    }
 `;
 
-
 const SocialIcon = styled(Lottie)`
-  width: 410px;
-  height: 410px;
-  margin-top: 20px;
-  border-radius: 50%;
-  margin: 0 auto;
+    width: 410px;
+    height: 410px;
+    margin-top: 20px;
+    border-radius: 50%;
+    margin: 0 auto;
 
-  @media (max-width: 768px) {
-    width: 200px;
-    height: 200px;
-    margin-right: 0;
-  }
+    @media (max-width: 768px) {
+        width: 200px;
+        height: 200px;
+        margin: 20px auto; 
+    }
 
-  @media (max-width: 480px) {
-    width: 150px;
-    height: 150px;
-  }
+    @media (max-width: 480px) {
+        width: 150px;
+        height: 150px;
+    }
 `;
 
 const CoverLetterGenerator = () => {
+    const { jobDescription, resumeTextContent, jobDetails } = useContext(JobsContext);
 
-    const { jobDescription, resumeTextContent, jobDetails } = useContext(JobsContext)
+    const baseUrl = import.meta.env.VITE_baseUrl;
 
-    const baseUrl = import.meta.env.VITE_baseUrl
-
-    const [coverLetter, setcoverLetter] = useState(null)
-
-    const [loading, setloading] = useState(false)
+    const [coverLetter, setcoverLetter] = useState(null);
+    const [loading, setloading] = useState(false);
 
     useEffect(() => {
-
-        setloading(true)
+        setloading(true);
         const getCoverLetter = async () => {
-
-
-        try {
-           
+            try {
                 const response = await axios.post(`${baseUrl}/coverLetter/generateCoverLetter`, {
                     jobDescription: jobDescription,
                     resume: resumeTextContent
-                })
-                setcoverLetter(response.data.coverLetter)
+                });
+                setcoverLetter(response.data.coverLetter);
 
-            if (response.data.coverLetter) {
-                setloading(false)
-            }
-         
-
-
-       
-
-
+                if (response.data.coverLetter) {
+                    setloading(false);
+                }
             } catch (error) {
-                console.log(error)
+                console.log(error);
             }
-       
-            
-        }
+        };
 
         getCoverLetter();
-
-        
-
-    }, [jobDescription, resumeTextContent])
-    
+    }, [jobDescription, resumeTextContent]);
 
     const [formData, setFormData] = useState({
         name: '',
@@ -259,20 +298,16 @@ const CoverLetterGenerator = () => {
         pdfMake.createPdf(docDefinition).download('cover_letter.pdf');
     };
 
-    console.log(coverLetter)
+    console.log(coverLetter);
 
     return (
         <Container>
-
-
             <h1>Generate Cover Letter</h1>
-
             <Wrapper>
-
                 <Left>
                     <Form>
                         <InputBox>
-                            <Label >Name:</Label>
+                            <Label>Name:</Label>
                             <Input type="text" name="name" value={formData.name} onChange={handleChange} />
                         </InputBox>
                         <InputBox>
@@ -298,33 +333,26 @@ const CoverLetterGenerator = () => {
                         <Button type="button" onClick={generatePDF}>Download PDF</Button>
                     </Form>
                 </Left>
-
                 <Right>
-
-                     
-                    {loading ? <SocialIcon animationData={loadingScreen} /> : (<CoverLetterPreview>
-                        <h1 style={{ textAlign: 'center' }}>Cover Letter Preview</h1>
-                        <p>{new Date().toLocaleDateString()}</p>
-                        <p>{formData.name}</p>
-                        <p>{formData.address}</p>
-                        <p>{formData.email}</p>
-                        <br />
-                        <p>{jobDetails.company}</p>
-                        <p>{jobDetails.jobTitle}</p>
-                        <br />
-                        <p>{coverLetter}</p>
-                        <br />
-                        <p>Sincerely,</p>
-                        <p>{formData.name}</p>
-                    </CoverLetterPreview>)}
-
-                   
-
+                    {loading ? <SocialIcon animationData={loadingScreen} /> : (
+                        <CoverLetterPreview>
+                            <h1 style={{ textAlign: 'center' }}>Cover Letter Preview</h1>
+                            <p>{new Date().toLocaleDateString()}</p>
+                            <p>{formData.name}</p>
+                            <p>{formData.address}</p>
+                            <p>{formData.email}</p>
+                            <br />
+                            <p>{jobDetails.company}</p>
+                            <p>{jobDetails.jobTitle}</p>
+                            <br />
+                            <p>{coverLetter}</p>
+                            <br />
+                            <p>Sincerely,</p>
+                            <p>{formData.name}</p>
+                        </CoverLetterPreview>
+                    )}
                 </Right>
-
-
             </Wrapper>
-
         </Container>
     );
 };
