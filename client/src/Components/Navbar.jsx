@@ -217,6 +217,9 @@ const Navbar = () => {
         <DropdownMenuItem>
           <StyledLink to="/jobGraph" onClick={() => handleMenuClick('/jobGraph')}>Job Insights</StyledLink>
         </DropdownMenuItem>
+        <DropdownMenuItem>
+          <StyledLink to="/PostedJobs" onClick={() => handleMenuClick('/PostedJobs')}>Job Posted</StyledLink>
+        </DropdownMenuItem>
       </DropdownMenu>
     </Container>
   );
@@ -284,6 +287,7 @@ const DropdownMenuItem = styled.div`
   transition: padding 0.3s ease;
   border-bottom: 1px solid #f0f0f0;
 
+  
   &:last-child {
     border-bottom: none;
   }
