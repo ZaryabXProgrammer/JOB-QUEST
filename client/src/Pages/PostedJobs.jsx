@@ -1,14 +1,16 @@
 import styled from 'styled-components'
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import pic from '../assets/pic.jpg'
+import profile from '../assets/profile.png'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import PersonIcon from '@mui/icons-material/Person';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import WorkIcon from '@mui/icons-material/Work';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux'
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+import { JobsContext } from '../Helpers/JobContext';
 
 
 
@@ -147,16 +149,17 @@ margin-right: 4px;
 
 const Name = styled.p`
     font-weight: bold;
-    font-size: 14px;
+    font-size: 15px;
 `
 
 const CompanyFit = styled.div`
-  padding: 10px 20px;
+background-color: #f6f9ff;
+  padding: 9px 10px;
   color: ${({ score }) => {
         if (score >= 90) return '#006400'; // Dark Green
         if (score >= 85) return '#228B22'; // Forest Green
-        if (score >= 70) return '#32CD32'; // Lime Green
-        if (score >= 60) return '#ADFF2F'; // Green Yellow
+        if (score >= 70) return '#1eb31e'; // Lime Green
+        if (score >= 60) return '#32d400'; // Green Yellow
         if (score >= 50) return '#FFD700'; // Gold
         if (score >= 40) return '#FFA500'; // Orange
         if (score >= 30) return '#FF8C00'; // Dark Orange
@@ -166,7 +169,7 @@ const CompanyFit = styled.div`
     }};
   font-size: 14px;
   font-weight: bold;
-  border-radius: 12px;
+  border-radius: 17px;
   display: flex;
   align-items: center;
 `;
@@ -242,7 +245,7 @@ const PostedJobs = () => {
     const userId = useSelector((state) => state.user.currentUser ? state.user.currentUser._id : null)
     const accessToken = useSelector((state) => state.user.currentUser ? state.user.currentUser.accessToken : null)
 
-    console.log(userId)
+    const { setcandidateId } = useContext(JobsContext)
 
 
 
@@ -262,8 +265,7 @@ const PostedJobs = () => {
         fetchMyCreatedJobs();
     }, [userId, baseUrl]); // Add userId and baseUrl to dependency array
 
-    console.log(myCreatedJobs);
-
+ 
     return (
 
         <Container>
@@ -306,16 +308,25 @@ const PostedJobs = () => {
 
                         {myCreatedJobs.map((job) => (
 
+                            <Link key={job._id} to={`/profile/${job.userId}`} style={{ textDecoration: 'none'}}> 
                             <Candidate key={job._id}>
                                 <ProfileBox>
-                                    <ProfilePic src={pic} />
-                                    <Name>{job.userId}</Name>
+                                    <ProfilePic src={profile} />
+
+                                    <Link
+                                        style={{textDecoration: 'none', color: 'black'}}
+                                        
+                                            to={`/profile/${job.userId}`}
+                                        >
+                                        <Name >{job.candidateName}</Name>
+                                    </Link>
+
 
                                 </ProfileBox>
 
                                 <CompanyFit score={job.matchScore}>
 
-                                    <ThumbUpIcon style={{ marginRight: '4px', fontSize: '20px' }} />{job.matchScore}%</CompanyFit>
+                                    <ThumbUpIcon style={{ marginRight: '4px', fontSize: '20px' }} />{job.matchScore}% Match</CompanyFit>
 
                                 <Skills>{job.status}</Skills>
 
@@ -338,7 +349,7 @@ const PostedJobs = () => {
                             </Candidate>
 
 
-
+                            </Link>
 
                         ))}
 

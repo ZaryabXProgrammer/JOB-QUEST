@@ -24,7 +24,7 @@ router.get(
   }
 );
 
-router.get("/find/:userId", verifyToken, async (req, res) => {
+router.get("/find/:userId", async (req, res) => {
   const { userId } = req.params;
   try {
     const appliedJobs = await AppliedJobs.find({ userId });

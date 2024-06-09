@@ -108,6 +108,7 @@ const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false); // State for controlling menu visibility
 
   const username = useSelector((state) => (state.user.currentUser ? state.user.currentUser.username : null));
+  const userId = useSelector((state) => (state.user.currentUser ? state.user.currentUser._id : null));
 
   const { setresumeTextContent, setglobalResume } = useContext(JobsContext)
   
@@ -169,7 +170,7 @@ const Navbar = () => {
             </>
             :
             <>
-              <StyledLink to='/profile'>
+              <StyledLink to={`/profile/${userId}`}>
                 <MenuItem isHomePage={isHomePage}>@{username}</MenuItem>
               </StyledLink>
               <MenuItem isHomePage={isHomePage} onClick={handleSignOut}>

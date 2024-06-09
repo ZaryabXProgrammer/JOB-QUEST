@@ -2,22 +2,25 @@ import styled from 'styled-components'
 import myPic from '../assets/pic.jpg'
 import google from '../assets/companies/logo_google.svg'
 import twitter from '../assets/companies/logo_twitter.svg'
-
+import SchoolIcon from '@mui/icons-material/School';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GitHubIcon from '@mui/icons-material/GitHub';
-
+import EmailIcon from '@mui/icons-material/Email';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-
+import HomeIcon from '@mui/icons-material/Home';
 import youtube from '../assets/companies/logo_youtube.svg'
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 
-
+import profile from '../assets/profile.png'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux'
 
+import WorkspacesIcon from '@mui/icons-material/Workspaces';
+
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { JobsContext } from '../Helpers/JobContext';
 
 const Container = styled.div`
 
@@ -54,11 +57,11 @@ const Left = styled.div`
 const ProfilePic = styled.img`
     margin-top: 20px;
 
-    width: 150px;
-    border: 5px solid white;
-    height: 150px;
-    border-radius: 50%;
+    width: 120px;
 
+    height: 120px;
+    border-radius: 50%;
+padding: 10px;
 object-fit: cover;
 `
 
@@ -131,13 +134,15 @@ const Experience = styled.div`
    align-items: center;
     margin: 3px;
     margin-top: 12px;
+    
 
 `
 
-const WorkLogo = styled.img`
+const WorkLogo = styled.div`
     height: 50px;
     width: 50px;
     border-radius: 50%;
+    
 
 `
 
@@ -231,7 +236,8 @@ padding: 20px 40px;
 display: flex;
 align-items: center;
 gap: 10px;
-font-size: 14px;
+font-size: 13px;
+font-weight: bold;
 `
 
 const Bottom = styled.div`
@@ -318,15 +324,27 @@ const StyledLink = styled(Link)`
 
 
 
+
 const UserProfile = () => {
 
 
-    const userId = useSelector((state) => (state.user.currentUser ? state.user.currentUser._id : null))
-    const accessToken = useSelector((state) => (state.user.currentUser ? state.user.currentUser.accessToken : null))
+
 
     const baseUrl = import.meta.env.VITE_baseUrl
 
     const [AppliedJobs, setgetAppliedJob] = useState(null)
+
+    const [userDetails, setuserDetails] = useState({})
+
+
+
+    const location = useLocation();
+
+    const id = location.pathname.split('/')[2]
+
+    
+
+
 
     useEffect(() => {
 
@@ -336,10 +354,8 @@ const UserProfile = () => {
             try {
 
                 // eslint-disable-next-line no-undef
-                const response = await axios.get(`${baseUrl}/applied/find/${userId}`, {
-                    headers: {
-                        token: accessToken
-                    }
+                const response = await axios.get(`${baseUrl}/applied/find/${id}`, {
+                   
                 })
 
                 setgetAppliedJob(response.data)
@@ -356,7 +372,25 @@ const UserProfile = () => {
 
         getAppliedJobs();
 
-    }, [userId])
+    }, [id, baseUrl])
+
+
+    useEffect(() => {
+
+
+        const getUserDetails = async () => {
+
+            const response = await axios.get(`${baseUrl}/auth/findUser/${id}`);
+
+            setuserDetails(response.data)
+            console.log(response.data)
+
+        }
+
+        getUserDetails();
+
+    }, [id])
+
 
 
     return (
@@ -366,22 +400,39 @@ const UserProfile = () => {
         <Container>
             <Wrapper>
                 <Left>
-                    <ProfilePic src={myPic} />
-                    <Username>Zaryab Haider</Username>
+                    <ProfilePic src={profile} />
+                    <Username>{userDetails.username}</Username>
 
                     <Break></Break>
 
-                    <Details>123 - Main Street Karachi</Details>
-                    <Details>zaryab@gmail.com</Details>
-                    <Details><CallOutlinedIcon style={{ marginRight: '4px', fontSize: '20px' }} /><Span>Cell</Span>+92 (325) 7623272</Details>
-                    <Details><Span>Home</Span>021 (36969696)</Details>
+                    <Details><HomeIcon style={{ marginRight: '6px' }} /> {userDetails.address}</Details>
+                    <Details>
+                        <EmailIcon style={{ marginRight: '6px' }} />
+                        <a
+                            style={{ textDecoration: 'none', color: 'white' }}
+                            href={`mailto:${userDetails.email}`}
+                        >
+                            {userDetails.email}
+                        </a>
+                    </Details>
+                    <Details>
+                        <CallOutlinedIcon style={{ marginRight: '4px', fontSize: '20px' }} />
+                        <Span>Cell</Span>
+                        <a
+                            style={{ textDecoration: 'none', color: 'white' }}
+                            href={`tel:${userDetails.phone}`}
+                        >
+                            {userDetails.phone}
+                        </a>
+                    </Details>
+
 
                     <Break></Break>
 
-                    <Details><Span>Gender</Span>Male</Details>
-                    <Details><Span>ID: </Span>232343434</Details>
-                    <Details>+92 (325) 7623272</Details>
-                    <Details>021 (36969696)</Details>
+                    <Details><Span>Gender</Span>{userDetails.gender}</Details>
+                    <Details><Span>ID: </Span>{userDetails._id}</Details>
+
+
 
 
                 </Left>
@@ -394,55 +445,59 @@ const UserProfile = () => {
                         <WorkExperience>
                             <TopTitle>Work Experience</TopTitle>
 
-                            <Experience>
-                                <WorkLogo src={google}></WorkLogo>
-                                <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
-                                    <WorkTitle>Software Enginner</WorkTitle>
-                                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                                        <Company>Google</Company>
-                                        <Tenure><span style={{ color: '#0090f8' }}><FiberManualRecordIcon style={{ fontSize: '14px' }} /></span>May 2023 - July 2023</Tenure>
+                            {userDetails && userDetails.workExperience && userDetails.workExperience.map((work, index) => (
+                                <Experience key={index}>
+                                    <WorkLogo><WorkspacesIcon /></WorkLogo>
+                                    <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
+                                        <WorkTitle>{work.jobTitle}</WorkTitle>
+                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                            <Company>{work.company}</Company>
+                                            <Tenure>
+                                                <span style={{ color: '#0090f8' }}>
+                                                    <FiberManualRecordIcon style={{ fontSize: '14px' }} />
+                                                </span>
+                                                {work.tenure}
+                                            </Tenure>
+                                        </div>
                                     </div>
+                                </Experience>
+                            ))}
 
 
-                                </div>
-
-
-                            </Experience>
-                            <Experience>
-                                <WorkLogo src={twitter}></WorkLogo>
-                                <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
-                                    <WorkTitle>MERN Stack Developer</WorkTitle>
-                                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                                        <Company>Google</Company>
-                                        <Tenure><span style={{ color: '#0090f8' }}><FiberManualRecordIcon style={{ fontSize: '14px' }} /></span>May 2023 - July 2023</Tenure>
-                                    </div>
-
-
-                                </div>
-
-
-                            </Experience>
 
 
                         </WorkExperience>
+
+
                         <Education>
 
                             <TopTitle>Education</TopTitle>
+                            {userDetails && userDetails.education && userDetails.education.map((education, index) => (
 
-                            <Experience>
-                                <WorkLogo src={youtube}></WorkLogo>
-                                <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
-                                    <WorkTitle>Bachelors of Science in Computer Science</WorkTitle>
-                                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                                        <Company>University of California</Company>
-                                        <Tenure><span style={{ color: '#0090f8' }}><FiberManualRecordIcon style={{ fontSize: '14px' }} /></span>May 2023 - July 2023</Tenure>
+                                <Experience key={index}>
+
+                                    <WorkLogo><SchoolIcon /></WorkLogo>
+                                    <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
+
+                                        <WorkTitle>{education.degree}</WorkTitle>
+                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                            <Company>
+                                                {education.university.split(' ').slice(0, 2).join(' ')} <br />
+                                                {education.university.split(' ').slice(2).join(' ')}
+                                            </Company>
+                                            <Tenure><span style={{ color: '#0090f8' }}><FiberManualRecordIcon style={{ fontSize: '14px' }} /></span>{education.batch}</Tenure>
+                                        </div>
+
+
                                     </div>
 
 
-                                </div>
+                                </Experience>
 
 
-                            </Experience>
+
+                            ))}
+
 
 
                         </Education>
@@ -455,21 +510,40 @@ const UserProfile = () => {
                             <SkillsBox>
                                 <TopTitle>Skills</TopTitle>
                                 <Skills>
-                                    <Skill>ReactJs</Skill>
-                                    <Skill>NodeJs</Skill>
-                                    <Skill>MySQL</Skill>
-                                    <Skill>Postman</Skill>
-                                    <Skill>NodeJs</Skill>
+                                    {userDetails && userDetails.skills && userDetails.skills.map((skill, index) => (
 
+                                        <Skill key={index}>{skill}</Skill>
+
+
+
+                                    ))}
                                 </Skills>
                             </SkillsBox>
                             <SkillsBox>
-                                <TopTitle>Social Profile</TopTitle>
+                                <TopTitle>Social Profiles</TopTitle>
                                 <Skills>
-                                    <SocialProfile><LinkedInIcon style={{ marginRight: '5px' }} />linkedin.com/zaryab</SocialProfile>
-                                    <SocialProfile><GitHubIcon style={{ marginRight: '5px' }} />linkedin.com/zaryab</SocialProfile>
-
-
+                                    <SocialProfile>
+                                        <LinkedInIcon style={{ marginRight: '5px' }} />
+                                        <a
+                                            style={{ textDecoration: 'none', color: 'black' }}
+                                            href={userDetails.linkedIn}
+                                            target='_blank'
+                                            rel='noopener noreferrer'
+                                        >
+                                            LinkedIn
+                                        </a>
+                                    </SocialProfile>
+                                    <SocialProfile>
+                                        <GitHubIcon style={{ marginRight: '5px' }} />
+                                        <a
+                                            style={{ textDecoration: 'none', color: 'black' }}
+                                            href={userDetails.gitHub}
+                                            target='_blank'
+                                            rel='noopener noreferrer'
+                                        >
+                                            GitHub
+                                        </a>
+                                    </SocialProfile>
                                 </Skills>
                             </SkillsBox>
 
@@ -479,7 +553,8 @@ const UserProfile = () => {
 
                             <TopTitle>Resume</TopTitle>
                             <ResumeBox>
-                                <PictureAsPdfIcon style={{ color: '#eb5757' }} />  ZaryabHaider.pdf
+                                <PictureAsPdfIcon style={{ color: '#eb5757' }} />
+                                <a style={{ textDecoration: 'none', color: 'black' }} href={userDetails.resume} target='_blank' rel='noopener noreferrer'>{userDetails.username}&apos;s CV</a>
                             </ResumeBox>
 
                         </CenterRight>
@@ -493,10 +568,10 @@ const UserProfile = () => {
                                 const formattedDate = new Date(job.createdAt).toLocaleDateString();
                                 return (
                                     <AppliedBox key={job._id}>
-                                        
+
                                         <DateComponent>{formattedDate}</DateComponent>
                                         <Applied>{job.status.toUpperCase()}</Applied>
-                                        <JobApplied><StyledLink style={{textDecoration: 'none', color: 'black'}} to={`/apply/${job.jobId}`} >{job.title} @ {job.company}</StyledLink></JobApplied>
+                                        <JobApplied><StyledLink style={{ textDecoration: 'none', color: 'black' }} to={`/apply/${job.jobId}`} >{job.title} @ {job.company}</StyledLink></JobApplied>
                                     </AppliedBox>
                                 );
                             })
@@ -505,7 +580,7 @@ const UserProfile = () => {
                         )}
 
 
-                      
+
                     </Bottom>
 
 
