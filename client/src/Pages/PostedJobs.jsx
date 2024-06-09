@@ -1,266 +1,206 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import pic from '../assets/pic.jpg';
+import pic from '../assets/pic.jpg'
+import profile from '../assets/profile.png'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import PersonIcon from '@mui/icons-material/Person';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import WorkIcon from '@mui/icons-material/Work';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useContext, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux'
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+import { JobsContext } from '../Helpers/JobContext';
+
+
 
 const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
-  display: flex;
+    
+width: 100vw;
+height: 100vh;
+display: flex;
 
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    height: auto;
-  }
-`;
+
+`
 
 const Left = styled.div`
-  width: 20%;
-  height: 100%;
-  margin: 5px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #fbfcff;
+    
+width: 20%;
 
-  @media (max-width: 1024px) {
-    width: 100%;
-    height: auto;
-    margin: 0;
-  }
-`;
+height: 100%;
+margin: 5px;
+display: flex;
+flex-direction: column;
+align-items: center;
+background-color: #fbfcff;
+`
 
 const CandidateBtn = styled.button`
-  border: none;
-  margin-bottom: 10px;
-  cursor: pointer;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 10px;
-  padding: 8px 25px;
-  color: white;
-  background-color: #1d59ff;
-  border-radius: 11px;
-  display: flex;
-  width: 80%;
-  align-items: center;
-  justify-content: center;
-
-  @media (max-width: 1024px) {
-    width: 90%;
-    padding: 10px 20px;
-  }
-
-  @media (max-width: 480px) {
-    width: 95%;
-    padding: 10px 15px;
-  }
-`;
+border: none;
+margin-bottom: 10px;
+cursor: pointer;
+font-weight: bold;
+text-align: center;
+margin-top: 10px;
+    padding: 8px 25px;
+    color: white;
+    background-color: #1d59ff;
+    border-radius: 11px;
+    display: flex;
+    width: 80%;
+    align-items: center;
+`
 
 const ShoppingBag = styled.div`
-  font-weight: bold;
-  width: 90%;
-  margin: 10px 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    font-weight: bold;
+width: 90%;
+margin: 10px 30px;
+display: flex;
+justify-content: space-between;
+align-items: center;
 
-  @media (max-width: 1024px) {
-    width: 100%;
-    margin: 10px 0;
-    justify-content: center;
-  }
-`;
+`
 
 const Right = styled.div`
-  width: 75%;
-  height: auto;
-  margin: 5px;
-  background-color: #fbfcff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    
+   width: 75%;
+   height: auto;
 
-  @media (max-width: 1024px) {
-    width: 100%;
-    margin: 0;
-    padding: 10px;
-  }
-`;
+   margin: 5px;
+   background-color: #fbfcff;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   
+   
+`
 
 const Top = styled.div`
-  height: 70px;
-  width: 95%;
-  padding: 10px;
-  margin: 10px;
-  background-color: #e8efff;
-  border-radius: 10px;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  color: black;
+    
+height: 70px;
+width: 95%;
+padding: 10px;
+margin: 10px;
+background-color: #e8efff;
+border-radius: 10px;
+display: flex;
+justify-content: space-evenly;
+align-items: center;
+color: black;
 
-  @media (max-width: 1024px) {
-    flex-direction: row;
-    height: auto;
-    padding: 10px;
-    margin: 10px 0;
-    justify-content: space-between;
-  }
-
-  @media (max-width: 480px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-`;
+`
 
 const TopLabels = styled.h3`
-  font-size: 14px;
-  font-weight: bold;
+font-size: 14px;
+font-weight: bold;
 
-  @media (max-width: 480px) {
-    font-size: 12px;
-    margin-bottom: 5px;
-  }
-`;
-
+`
 const Center = styled.div`
-  height: auto;
-  width: 95%;
-  padding: 10px;
-  margin: 10px;
-  background-color: #e8efff;
-  border-radius: 10px;
-  display: flex;
-  justify-content: space-evenly;
-  color: black;
+    
+height: auto;
+width: 95%;
+padding: 10px;
+margin: 10px;
+background-color: #e8efff;
+border-radius: 10px;
+display: flex;
+justify-content: space-evenly;
 
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    margin: 10px 0;
-  }
-`;
+color: black;
+
+`
 
 const Candidates = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`;
-
+    
+display: flex;
+flex-direction: column;
+width: 95%;
+`
 const Candidate = styled.div`
-  height: 70px;
-  width: 100%;
-  gap: 30px;
-  background-color: #fefcff;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  color: black;
 
-  @media (max-width: 1024px) {
-    flex-direction: row;
-    height: auto;
-    padding: 10px;
-    gap: 10px;
-  }
+height: 70px;
+width: 100%;
 
-  @media (max-width: 480px) {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px 0;
-  }
-`;
+gap: 30px;
+background-color: #fefcff;
+
+display: flex;
+justify-content: space-around;
+align-items: center;
+color: black;
+
+`
 
 const ProfileBox = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 10px;
-`;
+    
+    display: flex;
+    align-items: center;
+    padding: 10px;
+
+`
 
 const ProfilePic = styled.img`
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  margin-right: 4px;
-`;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+margin-right: 4px;
+
+`
 
 const Name = styled.p`
-  font-weight: bold;
-  font-size: 14px;
-
-  @media (max-width: 480px) {
-    font-size: 12px;
-  }
-`;
+    font-weight: bold;
+    font-size: 15px;
+`
 
 const CompanyFit = styled.div`
-  padding: 10px 20px;
+background-color: #f6f9ff;
+  padding: 9px 10px;
   color: ${({ score }) => {
-    if (score >= 90) return '#006400'; // Dark Green
-    if (score >= 85) return '#228B22'; // Forest Green
-    if (score >= 70) return '#32CD32'; // Lime Green
-    if (score >= 60) return '#ADFF2F'; // Green Yellow
-    if (score >= 50) return '#FFD700'; // Gold
-    if (score >= 40) return '#FFA500'; // Orange
-    if (score >= 30) return '#FF8C00'; // Dark Orange
-    if (score >= 20) return '#FF4500'; // Orange Red
-    if (score >= 10) return '#FF0000'; // Red
-    return '#8B0000'; // Dark Red
-  }};
+        if (score >= 90) return '#006400'; // Dark Green
+        if (score >= 85) return '#228B22'; // Forest Green
+        if (score >= 70) return '#1eb31e'; // Lime Green
+        if (score >= 60) return '#32d400'; // Green Yellow
+        if (score >= 50) return '#FFD700'; // Gold
+        if (score >= 40) return '#FFA500'; // Orange
+        if (score >= 30) return '#FF8C00'; // Dark Orange
+        if (score >= 20) return '#FF4500'; // Orange Red
+        if (score >= 10) return '#FF0000'; // Red
+        return '#8B0000'; // Dark Red
+    }};
   font-size: 14px;
   font-weight: bold;
-  border-radius: 12px;
+  border-radius: 17px;
   display: flex;
   align-items: center;
-
-  @media (max-width: 1024px) {
-    padding: 8px 15px;
-    font-size: 12px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 5px 10px;
-    font-size: 12px;
-  }
 `;
 
 const Skills = styled.div`
-  width: max-content;
-  padding: 5px 8px;
-  font-size: 12px;
-  color: #ffffff;
-  border-radius: 10px;
-  background-color: #3067fd;
-
-  @media (max-width: 1024px) {
-    font-size: 10px;
+    width: max-content;
     padding: 5px 8px;
-  }
-`;
+    font-size: 12px;    
+
+    color:#ffffff;
+    border-radius: 10px;
+    background-color: #3067fd;
+
+`
+
 
 const AppliedJob = styled.div`
-  padding: 4px 14px;
-  border: 1px solid #e9e9e9;
-  font-size: 12px;
-  border-radius: 13px;
-  color: black;
-  width: max-content;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    
+    padding: 4px 14px;
+    border: 1px solid #e9e9e9;
+    font-size: 12px;
+    border-radius: 13px;
+    color: black;
+width: max-content;
+display: flex;
+align-items: center;
+justify-content: center;
 
-  @media (max-width: 1024px) {
-    font-size: 10px;
-    padding: 3px 10px;
-  }
-`;
+
+
+`
 
 const StyledLink = styled(Link)`
   color: black;
@@ -293,101 +233,139 @@ const StyledLink = styled(Link)`
 `;
 
 const LastInterview = styled.p`
-  font-size: 12px;
+    
+    font-size: 12px;
+`
 
-  @media (max-width: 1024px) {
-    font-size: 10px;
-  }
 
-  @media (max-width: 480px) {
-    font-size: 10px;
-  }
-`;
+
 
 const PostedJobs = () => {
-  const userId = useSelector((state) => state.user.currentUser ? state.user.currentUser._id : null);
-  const accessToken = useSelector((state) => state.user.currentUser ? state.user.currentUser.accessToken : null);
 
-  const [myCreatedJobs, setMyCreatedJobs] = useState([]);
-  const baseUrl = import.meta.env.VITE_baseUrl;
+    const userId = useSelector((state) => state.user.currentUser ? state.user.currentUser._id : null)
+    const accessToken = useSelector((state) => state.user.currentUser ? state.user.currentUser.accessToken : null)
 
-  useEffect(() => {
-    const fetchMyCreatedJobs = async () => {
-      try {
-        const response = await axios.get(`${baseUrl}/applied/findall/${userId}`);
-        setMyCreatedJobs(response.data);
-      } catch (error) {
-        console.log('Error fetching my created jobs:', error);
-      }
-    };
+    const { setcandidateId } = useContext(JobsContext)
 
-    fetchMyCreatedJobs();
-  }, [userId, baseUrl]); // Add userId and baseUrl to dependency array
 
-  return (
-    <Container>
-      <Left>
-        <ShoppingBag>
-          <span>Menu</span>
-          <WorkIcon style={{ color: '#1d59ff' }} />
-        </ShoppingBag>
 
-        <CandidateBtn>
-          <PersonIcon style={{ marginRight: '12px' }} />
-          <span>Candidates</span>
-        </CandidateBtn>
+    const [myCreatedJobs, setMyCreatedJobs] = useState([]);
+    const baseUrl = import.meta.env.VITE_baseUrl;
 
-        <CandidateBtn>
-          <PersonIcon style={{ marginRight: '12px' }} />
-          <span>Vacancies</span>
-        </CandidateBtn>
-      </Left>
+    useEffect(() => {
+        const fetchMyCreatedJobs = async () => {
+            try {
+                const response = await axios.get(`${baseUrl}/applied/findall/${userId}`);
+                setMyCreatedJobs(response.data);
+            } catch (error) {
+                console.log('Error fetching my created jobs:', error);
+            }
+        };
 
-      <Right>
-        <Top>
-          <TopLabels style={{ display: 'flex', alignItems: 'center' }}>Name<ArrowDownwardIcon /></TopLabels>
-          <TopLabels style={{ display: 'flex', alignItems: 'center' }}>Company Fit<ArrowDownwardIcon /></TopLabels>
-          <TopLabels style={{ display: 'flex', alignItems: 'center' }}>Tags<ArrowDownwardIcon /></TopLabels>
-          <TopLabels style={{ display: 'flex', alignItems: 'center' }}>Applied Job<ArrowDownwardIcon /></TopLabels>
-          <TopLabels style={{ display: 'flex', alignItems: 'center' }}>Application Date<ArrowDownwardIcon /></TopLabels>
-        </Top>
+        fetchMyCreatedJobs();
+    }, [userId, baseUrl]); // Add userId and baseUrl to dependency array
 
-        <Center>
-          <Candidates>
-            {myCreatedJobs.map((job) => (
-              <Candidate key={job._id}>
-                <ProfileBox>
-                  <ProfilePic src={pic} />
-                  <Name>{job.userId}</Name>
-                </ProfileBox>
+ 
+    return (
 
-                <CompanyFit score={job.matchScore}>
-                  <ThumbUpIcon style={{ marginRight: '4px', fontSize: '20px' }} />{job.matchScore}%
-                </CompanyFit>
+        <Container>
 
-                <Skills>{job.status}</Skills>
+            <Left>
 
-                <AppliedJob>
-                  <StyledLink to={`/apply/${job.jobId}`}>
-                    {job.title} @ {job.company}
-                  </StyledLink>
-                  <MoreHorizIcon style={{ color: '#1d59ff', marginLeft: '4px' }} />
-                </AppliedJob>
+                <ShoppingBag><span >Menu</span><WorkIcon style={{ color: '#1d59ff' }} />
 
-                <LastInterview>
-                  {new Date(job.createdAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </LastInterview>
-              </Candidate>
-            ))}
-          </Candidates>
-        </Center>
-      </Right>
-    </Container>
-  );
-};
+                </ShoppingBag>
 
-export default PostedJobs;
+                <CandidateBtn>
+                    <PersonIcon style={{ marginRight: '12px' }} />
+                    <span>Candidates</span>
+
+
+                </CandidateBtn>
+
+                <CandidateBtn>
+                    <PersonIcon style={{ marginRight: '12px' }} />
+                    <span>Vacancies</span>
+
+
+                </CandidateBtn>
+            </Left>
+
+
+            <Right>
+                <Top>
+                    <TopLabels style={{ display: 'flex', alignItems: 'center' }}>Name<ArrowDownwardIcon /></TopLabels>
+                    <TopLabels style={{ display: 'flex', alignItems: 'center' }}>Company Fit<ArrowDownwardIcon /></TopLabels>
+                    <TopLabels style={{ display: 'flex', alignItems: 'center' }}>Tags<ArrowDownwardIcon /></TopLabels>
+                    <TopLabels style={{ display: 'flex', alignItems: 'center' }}>Applied Job<ArrowDownwardIcon /></TopLabels>
+                    <TopLabels style={{ display: 'flex', alignItems: 'center' }}>Application Date<ArrowDownwardIcon /></TopLabels>
+
+                </Top>
+
+
+                <Center>
+                    <Candidates>
+
+                        {myCreatedJobs.map((job) => (
+
+                            <Link key={job._id} to={`/profile/${job.userId}`} style={{ textDecoration: 'none'}}> 
+                            <Candidate key={job._id}>
+                                <ProfileBox>
+                                    <ProfilePic src={profile} />
+
+                                    <Link
+                                        style={{textDecoration: 'none', color: 'black'}}
+                                        
+                                            to={`/profile/${job.userId}`}
+                                        >
+                                        <Name >{job.candidateName}</Name>
+                                    </Link>
+
+
+                                </ProfileBox>
+
+                                <CompanyFit score={job.matchScore}>
+
+                                    <ThumbUpIcon style={{ marginRight: '4px', fontSize: '20px' }} />{job.matchScore}% Match</CompanyFit>
+
+                                <Skills>{job.status}</Skills>
+
+                                <AppliedJob>
+                                    <StyledLink to={`/apply/${job.jobId}`}>
+                                        {job.title} @ {job.company}
+                                    </StyledLink>
+                                    <MoreHorizIcon style={{ color: '#1d59ff', marginLeft: '4px' }} />
+
+                                </AppliedJob>
+
+                                <LastInterview>
+                                    {new Date(job.createdAt).toLocaleDateString('en-US', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric'
+                                    })}
+                                </LastInterview>
+
+                            </Candidate>
+
+
+                            </Link>
+
+                        ))}
+
+
+
+
+
+
+
+                    </Candidates>
+                </Center>
+            </Right>
+
+        </Container>
+
+    )
+}
+
+export default PostedJobs

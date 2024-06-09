@@ -47,7 +47,7 @@ const App = () => {
             <Route path='/skillsGap' exact element={<SkillsGap />} />
             <Route path='/roadMap' exact element={<RoadMap />} />
 
-            <Route path='/profile' exact element={<UserProfile />} />
+            <Route path='/profile/:userId' element={<UserProfile />} />
             <Route path='/postedJobs' exact element={<PostedJobs />} />
             <Route path='/coverletter' exact element={<CoverLetterGenerator />} />
 

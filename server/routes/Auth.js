@@ -17,7 +17,7 @@ router.post("/register", async (req, res) => {
     address,
     workExperience,
     education,
-    skills
+    skills,
   } = req.body;
 
   try {
@@ -38,7 +38,7 @@ router.post("/register", async (req, res) => {
       address,
       workExperience,
       education,
-      skills
+      skills,
     });
 
     const savedUser = await newUser.save();
@@ -46,25 +46,22 @@ router.post("/register", async (req, res) => {
   } catch (error) {
     console.error("Error:", error); // Log the error for debugging
     return res.status(500).json({
-      error: "Internal Server Error"
+      error: "Internal Server Error",
     });
   }
 });
 
 // Login
 router.post("/login", async (req, res) => {
-  const {
-    username,
-    password
-  } = req.body;
+  const { username, password } = req.body;
 
   try {
     const user = await User.findOne({
-      username
+      username,
     });
     if (!user) {
       return res.status(400).json({
-        error: "User Not Found"
+        error: "User Not Found",
       });
     }
 
@@ -73,30 +70,47 @@ router.post("/login", async (req, res) => {
       process.env.PASS_SEC
     ).toString(CryptoJS.enc.Utf8);
     if (password === decryptedPassword) {
-      const accessToken = jwt.sign({
-          id: user._id
+      const accessToken = jwt.sign(
+        {
+          id: user._id,
         },
-        process.env.JWT_SEC, {
-          expiresIn: "7d"
+        process.env.JWT_SEC,
+        {
+          expiresIn: "7d",
         }
       );
-      const {
-        password,
-        ...others
-      } = user._doc;
+      const { password, ...others } = user._doc;
 
       return res.json({
         ...others,
-        accessToken
+        accessToken,
       });
     } else {
       return res.status(401).json({
-        error: "Wrong Username or Password"
+        error: "Wrong Username or Password",
       });
     }
   } catch (error) {
     return res.status(500).json({
-      error: "Internal Server Error"
+      error: "Internal Server Error",
+    });
+  }
+});
+
+//Get particular user details:
+
+router.get("/findUser/:id", async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const user = await User.findById(userId);
+
+    const { password, ...others } = user._doc;
+
+    return res.json(others);
+  } catch (error) {
+    res.status(400).json({
+      message: "User Not Found",
     });
   }
 });
