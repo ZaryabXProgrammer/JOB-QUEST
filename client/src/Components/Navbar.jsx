@@ -287,11 +287,11 @@ const DropdownMenuItem = styled.div`
   transition: padding 0.3s ease;
   border-bottom: 1px solid #f0f0f0;
 
+  
   &:last-child {
     border-bottom: none;
   }
 
-  
   a {
     color: #333;
     text-decoration: none;
