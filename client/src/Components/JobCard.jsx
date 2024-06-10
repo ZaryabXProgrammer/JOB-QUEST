@@ -26,8 +26,9 @@ width: 287px;
   
   }
 `;
-const Wrapper = styled.div`
-
+const Wrapper = styled(Link)`
+text-decoration: none;
+color: black;
     width: 100%;
 display: flex;
 flex-direction: column;
@@ -208,8 +209,11 @@ const JobCard = ({ id, jobLogo, title, description, company, applicants, jobType
 
   return (
     <CardContainer >
-      <ToastContainer/>
-      <Wrapper>
+      <ToastContainer />
+      
+      
+
+      <Wrapper to={userId ? `/apply/${id}` : ''} onClick={handleApplyClick}>
         <Top>
           <Logo src={jobLogo} alt="Company Logo" />
 

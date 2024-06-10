@@ -16,7 +16,7 @@ const appliedJobsSchema = new mongoose.Schema(
 
     creatorId: {
       type: String,
-      required: true,
+     
     },
 
     candidateName: {
