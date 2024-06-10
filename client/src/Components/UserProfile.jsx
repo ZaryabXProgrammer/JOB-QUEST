@@ -26,6 +26,9 @@ const Container = styled.div`
 
 display: flex;
 flex-direction: column;
+@media (max-width: 768px) {
+    padding: 0 10px;
+}
 
 `
 
@@ -35,6 +38,11 @@ const Wrapper = styled.div`
     justify-content: center;
     height: 100vh;
 width: 100vw;
+@media (max-width: 768px) {
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+}
 `
 
 const Left = styled.div`
@@ -50,7 +58,11 @@ const Left = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    @media (max-width: 768px) {
+        width: 100%;
+        margin: 0;
+        border-radius: 20px 20px 0 0;
+    }
 `
 
 
@@ -93,8 +105,11 @@ width: 63%;
 margin-right: 10px;
 margin-left: 10px;
     padding: 10px;
-    
-
+    @media (max-width: 768px) {
+        width: 100%;
+        margin: 0;
+        border-radius: 0 0 20px 20px;
+    }
 
 `
 
@@ -106,7 +121,10 @@ display: flex;
 justify-content: center;
 
 margin-bottom: 10px;
-
+@media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+}
 `
 
 const TopTitle = styled.h5`
@@ -114,6 +132,10 @@ margin-top: 9px;
 font-weight: bold;
 font-size: 18px;
 margin-left: 13px;
+@media (max-width: 768px) {
+    margin-left: 0;
+    text-align: center;
+}
 `
 
 const WorkExperience = styled.div`
@@ -125,7 +147,10 @@ margin: 10px;
 border: 1px solid #dbdbdb;
 
 background-color: white;
-
+@media (max-width: 768px) {
+    width: 90%;
+    margin: 10px 0;
+}
 
 `
 
@@ -175,6 +200,10 @@ width: 500px;
 margin: 10px;
 
 border: 1px solid #dbdbdb;
+@media (max-width: 768px) {
+    width: 90%;
+    margin: 10px 0;
+}
 `
 
 
@@ -189,6 +218,9 @@ display: flex;
 
 
 margin-bottom: 10px;
+@media (max-width: 768px) {
+    flex-direction: column;
+}
 
 `
 
@@ -238,6 +270,9 @@ align-items: center;
 gap: 10px;
 font-size: 13px;
 font-weight: bold;
+@media (max-width: 768px) {
+    padding: 10px 20px;
+}
 `
 
 const Bottom = styled.div`
@@ -258,6 +293,10 @@ const AppliedBox = styled.div`
     border: none;
     border-radius: 13px;
     background-color: #fcfbfe;
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: center;
+    }
 
 `
 
@@ -267,6 +306,11 @@ text-align: center;
     padding: 2px 5px;
 
     border-right: 1px solid grey;
+    @media (max-width: 768px) {
+        border-right: none;
+        border-bottom: 1px solid grey;
+        width: 100%;
+    }
 `
 const Applied = styled.div`
     text-align: center;
@@ -276,6 +320,13 @@ const Applied = styled.div`
     padding: 2px 5px;
     border-left: 1px solid grey;
     border-right: 1px solid grey;
+    @media (max-width: 768px) {
+        border-left: none;
+        border-right: none;
+        border-top: 1px solid grey;
+        border-bottom: 1px solid grey;
+        width: 100%;
+    }
 `
 const JobApplied = styled.div`
 
@@ -283,6 +334,11 @@ const JobApplied = styled.div`
     border-left: 1px solid grey;
     
     flex: 4;
+    @media (max-width: 768px) {
+        border-left: none;
+        border-top: 1px solid grey;
+        width: 100%;
+    }
 `
 
 
