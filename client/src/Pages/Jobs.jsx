@@ -284,7 +284,7 @@ const FindContainer = styled.div`
   margin: 10px 0; /* Adjust margin for mobile */
 
   @media screen and (min-width: 768px) {
-    height: 10%;
+    
     margin: 0;
   }
 `;
@@ -310,6 +310,7 @@ const SearchBox = styled.div`
   }
 `;
 const InputBox = styled.div`
+margin-top: 3px;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -327,6 +328,7 @@ const Input = styled.input`
   border: 1px solid #DDDDDD;
   outline: none;
   border-radius: 3px;
+ 
 
   &::placeholder {
     color: #999999;
@@ -393,15 +395,15 @@ const ShowingJobsTitle = styled.h3`
   color: #656669;
   font-weight: bold;
   font-size: 17px;
-  margin: 18px 0 0px 0; /* Adjust margin for mobile */
+  margin: 7px 0 0px 0; /* Adjust margin for mobile */
 
   @media screen and (min-width: 768px) {
-    margin: 60px 0 0px 4px; /* Reset margin for larger screens */
+    margin: 4px 0 0px 4px; /* Reset margin for larger screens */
   }
 `;
 
 const Jobs = () => {
-  const [salary, setSalary] = useState(100); 
+  const [salary, setSalary] = useState(100);
   const [filters, setFilters] = useState({
     jobType: [],
     workLocation: [],
@@ -421,77 +423,77 @@ const Jobs = () => {
     A_Z: "A-Z"
   };
   const handleSalaryChange = (event) => {
-    const value = parseInt(event.target.value, 10); 
+    const value = parseInt(event.target.value, 10);
     setSalary(value);
   };
   const applySorting = (sortingOption) => {
-    let sortedJobs = [...jobs]; 
-    
+    let sortedJobs = [...jobs];
+
     switch (sortingOption) {
       case SORT_OPTIONS.RECENTLY:
-       
+
         sortedJobs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         break;
       case SORT_OPTIONS.TOP_SALARY:
-       
+
         sortedJobs.sort((a, b) => b.salary - a.salary);
         break;
       case SORT_OPTIONS.RATING:
-       
+
         sortedJobs.sort((a, b) => (b.rating || 0) - (a.rating || 0));
         break;
       case SORT_OPTIONS.A_Z:
-     
+
         sortedJobs.sort((a, b) => a.title.localeCompare(b.title));
         console.log(sortedJobs)
         break;
       default:
         break;
     }
-    
-    setFilteredJobs(sortedJobs); 
+
+    setFilteredJobs(sortedJobs);
   };
- 
+
 
   const CheckMark = ({ label, filterType }) => {
-  const isSelected = filters[filterType] === label;
-  const isSorted = filters.sort === label;
+    const isSelected = filters[filterType] === label;
+    const isSorted = filters.sort === label;
 
-  const handleCheckChange = () => {
-    if (isSelected) {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        [filterType]: "",
-      }));
-    } else {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        [filterType]: label,
-      }));
-      if (isSorted) {
-        applySorting(label);
+    const handleCheckChange = () => {
+      if (isSelected) {
+        setFilters((prevFilters) => ({
+          ...prevFilters,
+          [filterType]: "",
+        }));
+      } else {
+        setFilters((prevFilters) => ({
+          ...prevFilters,
+          [filterType]: label,
+        }));
+        if (isSorted) {
+          applySorting(label);
+        }
       }
-    }
-  };
+    };
 
-  return (
-    <CheckMarkContainer>
-      <StyledInput
-        type="checkbox"
-        checked={isSelected}
-        onChange={handleCheckChange}
-      />
-      <CheckMarkIcon checked={isSelected}>
-        {isSelected && <CheckOutlinedIcon style={{ color: "darkgreen" }} />}
-      </CheckMarkIcon>
-      <CheckMarkLabel>{label}</CheckMarkLabel>
-    </CheckMarkContainer>
-  );
-};
+    return (
+      <CheckMarkContainer>
+        <StyledInput
+          type="checkbox"
+          checked={isSelected}
+          onChange={handleCheckChange}
+        />
+        <CheckMarkIcon checked={isSelected}>
+          {isSelected && <CheckOutlinedIcon style={{ color: "darkgreen" }} />}
+        </CheckMarkIcon>
+        <CheckMarkLabel>{label}</CheckMarkLabel>
+      </CheckMarkContainer>
+    );
+  };
   const applyFilters = () => {
     let filtered = jobs;
-  
-    
+
+
     if (SORT_OPTIONS.TOP_SALARY === filters.sort) {
       filtered = [...jobs].sort((a, b) => b.salary - a.salary);
     } else if (SORT_OPTIONS.RECENTLY === filters.sort) {
@@ -501,22 +503,22 @@ const Jobs = () => {
     } else if (SORT_OPTIONS.A_Z === filters.sort) {
       filtered = [...jobs].sort((a, b) => a.title.localeCompare(b.title));
     }
-  
-    
+
+
     if (filters.jobType.length > 0) {
       filtered = filtered.filter(job => filters.jobType.includes(job.jobType));
     }
-  
+
     if (filters.workLocation.length > 0) {
       filtered = filtered.filter(job => filters.workLocation.includes(job.workLocation));
     }
-  
+
     if (filters.experience.length > 0) {
       filtered = filtered.filter(job => filters.experience.includes(job.experience));
     }
-  
+
     filtered = filtered.filter(job => job.salary >= salary);
-  
+
     setFilteredJobs(filtered);
     setCountJobs(filtered.length);
   };
@@ -572,10 +574,10 @@ const Jobs = () => {
           <SortBox>
             <SortTitle>Sort By</SortTitle>
             <CheckMarkContainer>
-            <CheckMark label="Recently" filterType="sort" />
-<CheckMark label="Top Salary" filterType="sort" />
-<CheckMark label="Rating" filterType="sort" />
-<CheckMark label="A-Z" filterType="sort" />
+              <CheckMark label="Recently" filterType="sort" />
+              <CheckMark label="Top Salary" filterType="sort" />
+              <CheckMark label="Rating" filterType="sort" />
+              <CheckMark label="A-Z" filterType="sort" />
             </CheckMarkContainer>
           </SortBox>
           <SalaryBox>
@@ -583,12 +585,12 @@ const Jobs = () => {
             <SalarySlider
               type="range"
               min={500}
-              max={100000} 
-              step={1000} 
+              max={100000}
+              step={1000}
               value={salary}
               onChange={handleSalaryChange}
             />
-            <p>{`$${salary}`}</p> 
+            <p>{`$${salary}`}</p>
           </SalaryBox>
           <JobTypeBox>
             <JobtypeTitle>Job Type</JobtypeTitle>
