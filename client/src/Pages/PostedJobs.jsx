@@ -19,7 +19,10 @@ const Container = styled.div`
 width: 100vw;
 height: 100vh;
 display: flex;
-
+@media (max-width: 1024px) {
+  flex-direction: column;
+  height: auto;
+}
 
 `
 
@@ -33,6 +36,11 @@ display: flex;
 flex-direction: column;
 align-items: center;
 background-color: #fbfcff;
+@media (max-width: 1024px) {
+    width: 100%;
+    height: auto;
+    margin: 0;
+  }
 `
 
 const CandidateBtn = styled.button`
@@ -49,6 +57,15 @@ margin-top: 10px;
     display: flex;
     width: 80%;
     align-items: center;
+    @media (max-width: 1024px) {
+      width: 90%;
+      padding: 10px 20px;
+    }
+  
+    @media (max-width: 480px) {
+      width: 95%;
+      padding: 10px 15px;
+    }
 `
 
 const ShoppingBag = styled.div`
@@ -58,6 +75,11 @@ margin: 10px 30px;
 display: flex;
 justify-content: space-between;
 align-items: center;
+@media (max-width: 1024px) {
+  width: 100%;
+  margin: 10px 0;
+  justify-content: center;
+}
 
 `
 
@@ -71,6 +93,12 @@ const Right = styled.div`
    display: flex;
    flex-direction: column;
    align-items: center;
+
+   @media (max-width: 1024px) {
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+  }
    
    
 `
@@ -87,12 +115,28 @@ display: flex;
 justify-content: space-evenly;
 align-items: center;
 color: black;
+@media (max-width: 1024px) {
+  flex-direction: row;
+  height: auto;
+  padding: 10px;
+  margin: 10px 0;
+  justify-content: space-between;
+}
+
+@media (max-width: 480px) {
+  flex-direction: column;
+  align-items: flex-start;
+}
 
 `
 
 const TopLabels = styled.h3`
 font-size: 14px;
 font-weight: bold;
+@media (max-width: 480px) {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
 
 `
 const Center = styled.div`
@@ -107,6 +151,10 @@ display: flex;
 justify-content: space-evenly;
 
 color: black;
+@media (max-width: 1024px) {
+  flex-direction: column;
+  margin: 10px 0;
+}
 
 `
 
@@ -133,6 +181,18 @@ transition: background-color 0.2s ease;
 &:hover{
     background-color: #dfe6fa;
 }
+@media (max-width: 1024px) {
+  flex-direction: row;
+  height: auto;
+  padding: 10px;
+  gap: 10px;
+}
+
+@media (max-width: 480px) {
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px 0;
+}
 
 `
 
@@ -150,13 +210,17 @@ const ProfilePic = styled.img`
     height: 30px;
     border-radius: 50%;
 margin-right: 4px;
-
+@media (max-width: 480px) {
+  font-size: 12px;
+}
 `
 
 const Name = styled.p`
     font-weight: bold;
     font-size: 15px;
-    
+    @media (max-width: 480px) {
+      font-size: 12px;
+    }
 `
 
 const CompanyFit = styled.div`
@@ -180,6 +244,15 @@ background-color: #f6f9ff;
   border-radius: 17px;
   display: flex;
   align-items: center;
+  @media (max-width: 1024px) {
+    padding: 8px 15px;
+    font-size: 12px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
 `;
 
 const Skills = styled.div`
@@ -191,6 +264,10 @@ const Skills = styled.div`
     border-radius: 10px;
     background-color: #3067fd;
     text-align: center;
+    @media (max-width: 1024px) {
+      font-size: 10px;
+      padding: 5px 8px;
+    }
 
 `
 
@@ -211,9 +288,10 @@ width: max-content;
 display: flex;
 align-items: center;
 justify-content: center;
-
-
-
+@media (max-width: 1024px) {
+  font-size: 10px;
+  padding: 3px 10px;
+}
 `
 
 const StyledLink = styled(Link)`
@@ -249,6 +327,13 @@ const StyledLink = styled(Link)`
 const LastInterview = styled.p`
     
     font-size: 12px;
+    @media (max-width: 1024px) {
+      font-size: 10px;
+    }
+  
+    @media (max-width: 480px) {
+      font-size: 10px;
+    }
 `
 
 

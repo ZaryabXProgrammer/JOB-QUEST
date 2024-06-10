@@ -16,7 +16,6 @@ const Container = styled.div`
     min-height: 130vh;
     display: flex;
     align-items: center;
-
     flex-direction: column;
 `;
 
@@ -289,18 +288,11 @@ const SocialIcon = styled(Lottie)`
   width: 280px;
   height: 280px;
   border-radius: 50%;
-margin: 0 auto;
-
-  @media (max-width: 768px) {
-    width: 100px;
-    height: 100px;
-    margin-right: 40px; /* Adjust space between icons */
-  }
+  margin: 0 auto;
 
   @media (max-width: 480px) {
-    width: 50px;
-    height: 50px;
-    margin-right: 40px; /* Adjust space between icons */
+    width: 200px;
+    height: 200px;
   }
 `;
 
