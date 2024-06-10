@@ -128,6 +128,11 @@ display: flex;
 justify-content: space-around;
 align-items: center;
 color: black;
+transition: background-color 0.2s ease;
+
+&:hover{
+    background-color: #dfe6fa;
+}
 
 `
 
@@ -136,6 +141,7 @@ const ProfileBox = styled.div`
     display: flex;
     align-items: center;
     padding: 10px;
+    width: 100px;
 
 `
 
@@ -150,9 +156,11 @@ margin-right: 4px;
 const Name = styled.p`
     font-weight: bold;
     font-size: 15px;
+    
 `
 
 const CompanyFit = styled.div`
+width: 120px;
 background-color: #f6f9ff;
   padding: 9px 10px;
   color: ${({ score }) => {
@@ -182,12 +190,18 @@ const Skills = styled.div`
     color:#ffffff;
     border-radius: 10px;
     background-color: #3067fd;
+    text-align: center;
 
 `
 
+const AppliedDiv = styled.div`
+    
+text-align: center;
+
+`
 
 const AppliedJob = styled.div`
-    
+    width: 120px;
     padding: 4px 14px;
     border: 1px solid #e9e9e9;
     font-size: 12px;
@@ -243,9 +257,7 @@ const LastInterview = styled.p`
 const PostedJobs = () => {
 
     const userId = useSelector((state) => state.user.currentUser ? state.user.currentUser._id : null)
-    const accessToken = useSelector((state) => state.user.currentUser ? state.user.currentUser.accessToken : null)
 
-    const { setcandidateId } = useContext(JobsContext)
 
 
 
@@ -265,7 +277,7 @@ const PostedJobs = () => {
         fetchMyCreatedJobs();
     }, [userId, baseUrl]); // Add userId and baseUrl to dependency array
 
- 
+
     return (
 
         <Container>
@@ -283,12 +295,12 @@ const PostedJobs = () => {
 
                 </CandidateBtn>
 
-                <CandidateBtn>
+                {/* <CandidateBtn>
                     <PersonIcon style={{ marginRight: '12px' }} />
                     <span>Vacancies</span>
 
 
-                </CandidateBtn>
+                </CandidateBtn> */}
             </Left>
 
 
@@ -308,45 +320,47 @@ const PostedJobs = () => {
 
                         {myCreatedJobs.map((job) => (
 
-                            <Link key={job._id} to={`/profile/${job.userId}`} style={{ textDecoration: 'none'}}> 
-                            <Candidate key={job._id}>
-                                <ProfileBox>
-                                    <ProfilePic src={profile} />
+                            <Link key={job._id} to={`/profile/${job.userId}`} style={{ textDecoration: 'none' }}>
+                                <Candidate key={job._id}>
+                                    <ProfileBox>
+                                        <ProfilePic src={profile} />
 
-                                    <Link
-                                        style={{textDecoration: 'none', color: 'black'}}
-                                        
+                                        <Link
+                                            style={{ textDecoration: 'none', color: 'black' }}
+
                                             to={`/profile/${job.userId}`}
                                         >
-                                        <Name >{job.candidateName}</Name>
-                                    </Link>
+                                            <Name >{job.candidateName}</Name>
+                                        </Link>
 
 
-                                </ProfileBox>
+                                    </ProfileBox>
 
-                                <CompanyFit score={job.matchScore}>
+                                    <CompanyFit score={job.matchScore}>
 
-                                    <ThumbUpIcon style={{ marginRight: '4px', fontSize: '20px' }} />{job.matchScore}% Match</CompanyFit>
+                                        <ThumbUpIcon style={{ marginRight: '4px', fontSize: '20px' }} />{job.matchScore}% Match</CompanyFit>
 
-                                <Skills>{job.status}</Skills>
+                                    <AppliedDiv> 
+                                        <Skills>{job.status}</Skills>
+                                    </AppliedDiv>
 
-                                <AppliedJob>
-                                    <StyledLink to={`/apply/${job.jobId}`}>
-                                        {job.title} @ {job.company}
-                                    </StyledLink>
-                                    <MoreHorizIcon style={{ color: '#1d59ff', marginLeft: '4px' }} />
+                                    <AppliedJob>
+                                        <StyledLink to={`/apply/${job.jobId}`}>
+                                            {job.title} @ {job.company}
+                                        </StyledLink>
+                                        <MoreHorizIcon style={{ color: '#1d59ff', marginLeft: '4px' }} />
 
-                                </AppliedJob>
+                                    </AppliedJob>
 
-                                <LastInterview>
-                                    {new Date(job.createdAt).toLocaleDateString('en-US', {
-                                        year: 'numeric',
-                                        month: 'long',
-                                        day: 'numeric'
-                                    })}
-                                </LastInterview>
+                                    <LastInterview>
+                                        {new Date(job.createdAt).toLocaleDateString('en-US', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric'
+                                        })}
+                                    </LastInterview>
 
-                            </Candidate>
+                                </Candidate>
 
 
                             </Link>
